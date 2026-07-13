@@ -1,0 +1,107 @@
+{
+    "welcome":{
+        "welcome": "Bienvenue",
+        "logout": "Déconnexion",
+        "load_signature": "Charger signature",
+        "new_demande": "Nouvelle demande",
+        "waiting_load": "Patienter ...",
+        "load_and_display_signature": "Chargement et affichage des signatures",
+        "signature_and_stamp": "Signature et cache",
+        "close": "Fermer",
+        "save": "Enregistrer",
+        "change_password":"Change my password",
+        "profile": "Profil",
+        "all_data": "Toutes les données",
+        "request_waiting": "Demandes en attentes",
+        "request_canceled": "Demandes annulées",
+        "request_rejected": "Demandes rejetées",
+        "request_approved": "Demandes autorisées",
+        "request_resent": "Demandes renvoyées",
+        "request_reviewed": "Demandes revisées",
+        "list_pending_request": "Liste des demandes en attente",
+        "list_authorized": "Liste des demandes autorisées",
+        "list_canceled": "Liste des demandes annulées",
+        "list_rejected": "Liste des demandes rejetées",
+        "list_submitted": "Liste des demandes soumises",
+        "list_verified": "Liste des demandes vérifiées",
+        "list_approved": "Liste des demandes approuvées",
+        "list_returned": "Liste des demandes renvoyées",
+        "list_revised": "Liste des demandes révisées",
+        "message_toast_signature": "Veuillez charger votre signature et cachet",
+        "question_confirm": "Êtes-vous sûr",
+        "message_confirm_save": "Êtes-vous sûr de vouloir enregistrer",
+        "message_confirm_canceled": "Êtes-vous sûr de vouloir annuler",
+        "message_confirm_submited": "Êtes-vous sûr de vouloir soumettre",
+        "message_confirm_deleted": "Êtes-vous sûr de vouloir supprimer",
+        "response_signature_load": "Signature chargée avec succès",
+        "home": "Accueil",
+        "request_list": "Liste des demandes",
+        "mark_company": "Tous droits reservés",
+        "balance": "Afficher mon solde"
+    },
+
+    "table":{
+        "date_request": "Date demande",
+        "done_in": "Fait à",
+        "call_sign": "Ind d'appel",
+        "nature_request": "nature de la demande",
+        "reason_thef": "Motif du vol",
+        "status": "Statut",
+        "approved_canceled": "Autorisation annulée",
+        "not_submitted": "Non soumise",
+        "submitted": "Soumise",
+        "verified": "Vérifiée",
+        "approved": "Approuvée",
+        "authorized": "Autorisée",
+        "rejected": "Rejettée",
+        "returned": "Renvoyée",
+        "canceled": "Annulée",
+        "revised": "Revisée",
+        "yes": "Oui",
+        "no": "Non",
+        "payment": "Payement",
+        "submit": "Soumettre",
+        "print": "Imprimer",
+        "cancel": "Annuler",
+        "download_authorization":"Télécharger l'autorisation",
+        "reject_motif": "Voir motif rejet"
+    },
+
+    "form":{
+        "btn_next":"Suivant",
+        "btn_prev":"Retour",
+        "tab1":{
+            "libelle": "Nature et Aéronef",
+            "information_aeronef": "Information aeronef"
+        },
+        "tab2":{
+            "libelle": "Itinéraire du/des vol(s)"
+        },
+        "tab3":{
+            "libelle": "Fichiers requis"
+        }
+    },
+
+    "payment":{
+        "title":"PAYEMENT",
+        "type_demande":"Type demande",
+        "montant_total_demande": "Montant total de la demande",
+        "montant_total_revision": "Montant total de la révision",
+        "block_of": "Permanent de",
+        "months": "mois",
+        "payer": "Payer"
+    },
+
+    "changePassword":{
+        "1":"votre mot de passe doit contenir",
+        "2":"Au moins 8 caractères!",
+        "3": "Au moins un symbole",
+        "4": "Au moins une lettre majuscules!",
+        "5": "Au moins une lettre minuscule!",
+        "6": "Au moins un chiffre!",
+        "7": "Au moins trois lettre diffentes!",
+        "8": "Les copies colés ne sont pas autorisés!"
+    }
+    
+}
+  

@@ -1,0 +1,106 @@
+{
+    "welcome":{
+        "welcome": "Welcome",
+        "logout": "Logout",
+        "load_signature": "Upload signature",
+        "new_demande": "New request",
+        "waiting_load": "Please wait ...",
+        "load_and_display_signature": "Upload your signature / stamp",
+        "signature_and_stamp": "Signature and stamp",
+        "close": "Close",
+        "save": "Save",
+        "change_password": "Change my password",
+        "profile": "Profile",
+        "all_data": "All requests",
+        "request_waiting": "Pending requests",
+        "request_canceled": "Requests Canceled",
+        "request_rejected": "Requests Rejected",
+        "request_approved": "Authorized requests",
+        "request_resent": "Requests returned",
+        "request_reviewed": "Revised requests",
+        "list_pending_request": "List of pending requests",
+        "list_authorized": "List of authorized requests",
+        "list_canceled": "List of canceled requests",
+        "list_rejected": "List of rejected requests",
+        "list_submitted": "List of submitted requests",
+        "list_verified": "List of verified requests",
+        "list_approved": "List of approved requests",
+        "list_returned": "List of returned requests",
+        "list_revised": "List of revised requests",
+        "message_toast_signature": "Please upload your signature and stamp",
+        "question_confirm": "Are you sure",
+        "message_confirm_save": "Are you sure you want to save",
+        "message_confirm_canceled": "Are you sure you want to cancel",
+        "message_confirm_submited": "Are you sure you want to submit",
+        "message_confirm_deleted": "Are you sure you want to delete",
+        "response_signature_load": "Signature loaded successfully",
+        "home": "Home",
+        "mark_company": "All right reserved",
+        "balance": "View my balance"
+    },
+
+    "table":{
+        "date_request": "Date request",
+        "done_in": "From",
+        "call_sign": "Call sign",
+        "nature_request": "nature of the request",
+        "reason_thef": "Reason of the flight",
+        "status": "Status",
+        "approved_canceled": "permit cancel",
+        "not_submitted": "Not submitted",
+        "submitted": "Submitted",
+        "verified": "Verified",
+        "approved": "Approved",
+        "authorized": "Authorized",
+        "rejected": "Rejected",
+        "returned": "Returned",
+        "canceled": "Canceled",
+        "revised": "Revised",
+        "yes": "Yes",
+        "no": "No",
+        "payment": "Payment",
+        "submit": "Submit",
+        "print": "Print",
+        "cancel": "Cancel",
+        "download_authorization":"Download authorization",
+        "reject_motif": "View rejection reason"
+    },
+
+    "form":{
+        "btn_next":"Next",
+        "btn_prev":"Back",
+        "tab1":{
+            "libelle": "Nature and Aircraft",
+            "information_aeronef": "Aircraft information"
+        },
+        "tab2":{
+            "libelle": "Flight itinerary"
+        },
+        "tab3":{
+            "libelle": "Required files"
+        }
+    },
+
+    "payment":{
+        "title":"PAYMENT",
+        "type_demande":"Type request",
+        "montant_total_demande": "Total Request Amount",
+        "montant_total_revision": "Total amount of the revision",
+        "block_of": "block of",
+        "months": "months",
+        "payer": "Pay"
+    },
+
+    "changePassword":{
+        "1":"your password must contain",
+        "2":"At least 8 characters!",
+        "3": "At least one symbol",
+        "4": "At least one capital letter!",
+        "5": "At least one lowercase letter!",
+        "6": "At least one number!",
+        "7": "At least three different letters!",
+        "8": "Pasted copies are not allowed!"
+    }
+    
+}
+  
