@@ -51,16 +51,19 @@ class PermissionSeeder extends Seeder
         $admin->assignRole($super_admin);
 
         TypeUser::create([
-            "libelle" => "Directeur"
-        ]);
-        TypeUser::create([
             "libelle" => "Administrateur"
         ]);
         TypeUser::create([
-            "libelle" => "Chef de service"
+            "libelle" => "Directeur"
         ]);
         TypeUser::create([
-            "libelle" => "Chef de departement"
+            "libelle" => "DSI"
+        ]);
+        TypeUser::create([
+            "libelle" => "DAM"
+        ]);
+        TypeUser::create([
+            "libelle" => "CE"
         ]);
     }
 }

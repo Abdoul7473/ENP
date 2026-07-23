@@ -94,7 +94,7 @@ export default {
 }
 
 .invitation-card {
-    width: 750px;
+    width: 1200px;
     min-height: 450px;
     background: white;
     border-radius: 20px;

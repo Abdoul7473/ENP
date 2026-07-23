@@ -78,17 +78,20 @@ export default {
                 {
                     icon: "mdi-apps",
                     title: "Accueil",
-                    to: "home"
+                    to: "home",
+                    disabled : true
                 },
                 {
                     icon: "mdi-account",
                     title: "Utilisateurs",
-                    to: "user.index"
+                    to: "user.index",
+                    disabled : true
                 },
                 {
                     icon: "mdi-database-outline",
                     title: "Rôles et permissions",
-                    to: "roles.index"
+                    to: "roles.index",
+                    disabled : true
                 },
                 {
                     icon: "mdi-calendar",
@@ -113,6 +116,12 @@ export default {
                     icon: "mdi-account",
                     title: "Compagnies",
                     to: "compagnie.index",
+                    disabled :  this.$page.props.annee_encours ? true : false
+                },
+                {
+                    icon: "mdi-database-outline",
+                    title: "Rapport",
+                    to: "rapport.index",
                     disabled :  this.$page.props.annee_encours ? true : false
                 },
                 {

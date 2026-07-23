@@ -27,7 +27,8 @@ class SituationController extends Controller
             'nombre_absent' => $request->nombre_absent,
             'nombre_malade' => $request->nombre_malade,
             'nombre_permissionnaire' => $request->permissionnaire,
-            'compagnie_id' => $request->compagnie_id
+            'compagnie_id' => $request->compagnie_id,
+            'statut' => 0
         ]);
         if ($request->eleve_absents != []){
             foreach ($request->eleve_absents as $key => $eleve_absent) {
@@ -54,7 +55,7 @@ class SituationController extends Controller
             }
         }
         
-        return redirect()->route('situation.create')->with( 'success',  'Situation créée avec succès' );
+        return redirect()->route('situation.index',$request->compagnie_id)->with( 'success',  'Situation créée avec succès' );
     }
     public function index(Request $request,$id){
         $situations = Situation::where('compagnie_id',$id)->with('compagnie','absents.eleve','malades.eleve','permissionnaires.eleve')->when($request->sort_by, function ($query, $value) {

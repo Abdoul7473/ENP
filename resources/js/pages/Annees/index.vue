@@ -33,9 +33,9 @@
             </div>
         </template>
         <template v-slot:item.action="{item}">
-                <v-icon color="warning" @click="update(item)" v-permission:any="'annee.update'">mdi-pencil</v-icon>
-                <v-icon color="red"  @click="fermer(item)" >mdi-toggle-switch</v-icon>
-            </template> 
+            <BtnAction icon display-icon="mdi-toggle-switch-off" title="Activer" @click="ActiverOrCloturer(item,1)" v-if="item.statut == 0" color="green" small />
+            <BtnAction icon display-icon="mdi-toggle-switch" title="Clôturer" @click="ActiverOrCloturer(item,2)" v-if="item.statut == 1" color="red" small />
+        </template>
     </CustomDataTable>
     <v-dialog v-model="dialog" max-width="600px" scrollable>
         <v-card>
@@ -123,7 +123,7 @@ export default {
                 libelle: null,
                 date_debut: null,
                 date_fin: null,
-                question: null,
+                type: null,
             })
         }
 
@@ -151,6 +151,30 @@ export default {
             this.$alert.confirm('Etes-vous sûr ?', "De vouloir enrgistrer cette année?", () => {
 
                 this.form.post(route("annee.store"), {
+                    onSuccess: () => {
+                        if (this.$page.props.flash.success) {
+                            this.$alert.success(this.$page.props.flash.success)
+                        }
+                        if (this.$page.props.flash.error) {
+                            this.$toast.error(this.$page.props.flash.error)
+                        }
+                        this.close()
+                        this.form.reset();
+                    },
+                    onError: this.$alert.messages
+
+                });
+            })
+        },
+        ActiverOrCloturer(item,type) {
+            this.form.id = item.id
+            this.form.type = type
+            console.log(type);
+            
+            const message = type == 2 ? "De vouloir clôturer cette année?" : "De vouloir activer cette année?"
+            this.$alert.confirm('Etes-vous sûr ?', message, () => {
+
+                this.form.post(route("annee.cloture"), {
                     onSuccess: () => {
                         if (this.$page.props.flash.success) {
                             this.$alert.success(this.$page.props.flash.success)

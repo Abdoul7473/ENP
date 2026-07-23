@@ -16,11 +16,16 @@ class Situation extends Model
         'nombre_absent',
         'nombre_malade',
         'nombre_permissionnaire',
-        'compagnie_id'
+        'compagnie_id',
+        'statut'
     ];
-     public function compagnie(): BelongsTo
+    public function compagnie(): BelongsTo
     {
         return $this->belongsTo(Compagnie::class);
+    }
+    public function rapport(): BelongsTo
+    {
+        return $this->belongsTo(Rapport::class);
     }
     public function absents(): HasMany
     {

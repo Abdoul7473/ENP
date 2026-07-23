@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <title>Cartes d'identité</title>
 
-    <style>
+   <style>
         @page {
             size: A4 portrait;
             margin: 12mm 10mm 18mm;
@@ -22,22 +22,33 @@
         .cards-table {
             width: 100%;
             border-collapse: separate;
-            border-spacing: 7mm 6mm;
+            border-spacing: 12mm 6mm;
         }
 
         .card-cell {
-            width: 50%;
+            width: 60%;
             vertical-align: top;
+            padding: -60px;
         }
         .watermark {
             position: absolute;
-            top: -15mm;
-            left: 20%;
+            top: -4mm;
+            left: 10%;
             transform: translateX(-30%) rotate(-35deg);
             font-size: 12px;
             color: rgba(190,18,60,0.35);
         }
-        
+        .badge-card {
+            position: relative;
+            width: 57mm;
+            height: 86mm;
+            overflow: hidden;
+            break-inside: avoid;
+            page-break-inside: avoid;
+            border-radius: 5mm;
+            background: while;
+            border: 1.4px solid #494e53;
+        }
          .carde {
             position: absolute;
             width: 45mm;
@@ -52,9 +63,23 @@
             text-align: center;
             
         }
+        .card-mat {
+            position: absolute;
+            width: 40mm;
+            height: 4mm;
+            overflow: hidden;
+            left:10mm;
+            break-inside: avoid;
+            page-break-inside: avoid;
+            border: 2px solid #e93b0b;
+            border-radius: 0mm;
+            background: while;
+            text-align: center;
+            
+        }
 
         .card-title {
-            margin: 2.2mm 0 2mm;
+            margin: 1mm 0 2mm;
             color: #22272e;
             font-size: 9px;
             font-weight: 400;
@@ -69,11 +94,11 @@
 
         .photo-column, .details-column {
             position: absolute;
-            top: 12.6mm;
+            top: 8mm;
         }
 
         .photo-column { left: 3mm; width: 25mm; }
-        .details-column { left: 5mm; width: 37mm; }
+        .details-column { left: 8mm; width: 40mm; }
 
         .profile-img {
             width: 21.5mm;
@@ -103,126 +128,131 @@
             width: 13.7mm;
         }
 
-        .background {
-            top: 150;
-            left: 0;
-            width: 80%;
-            height: auto;
-            opacity: 0.2; 
-            z-index: 0; 
-            background-position: center;
-            background-size: 400px;
-        }
-        .card-mat {
-            position: absolute;
-            width: 35mm;
-            height: 8mm;
-            overflow: hidden;
-            left:10mm;
-            break-inside: avoid;
-            page-break-inside: avoid;
-            border: 2px solid #e93b0b;
-            border-radius: 0mm;
-            background: while;
-            text-align: center;
-            
-        }
-        .badge-card {
+        .watermark-container {
             position: relative;
             width: 100%;
-            height: 85mm;
-            left: 300px;
-            
-            border-radius: 5mm;
-            background: while;
+            height: 400px; /* Ajustez la hauteur selon vos besoins */
+            font-family: 'Helvetica', sans-serif;
         }
-        .panche-gauche{
-            transform: translateX(-30%) rotate(90deg);
+       
+        .background {
+            top: 100;
+            left: 0;
+            width: 100%;
+            height: auto;
+            opacity: 1; /* Opacité de l'arrière-plan */
+            z-index: 0; /* Assurez-vous que l'arrière-plan est derrière le contenu */
+            background-position: center;
+            background-size: 500px;
         }
-         .panche-droite{
-            transform: translateX(-30%) rotate(-90deg);
-        }
+         .panche-gauche{
+    transform: rotate(90deg);
+   
+}
+
+.panche-droite{
+    
+    transform: rotate(-90deg);
+     
+}
     </style>
 </head>
 
 <body>
 
 
-<table >
+<table  class="cards-table">
     @foreach($rectos as $row)
-        <tr>
-            
-                <td >
-                    <section class="badge-card panche-gauche"> 
-                    <div style="text-align: center;"  class="watermark">
-                        <hr style="border:none;height: 25px; background-color:red;">
-                        <div style="margin-left : 300px; width: 30px; height: 30px; background-color: orange; border-radius: 50%;"></div>
-                        <hr style="border:none;height: 25px; background-color:green;">
-                    </div>
+        <tr style="margin-top: 100px;" >
+            <td class="card-cell" >
+                <section class=" badge-card  panche-gauche" >
+                     <div style="text-align: center;" class="watermark">
+                    <hr style="border:none;height: 25px;width: 250px; background-color:red;">
+                    <hr style="margin-left : 100px; width: 15px; height: 15px; background-color: red; border-radius: 50%;" align="center">
+                    <hr style="border:none;height: 25px; width: 250px;  background-color:green;">
+                </div>
                     <div class="card-title">
-                           <b> <strong>REPUBLIQUE DU NIGER</strong> </b> 
-                            <br>
-                             <i><strong>Fraternité-Travail-Progès</strong></i>
-                             </div>
+                        <b> <strong style="font-family: 'Times New Roman', serif; font-size: 8px;">REPUBLIQUE DU NIGER</strong> </b> 
+                        <br>
+                        <i><strong style="font-family: 'Times New Roman', serif; font-size: 8px;">Fraternité-Travail-Progès</strong></i>
+                    </div>
+                    <h6 class="card-title">
+                        <b><strong style="font-family: Arial black; color: black;">Ministère de l'Intérieur, de la Sécurité <br> Publique et  l'Administration du <br> Territoire</strong></b> 
+                    </h6>
+                    <h6 class="card-title">
+                        <b><strong>DIRECTION GENERALE <br> DE LA POLICE NATIONALE</strong></b> 
+                    </h6>
+                    <h6 class="card-title">
+                        <b><strong>DIRECTION DE L'ECOLE NATIONALE DE <br> POLICE ET DE LA FORMATION PERMANENTE</strong></b> 
+                    </h6>
+                    <section class="carde">  
                         <h6 class="card-title">
-                           <b><strong>Ministère de l'Intérieur, de la Sécurité <br> Publique et  l'Administration du <br> Territoire</strong></b> 
+                            <strong>CARTE D'IDENTITE PROVISOIRE</strong>
                         </h6>
                         <h6 class="card-title">
-                           <b><strong>DIRECTION GENERALE <br> DE LA POLICE NATIONALE</strong></b> 
+                        @if($row->compagnie->corp->id == 4)
+                            <strong class="cas" style="color: #F10909FF; margin-top: 80px;" >
+                                élève {{ $row->compagnie->corp->nom }} de police
+                            </strong>
+                        @endif
+                        @if($row->compagnie->corp->id == 3)
+                            <strong class="cas" style="color: rgb(5, 5, 5); margin-top: 80px;">
+                                élève {{ $row->compagnie->corp->nom }} de police
+                            </strong>
+                        @endif
+                        @if($row->compagnie->corp->id == 2)
+                            <strong class="cas" style="color: rgb(19, 203, 13); margin-top: 80px;">
+                                élève {{ $row->compagnie->corp->nom }} de police
+                            </strong>
+                        @endif
+                        @if($row->compagnie->corp->id == 1)
+                            <strong class="cas" style="color: rgb(21, 205, 212); margin-top: 80px;">
+                                élève {{ $row->compagnie->corp->nom }} de police
+                            </strong>
+                        @endif
                         </h6>
-                        
-                        <h6 class="card-title">
-                           <b><strong>DIRECTION DE L'ECOLE NATIONALE DE <br> POLICE ET DE LA FORMATION PERMANENTE</strong></b> 
-                        </h6>
-                        <section class="carde">  
-                        <h6 class="card-title">
-                           <strong>CARTE D'IDENTITE PROVISOIRE</strong>
-                           <br>
-                           <strong class="cas">élève {{$row->compagnie->corp->nom}} de police</strong>
-                           <br>
-                           <strong class="cas">N°{{$row->ordre}}/{{$libelle}}/DGPN/DENP/FP</strong>
-                        </h6>               
-                        </section>
-                        
-                        <div style=" text-align: center; margin-left: 40%; margin-top:70px">
-                            @if($row->photo)
-                                <img width="100" panche-gauche" src="eleves/{{$row->photo}}" alt=""/>
-                            @endif
-                        </div>
-                        
-                            <div class="card-title">
-                            <section class="card-mat">  
-                                <h6 class="card-title">
-                               Matricule <strong style="color:red" > {{$row->matricule}}</strong>
-                                </h6>               
-                            </section>
-                        </div>
-                        <br>
-                        <br>
-                        <br>
-                         <div class="details-column">
-                            <p class="detail-line"><strong>Nom :</strong> <b class="cas"> {{ $row->nom }}</b></p>
-                            <p class="detail-line"><strong>Prénom :</strong> <b>{{ $row->prenom }}</b></p>
-                            <p class="detail-line"><strong>Né(e) le :</strong><b> {{ $row->date_naiss }}</b></p>
-                            <p class="detail-line"><strong>A :</strong> <b>{{ $row->lieu_naiss  }} </b></p>
-                            <p class="detail-line"><strong>GROUPE SANGUIN :</strong> <b> {{ $row->groupe_sanguin }}</b></p>
-                            <p class="detail-line"><strong>VALABLE DU :</strong> <b> 20/12/2025</b></p>
-                            <p class="detail-line"><strong>AU :</strong> <b> 19/06/2027</b></p>
-                        </div>
-                            <div style=" text-align: center; margin-top:10px">
-                                <img src="armoirie.jpeg" width="80"; height="80"; class="background" style=" text-align: center;"> 
-                               <h2> Fait à Niamey le {{$date}} </h2> 
-                               <b>Signature et Cachet</b> <br>
-                                <img width="200"  src="signatures/{{$signature->libelle}}" alt=""/>
-                            </div>
-                        </div>
+                        <strong class="cas" style=" font-family: 'Times New Roman', Times, serif; font-size: 9px; margin-top: 80px;">N°{{$row->ordre}}/{{$libelle}}/DGPN/DENP/FP</strong>
                     </section>
-                </td>
-                @endforeach
-            </tr>
-    </table>
-
-
-
+                    <div style=" text-align: center; margin-left: 40%; margin-top:70px">
+                        @if($row->photo)
+                            <img width="110"  src="eleves/{{$row->photo}}" alt=""/>
+                        @endif
+                    </div>
+                </section>
+            </td>
+            <td class="card-cell" >
+                <section class="badge-card panche-droite">   
+                    <div class="card-title">
+                        <section class="card-mat">  
+                            <h6 class="card-title">
+                            Matricule <strong style="color:red" > {{$row->matricule}}</strong>
+                            </h6>               
+                        </section>
+                    </div>
+                    <br>
+                    
+                    <div class="details-column ">
+                        <p class="detail-line"><strong style="font-family: 'Times New Roman', Times, serif;font-size:10px;">Nom :</strong> <b  style="font-family: 'Times New Roman', Times, serif;font-size:9px;"> {{ $row->nom }}</b></p>
+                        <p class="detail-line"><strong style="font-family: 'Times New Roman', Times, serif;font-size:10px;">Prénom :</strong> <b style="font-family: 'Times New Roman', Times, serif;font-size:9px;">{{ $row->prenom }}</b></p>
+                        <p class="detail-line"><strong style="font-family: 'Times New Roman', Times, serif;font-size:10px;">Né(e) le :</strong><b style="font-family: 'Times New Roman', Times, serif;font-size:9px;"> {{ $row->date_naiss }}</b></p>
+                        <p class="detail-line"><strong style="font-family: 'Times New Roman', Times, serif;font-size:10px;">A :</strong> <b>{{ $row->lieu_naiss  }} </b></p>
+                        <p class="detail-line"><strong style="font-family: 'Times New Roman', Times, serif;font-size:10px;">GROUPE SANGUIN :</strong> <b style="font-family: 'Times New Roman', Times, serif;font-size:9px;"> {{ $row->groupe_sanguin }}</b></p>
+                        <p class="detail-line"><strong style="font-family: 'Times New Roman', Times, serif;font-size:10px;">VALABLE DU :</strong> <b style="font-family: 'Times New Roman', Times, serif;font-size:9px;"> 20/12/2025</b></p>
+                        <p class="detail-line"><strong style="font-family: 'Times New Roman', Times, serif;font-size:10px;">AU :</strong> <b style="font-family: 'Times New Roman', Times, serif;font-size:9px;"> 19/06/2027</b></p>
+                        <div style=" text-align: center; margin-top:-100%">
+                            <img src="armoirie.jpeg" width="90"; height="90";  class="background" style=" text-align: center;"> 
+                            <h4> Fait à Niamey le {{$date}} </h4> 
+                            <b >
+                                Signature et Cachet
+                            </b><br>
+                            <img width="200"  src="signatures/{{$signature->libelle}}" alt=""/>
+                        </div>
+                    </div>
+                </section>
+            </td>
+        </tr>
+        
+    @endforeach
+</table>
 </body>
 </html>

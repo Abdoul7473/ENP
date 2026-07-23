@@ -36,6 +36,7 @@ import CustomTable from '../js/components/CustomTable'
 import VueI18n from 'vue-i18n';
 import en from './locales/en.json';
 import fr from './locales/fr.json';
+import Print from 'vue-print-nb';
 
 
 const options = {
@@ -149,6 +150,7 @@ Vue.component('Autorisations', Autorisations)
 Vue.component('Aeronefs', Aeronefs)
 Vue.component('Routes', Routes)
 Vue.component('Resultat', Resultat)
+Vue.use(Print)
 Vue.mixin({ methods: { route: window.route } })
 const app = document.getElementById("app")
 // app.use(i18n)

@@ -18,10 +18,14 @@ class CreateSituationsTable extends Migration
             $table->string('nombre_present')->nullable();
             $table->string('nombre_absent')->nullable();
             $table->string('nombre_malade')->nullable();
+            $table->boolean('statut')->nullable();
             $table->string('nombre_permissionnaire')->nullable();
             $table->foreignIdFor(\App\Models\Compagnie::class)->nullable()
                 ->index()
                 ->references('id')->on('compagnies');
+            $table->foreignIdFor(\App\Models\Rapport::class)->nullable()
+                ->index()
+                ->references('id')->on('rapports');
             $table->timestamps();
         });
 

@@ -1,36 +1,112 @@
 <template>
 <admin-layout>
-    <Toolbar icon="mdi-database-outline" Title="Rapport" ></Toolbar>
-    <v-card outlined width="100%" height="70px" color="white" class="mb-2">
+    <Toolbar Title="Liste des rappports" :breadcrumbs="breadcrumbs">
 
-        <v-divider class="mx-4"></v-divider>
-        <div>
-            <br />
-            <v-alert border="bottom" colored-border color="orange" type="warning" elevation="2" v-model="alert" icon="mdi-warning" dismissible>
-                Dans cette section, vous pouvez choisir plusieurs requêtes déjà préparées. Notez que les dates ne sont pas obligatoires dans certains cas ; vous pouvez choisir soit une date unique, soit une plage de dates. Le bouton "Voir le résultat" vous permet de soumettre la requête sélectionnée et d'afficher les résultats.
-                Le bouton "Réinitialiser" vous permet de vider tous les champs et de recommencer.
-            </v-alert>
+    </Toolbar>
+    <CustomDataTable :headers="headers" :items="rapports">
+        <template v-slot:addBtn>
+            <v-btn @click="creer()" small color="primary">
+                <v-icon left>mdi-plus-circle</v-icon> générer
+            </v-btn>
+        </template>
 
-            <div class="text-center">
-                <v-btn v-if="!alert" color="info" @click="alert = true">
-                    <v-icon color="info darken-2">
-                        mdi mdi-information-outline
-                    </v-icon> Info
+        <template v-slot:item.date_heure="{ item }">
+            {{ formatDate(item.created_at) }}
+        </template>
+        <template v-slot:item.officier="{ item }">
+            {{ item.encadreur.matricule }} {{ item.encadreur.nom }} {{ item.encadreur.prenom }}
+        </template>
+        <template v-slot:item.action="{ item }">
+            <BtnAction icon display-icon="mdi-eye" title="Détail" @click="detail(item)" color="green" small />
+            <a :href="route('rapport.pdf', { id: item.id})" target="__blank" title="Imprimer la demande">
+                <v-icon size="small" class="me-2" icon="mdi-printer" color="info" small>mdi-printer</v-icon>
+            </a>
+        </template>
+
+    </CustomDataTable>
+    <v-dialog v-model="dialog" max-width="800" persistent>
+        <v-card>
+            <v-toolbar dense dark color="primary" class="text-h6"> Génération de rapport journalier</v-toolbar>
+            <v-card-text>
+                <br>
+                <div class="invitation-container">
+                    <div>
+                        <div class="content">
+                            <v-row>
+                                <v-col cols="12" sm="12">
+                                    <selectField label="Officier du jour" required v-model="form.officier" outlined name="Officier du jour" color="secondary" :items="officiers" :item-text="item => `${item.matricule} ${item.nom} ${item.prenom}`" item-value="id" autocomplete="false" chips></selectField>
+                                </v-col>
+                                <v-col cols="12" sm="12">
+                                    <v-textarea counter label="Description" required v-model="form.description"></v-textarea>
+                                </v-col>
+                            </v-row>
+                        </div>
+                    </div>
+                </div>
+            </v-card-text>
+            <v-card-actions>
+                <v-spacer />
+                <v-btn dark small type="button" color="error" @click="close()">
+                    <v-icon left>mdi-cancel</v-icon> Annuler
                 </v-btn>
-            </div>
-        </div>
-        <v-card-text class="text-color" dense>
-            <v-row dense>
-                <v-col>
-                    <selectField v-model="form.requestSelected" outlined :items="requests" label="Sélectionnez la requête souhaitée" name="Sélectionnez la requête souhaitée" item-text="libelle" item-value="id" rules="required" required></selectField>
-                </v-col>
-                <v-col md="5" v-if="form.requestSelected !== null">
-                    <dateRangePicker v-model="form.date" :label="Datefield" name="Date" :required="getRequiredStatus(form.item)" dense></dateRangePicker>
-                </v-col>
-            </v-row>
-        </v-card-text>
+                <v-btn dark small color="green" @click="submit()">
+                    <v-icon left>mdi-check-circle</v-icon> Enregistrer
+                </v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
+    <v-dialog v-model="dialogInfo" max-width="1200" persistent>
+        <v-card>
+            <v-toolbar dense dark color="primary" class="text-h6"> Détail de rapport</v-toolbar>
+            <div v-for="(tag, index) in items.situations">
+                <v-card-text>
+                    <v-simple-table>
+                        <template v-slot:default>
+                            <thead>
+                                <v-chip outlined label color="primary">{{ tag.compagnie.nom }} 
+                                </v-chip>
+                                <tr>
+                                    <th class="text-left">
+                                        effectif théorique
+                                    </th>
+                                    <th class="text-left">
+                                        Nombre present
+                                    </th>
+                                    <th class="text-left">
+                                        Nombre d'absent
+                                    </th>
+                                    <th class="text-left">
+                                        Nombre de malade
+                                    </th>
+                                    <th class="text-left">
+                                        Nombre de permissionnaire
+                                    </th>
 
-    </v-card>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ tag.compagnie.effectif }}</td>
+                                    <td>{{ tag.nombre_present }}</td>
+                                    <td>{{ tag.nombre_absent }}</td>
+                                    <td>{{ tag.nombre_malade }}</td>
+                                    <td>{{ tag.nombre_permissionnaire }}</td>
+                                </tr>
+                            </tbody>
+                        </template>
+                    </v-simple-table>
+
+                </v-card-text>
+            </div>
+
+            <v-col>
+                <v-btn color="orange">
+                    <v-icon left>mdi-send</v-icon> Envoyer au supérieur
+                </v-btn>
+            </v-col>
+        </v-card>
+
+    </v-dialog>
 </admin-layout>
 </template>
 
@@ -40,241 +116,92 @@ export default {
     components: {
         AdminLayout
     },
-    data: () => ({
-        alert: false,
-        resultat: null,
-        form: {
-            date: null,
-            requestSelected: null,
-            type_demande: null,
-            user: null,
-            postulant: null,
-            type_vol: null,
-            ville: null,
-            item: null
-        },
-        requests: [{
-                id: 1,
-                libelle: "Les demandes entre deux dates spécifique",
-                datefield: "Sélectionnez la plage de dates de demande",
-                required: true
-            },
-            {
-                id: 2,
-                libelle: "Les demandes entre deux dates prévue de survol spécifique",
-                datefield: "Sélectionnez la plage de dates de survol",
-                required: true
-            },
-            {
-                id: 3,
-                libelle: "Les demandes entre deux dates d'approbation spécifique",
-                datefield: "Sélectionnez la plage de dates d'approbation",
-                required: true
-            },
-            {
-                id: 4,
-                libelle: "Les demandes pour un date d'autorisation spécifique",
-                datefield: "Sélectionnez la plage de dates d'autorisation",
-                required: true
-            },
-            {
-                id: 5,
-                libelle: "Les demandes pour un type et une date spécifique",
-                nextfield: "Sélectionnez le type de demande",
-                datefield: "Sélectionnez la plage de dates de demande",
-                required: false
-            },
-            {
-                id: 6,
-                libelle: "Les demandes en attente et une date spécifique",
-                datefield: "Sélectionnez la plage de dates de demande",
-                required: false
-            },
-            {
-                id: 7,
-                libelle: "Les demandes vérifiée à une date spécifique",
-                datefield: "Sélectionnez la plage de dates de demande",
-                required: false
-            },
-            {
-                id: 8,
-                libelle: "Les demandes approuvées à une date spécifique",
-                datefield: "Sélectionnez la plage de dates de demande",
-                required: false
-            },
-            {
-                id: 9,
-                libelle: "Les demandes autorisées à une date spécifique",
-                datefield: "Sélectionnez la plage de dates de demande",
-                required: false
-            },
-            {
-                id: 10,
-                libelle: "Les demandes rejetées à une date spécifique",
-                datefield: "Sélectionnez la plage de dates de demande",
-                required: false
-            },
-            {
-                id: 11,
-                libelle: "Les demandes renvoyée et une date spécifique",
-                datefield: "Sélectionnez la plage de dates de demande",
-                required: false
-            },
-            {
-                id: 12,
-                libelle: "Les demandes annulée à une date spécifique",
-                datefield: "Sélectionnez la plage de dates de demande",
-                required: false
-            },
-            {
-                id: 13,
-                libelle: "Les demandes révisée à une date spécifique",
-                datefield: "Sélectionnez la plage de dates de demande",
-                required: false
-            },
-            {
-                id: 14,
-                libelle: "Les demandes vérifiée par un utilisateur à une date spécifique",
-                nextfield: "Sélectionnez l'utilisateur",
-                datefield: "Sélectionnez la plage de dates de demande",
-                required: false
-            },
-            {
-                id: 15,
-                libelle: "Les demandes approuvées par un utilisateur à une date spécifique",
-                datefield: "Sélectionnez la plage de dates de demande",
-                nextfield: "Sélectionnez l'utilisateur",
-                required: false
-            },
-            {
-                id: 16,
-                libelle: "Les demandes autorisées par un utilisateur à une date spécifique",
-                datefield: "Sélectionnez la plage de dates de demande",
-                nextfield: "Sélectionnez l'utilisateur",
-                required: false
-            },
-            {
-                id: 17,
-                libelle: "Les demandes rejetées par un utilisateur à une date spécifique",
-                nextfield: "Sélectionnez l'utilisateur",
-                datefield: "Sélectionnez la plage de dates de demande",
-                required: false
-            },
-            // { id: 18, libelle: "Les demandes renvoyée par un utilisateur à une date spécifique", nextfield: "Sélectionnez l'utilisateur", datefield: "Sélectionnez la plage de dates de demande", required: false },
-            {
-                id: 18,
-                libelle: "Les demandes urgentes à une date spécifique",
-                datefield: "Sélectionnez la plage de dates de demande",
-                required: false
-            },
-            {
-                id: 19,
-                libelle: "Les demandes d'une ville spécifique à une date spécifique",
-                datefield: "Sélectionnez la plage de dates de demande",
-                required: false
-            },
-            {
-                id: 20,
-                libelle: "Les demandes pour un type de vole à une date spécifique",
-                nextfield: "Sélectionnez le type de vol",
-                datefield: "Sélectionnez la plage de dates de demande",
-                required: false
-            },
-            {
-                id: 21,
-                libelle: "Les demandes non soumis à une date spécifique",
-                datefield: "Sélectionnez la plage de dates de demande",
-                required: false
-            },
-            {
-                id: 22,
-                libelle: "Les demandes par postutant à une date spécifique",
-                nextfield: "Sélectionnez le postulant",
-                datefield: "Sélectionnez la plage de dates de demande",
-                required: false
-            },
-        ],
-        headers: [{
-                text: "Date demande",
-                value: "created_at"
-            },
-            {
-                text: "Date du vol",
-                value: "date_prevu_vol",
-                sortable: false
-                
-            },
-            {
-                text: "Immatriculation",
-                value: "immatriculation"
-            },
-            {
-                text: "Indicatif d'appel ",
-                value: "call"
-            },
-            {
-                text: "Postulant",
-                value: "user.postulant.nom_raison_sociale"
-            },
-            {
-                text: "Nature de la demande",
-                value: "type_demande"
-            },
-            {
-                text: "Motif du vol",
-                value: "motif"
-            },
-            {
-                text: "statut",
-                value: "statut.libelle"
-            },
-            {
-                text: "Actions",
-                value: "action",
-                sortable: false
-            },
-        ],
-    }),
-    computed: {
-        field() {
-            const request = this.requests.find(request => request.id === this.form.requestSelected);
-            this.form.item = request
-            return request ? request.nextfield : "";
-        },
-        Datefield() {
-            const request = this.requests.find(request => request.id === this.form.requestSelected);
-            this.form.item = request
-            return request ? request.datefield : "";
-        },
-        nbr() {
-            const request = this.requests.find(request => request.id === this.form.requestSelected);
-            return request ? request.filednbr : "";
+    props: ["rapports", "officiers"],
+    data() {
+        return {
+            dialog: false,
+            dialogInfo: false,
+            items: [],
+            breadcrumbs: [{
+                    text: "App",
+                    disabled: false,
+                    href: "/home",
+                },
+                {
+                    text: "Home",
+                    disabled: true,
+                    href: "/home",
+                },
+            ],
+            headers: [{
+                    text: 'Date et heure',
+                    align: 'start',
+                    sortable: false,
+                    value: 'date_heure',
+                },
+                {
+                    text: 'Officier deu jour',
+                    align: 'start',
+                    sortable: false,
+                    value: 'officier',
+                },
+                {
+                    text: 'Actions ',
+                    value: 'action'
+                },
+            ],
+            form: this.$inertia.form({
+                officier: null,
+                description: null
+            }),
+            total_malade : 0,
+            total_present : 0,
+            total_permissionnaire : 0,
+            total_absent : 0
         }
-    },
-    methods: {
-        submit() {
-            axios.post(route("query.store", {
-                type_rapport: 'Demande',
-                data: this.form
-            })).then((res) => {
-                console.log(res.data)
-                if (typeof res.data === "string") {
-                    this.$toast.error(res.data);
-                } else {
-                    this.resultat = res.data
-                }
-            });
-        },
-        reset() {
-            Object.keys(this.form).forEach(key => {
-                this.form[key] = null;
-            });
 
-            this.resultat = null;
-        },
-        getRequiredStatus(item) {
-            return item.required ? "required" : "";
-        }
     },
+    mounted() {},
+    methods: {
+        close() {
+            this.dialog = false
+        },
+        detail(item) {
+            this.dialogInfo = true
+            this.items = item
+            console.log(this.items);
+            this.total_absent = this.items.some()
+
+        },
+        creer() {
+            this.dialog = true
+        },
+        formatDate(dateString) {
+            const date = new Date(dateString);
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+
+            return `${day}/${month}/${year} à ${hours}:${minutes} `;
+        },
+        submit() {
+            this.$alert.confirm('Etes-vous sûr ?', "De vouloir générer le rapport?", () => {
+
+                this.form.post(route("rapport.store"), {
+                    onSuccess: () => {
+                        if (this.$page.props.flash.success) {
+                            this.$toast.success(this.$page.props.flash.success)
+                        }
+                        if (this.$page.props.flash.error) {
+                            this.$toast.error(this.$page.props.flash.error)
+                        }
+                    },
+
+                });
+            })
+        },
+    }
 }
 </script>

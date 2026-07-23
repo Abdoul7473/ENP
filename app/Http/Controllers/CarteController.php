@@ -67,7 +67,7 @@ class CarteController extends Controller
     {
         $annee = Annee::where('statut',1)->first();
         $carbon = Carbon::parse($annee->date_debut);
-        $rectos = Eleve::with('compagnie.corp')->get();
+        $rectos = Eleve::with('compagnie.corp')->where('compagnie_id',$request->compagnie_id)->get();
         $versos = Eleve::with('compagnie.corp')->get();
         $signature = Signature::first();
         $gmtDate = Carbon::now( 'GMT' );
@@ -133,5 +133,23 @@ class CarteController extends Controller
             ]
         );
         return redirect()->back();
+    }
+    public function generateInvitationPdf(Request $request,$id){
+         $t = Numero::where('lot_id', $id)->get();
+    
+    $cartes = $t->map(function($item) { 
+        return [ 
+            'qr' => (string) \SimpleSoftwareIO\QrCode\Facades\QrCode::size(100)
+                           ->format('svg')
+                           ->generate($item->numero),
+            'numero' => $item->numero
+        ]; 
+    });
+        $data = [
+            "cartes" => $cartes
+        ];
+        // dd($cartes);
+        $pdf = Pdf::loadView('invitation', $data);
+        return $pdf->stream();
     }
 }

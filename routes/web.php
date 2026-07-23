@@ -18,6 +18,7 @@ use App\Http\Controllers\HomeConcontentTypetroller;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\RapportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/carte/index', [CarteController::class, 'index'])->name('carte.index');
     Route::post('/carte/store', [CarteController::class, 'store'])->name('carte.store');
     Route::get('/carte/pdf', [CarteController::class,'generateCartePdf'])->name('carte.pdf');
+
+    Route::get('/carte/invitation/pdf/{id}', [CarteController::class,'generateInvitationPdf'])->name('invitation.pdf');
     
     Route::get('/carte/detail/{id}', [CarteController::class, 'detail'])->name('carte.detail');
     Route::get('/visiteurs/index', [VisiteurController::class, 'index'])->name('visiteurs.index');
@@ -59,6 +62,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/compagnie/store', [CompagnieContoller::class, 'store'])->name('compagnie.store');
     Route::get('/annee/index', [CompagnieContoller::class, 'index_annee'])->name('annee.index');
     Route::post('/annee/store', [CompagnieContoller::class, 'store_annee'])->name('annee.store');
+    Route::post('/annee/cloture', [CompagnieContoller::class, 'cloture_annee'])->name('annee.cloture');
 
     Route::get('/encadreur/index', [CompagnieContoller::class, 'encadreur_index'])->name('encadreur.index');
     Route::get('/encadreur/create', [CompagnieContoller::class, 'encadreur_create'])->name('encadreur.create');
@@ -80,6 +84,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('roles/create_permission', [RoleController::class, 'create_permission'])->name('roles.create_permission');
     Route::post('/user/store_user_system', [UserController::class,'store_user_system'])->name('user.store_user_system');
     Route::post('/carte/cacher_signature', [CarteController::class,'ajout_signature'])->name('carte.signature');
+
+    Route::resource('/rapport', RapportController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::get('/rapport/pdf', [RapportController::class, 'GeneratePDF'])->name('rapport.pdf');
 });
 
 

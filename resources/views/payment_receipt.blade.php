@@ -28,23 +28,21 @@
 
     <div class="box">
         <div class="row">
-            <div><span class="label">Reçu N° :</span> {{ $payment->receipt_no_format }}</div>
-            <div><span class="label">Date :</span> {{ $payment->created_at }}</div>
+            <div><span class="label">Reçu N° :</span> jkjkjnk</div>
+            <div><span class="label">Date :</span> yvgiuiu</div>
         </div>
         <div class="row" style="margin-top:6px;">
-            <div><span class="label">Mode :</span> {{ strtoupper($payment->mode) }}</div>
-            <div><span class="label">Montant :</span> {{ number_format($payment->amount, 0, '', ' ') }} FCFA</div>
+            <div><span class="label">Mode :</span> ujhikuhik</div>
+            <div><span class="label">Montant :</span> 2343545 FCFA</div>
         </div>
     </div>
 
     <div class="box">
-        <div><span class="label">Demande :</span> #{{ $payment->demande->id }}</div>
-        <div><span class="label">Postulant :</span> {{ $payment->demande->user->postulant->nom_raison_sociale ?? 'N/A' }}</div>
-        <div><span class="label">Type de demande :</span> {{ $payment->demande->type_demande->libelle ?? '' }}</div>
-        <div><span class="label">Type de vol :</span> {{ $payment->demande->type_vol->libelle ?? '' }}</div>
-        @if(!empty($payment->motif))
-            <div><span class="label">Motif :</span> {{ $payment->motif }}</div>
-        @endif
+        <div><span class="label">Demande :</span> #klaasa</div>
+        <div><span class="label">Postulant :</span> </div>
+        <div><span class="label">Type de demande :</span> </div>
+        <div><span class="label">Type de vol :</span> </div>
+        
     </div>
 
     <div class="footer">

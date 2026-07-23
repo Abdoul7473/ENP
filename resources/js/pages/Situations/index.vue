@@ -9,28 +9,29 @@
                 <v-icon left>mdi-plus-circle</v-icon> Ajouter
             </v-btn>
         </template>
-        <template v-slot:item.action="{ item }">
-            <BtnAction icon display-icon="mdi-eye" title="Détail de l'encadreur" @click="detail(item)" color="green" small />
+        
+        <template v-slot:item.date_heure="{ item }">
+            {{ formatDate(item.created_at) }}
         </template>
         <template v-slot:item.effectif="{ item }">
                 {{item.compagnie.effectif}}
         </template>
         <template v-slot:item.permissionnaire="{ item }">
             <v-chip-group column selected-class="text-purple" v-if="item.permissionnaires != []">
-                <v-chip outlined color="primary" :key="i" v-for="(p, i) in item.permissionnaires" label>{{ p.eleve.nom }}
+                <v-chip outlined color="primary" :key="i" v-for="(p, i) in item.permissionnaires" label>{{ p.eleve.matricule }} {{ p.eleve.nom }} {{ p.eleve.prenom }}
                 </v-chip>
             </v-chip-group>
             <div v-else>0</div>
         </template>
         <template v-slot:item.absent="{ item }">
             <v-chip-group column selected-class="text-purple">
-                <v-chip outlined color="primary" :key="i" v-for="(a, i) in item.absents" label>{{ a.eleve.nom }}
+                <v-chip outlined color="primary" :key="i" v-for="(a, i) in item.absents" label>{{ a.eleve.matricule }} {{ a.eleve.nom }} {{ a.eleve.prenom }}
                 </v-chip>
             </v-chip-group>
         </template>
         <template v-slot:item.malade="{ item }">
             <v-chip-group column selected-class="text-purple">
-                <v-chip outlined color="primary" :key="i" v-for="(m, i) in item.malades" label>{{ m.eleve.nom }}
+                <v-chip outlined color="primary" :key="i" v-for="(m, i) in item.malades" label>{{ m.eleve.matricule }} {{ m.eleve.nom }} {{ m.eleve.prenom }}
                 </v-chip>
             </v-chip-group>
         </template>
@@ -134,7 +135,14 @@ export default {
             ],
             items: [],
             selectedMonth: null,
-            headers: [{
+            headers: [
+                {
+                    text: 'Date et heure',
+                    align: 'start',
+                    sortable: false,
+                    value: 'date_heure',
+                },
+                {
                     text: 'Effectif théorique',
                     align: 'start',
                     sortable: false,
@@ -178,7 +186,17 @@ export default {
         },
         creer() {
             this.$inertia.get(route('situation.create',this.id))
-        }
+        },
+        formatDate(dateString) {
+            const date = new Date(dateString);
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0'); 
+            const year = date.getFullYear();
+
+            return `${day}/${month}/${year} à ${hours}:${minutes} `;
+        },
     }
 }
 </script>
