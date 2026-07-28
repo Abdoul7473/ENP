@@ -10,8 +10,12 @@ class Visiteur extends Model
     use HasFactory;
     protected $fillable = [
         'id',
+        'statut',
         'nom',
+        'date',
         'prenom',
+        'mat_vehicule',
+        'num_carte',
         'email',
         'sexe',
         'tel',

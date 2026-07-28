@@ -1,0 +1,5 @@
+.custom-primary {
+    background-color: rgba(225, 230, 210, 1) !important;
+    color: black !important;
+    /* pour s'assurer que le texte reste visible */
+}

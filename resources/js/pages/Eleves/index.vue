@@ -147,13 +147,14 @@ export default {
                     value: 'matricule',
                 },
                 {
-                    text: 'Nom',
-                    value: 'nom'
-                },
-                {
                     text: 'Prénom',
                     value: 'prenom'
                 },
+                {
+                    text: 'Nom',
+                    value: 'nom'
+                },
+                
                 {
                     text: 'Date de Naissance',
                     value: 'date_naiss'

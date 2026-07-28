@@ -58,6 +58,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/visiteurs/index', [VisiteurController::class, 'index'])->name('visiteurs.index');
     Route::get('/visiteurs/create', [VisiteurController::class, 'create'])->name('visiteurs.create');
     Route::post('/visiteurs/store', [VisiteurController::class, 'store'])->name('visiteurs.store');
+    Route::post('/visiteurs/notifier', [VisiteurController::class, 'notifier'])->name('visiteur.notifier');
     Route::get('/compagnie/index', [CompagnieContoller::class, 'index'])->name('compagnie.index');
     Route::post('/compagnie/store', [CompagnieContoller::class, 'store'])->name('compagnie.store');
     Route::get('/annee/index', [CompagnieContoller::class, 'index_annee'])->name('annee.index');
@@ -86,6 +87,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/carte/cacher_signature', [CarteController::class,'ajout_signature'])->name('carte.signature');
 
     Route::resource('/rapport', RapportController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::get('/rapport/query', [RapportController::class, 'Query'])->name('rapport.query');
     Route::get('/rapport/pdf', [RapportController::class, 'GeneratePDF'])->name('rapport.pdf');
 });
 

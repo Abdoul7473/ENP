@@ -17,7 +17,7 @@
             {{ item.encadreur.matricule }} {{ item.encadreur.nom }} {{ item.encadreur.prenom }}
         </template>
         <template v-slot:item.action="{ item }">
-            <BtnAction icon display-icon="mdi-eye" title="Détail" @click="detail(item)" color="green" small />
+            <!-- <BtnAction icon display-icon="mdi-eye" title="Détail" @click="detail(item)" color="green" small /> -->
             <a :href="route('rapport.pdf', { id: item.id})" target="__blank" title="Imprimer la demande">
                 <v-icon size="small" class="me-2" icon="mdi-printer" color="info" small>mdi-printer</v-icon>
             </a>

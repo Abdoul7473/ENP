@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Absent;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Annee;
 use App\Models\Encadreur;
+use App\Models\Malade;
+use App\Models\Permissionnaire;
 use App\Models\Rapport;
 use App\Models\Situation;
+use App\Models\Visiteur;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class RapportController extends Controller
@@ -39,12 +43,37 @@ class RapportController extends Controller
         return redirect()->route('rapport.index')->with('success', 'Rapport généré');
     }
     public function GeneratePDF(Request $request){
-        $rapport = Rapport::where('id',$request->id)->with('situations.compagnie','encadreur')->get()[0];
+        $rapport = Rapport::with('situations.compagnie','encadreur.grade')->find($request->id);
+        $situations = Situation::where('rapport_id',$request->id)->with('absents','malades','permissionnaires')->get();
+        $malades = Malade::with('situation.compagnie')->whereHas('situation',function ($query) use ($request){
+            $query->where('rapport_id',$request->id);
+        })->get();
+        $absents = Absent::with('situation.compagnie')->whereHas('situation',function ($query) use ($request){
+            $query->where('rapport_id',$request->id);
+        })->get();
+        $permissionnaires = Permissionnaire::with('situation.compagnie')->whereHas('situation',function ($query) use ($request){
+            $query->where('rapport_id',$request->id);
+        })->get();
+        
         $data = [
-            'rapport' => $rapport
+            'rapport' => $rapport,
+            'total_effectif' => $rapport->situations->sum('compagnie.effectif'),
+            'total_present' => $rapport->situations->sum('nombre_present'),
+            'total_malade' => $rapport->situations->sum('nombre_malade'),
+            'total_permissionnaire' => $rapport->situations->sum('nombre_permissionnaire'),
+            'total_absent' => $rapport->situations->sum('nombre_absent'),
+            'situations' => $situations,
+            'malades' => $malades,
+            'absents' => $absents,
+            'permissionnaires' => $permissionnaires,
         ];
         // dd($cartes);
         $pdf = Pdf::loadView('rapport', $data);
         return $pdf->stream();
+    }
+    public function Query(Request $request){
+        $visiteurs = Visiteur::all();
+        $results = $visiteurs->whereBetween('date',[$request['data']['date_interval'][0],$request['data']['date_interval'][1]]);
+        return $results;
     }
 }

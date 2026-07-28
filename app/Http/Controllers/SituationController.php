@@ -26,7 +26,7 @@ class SituationController extends Controller
             'nombre_present' => $request->nombre_present,
             'nombre_absent' => $request->nombre_absent,
             'nombre_malade' => $request->nombre_malade,
-            'nombre_permissionnaire' => $request->permissionnaire,
+            'nombre_permissionnaire' => $request->nombre_permissionnaire,
             'compagnie_id' => $request->compagnie_id,
             'statut' => 0
         ]);

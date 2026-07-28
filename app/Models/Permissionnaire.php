@@ -18,4 +18,8 @@ class Permissionnaire extends Model
     {
         return $this->belongsTo(Eleve::class);
     }
+    public function situation(): BelongsTo
+    {
+        return $this->belongsTo(Situation::class);
+    }
 }

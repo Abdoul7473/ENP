@@ -22,13 +22,14 @@
         .cards-table {
             width: 100%;
             border-collapse: separate;
-            border-spacing: 12mm 6mm;
+            border-spacing: 12mm 0mm;
+            margin-top: -90px;
         }
 
         .card-cell {
-            width: 60%;
-            vertical-align: top;
-            padding: -60px;
+            width: 40%;
+            margin-top: -90px;
+            margin: 60px;
         }
         .watermark {
             position: absolute;
@@ -47,7 +48,6 @@
             page-break-inside: avoid;
             border-radius: 5mm;
             background: while;
-            border: 1.4px solid #494e53;
         }
          .carde {
             position: absolute;
@@ -66,7 +66,7 @@
         .card-mat {
             position: absolute;
             width: 40mm;
-            height: 4mm;
+            height: 5mm;
             overflow: hidden;
             left:10mm;
             break-inside: avoid;
@@ -140,11 +140,13 @@
             left: 0;
             width: 100%;
             height: auto;
-            opacity: 1; /* Opacité de l'arrière-plan */
+            opacity: 0.2; /* Opacité de l'arrière-plan */
             z-index: 0; /* Assurez-vous que l'arrière-plan est derrière le contenu */
             background-position: center;
             background-size: 500px;
         }
+       
+        
          .panche-gauche{
     transform: rotate(90deg);
    
@@ -155,6 +157,7 @@
     transform: rotate(-90deg);
      
 }
+
     </style>
 </head>
 
@@ -163,21 +166,21 @@
 
 <table  class="cards-table">
     @foreach($rectos as $row)
-        <tr style="margin-top: 100px;" >
-            <td class="card-cell" >
+        <tr  >
+            <td class="card-cell" style="margin-top: 100px; " >
                 <section class=" badge-card  panche-gauche" >
-                     <div style="text-align: center;" class="watermark">
+                    <div style="text-align: center;" class="watermark">
                     <hr style="border:none;height: 25px;width: 250px; background-color:red;">
                     <hr style="margin-left : 100px; width: 15px; height: 15px; background-color: red; border-radius: 50%;" align="center">
                     <hr style="border:none;height: 25px; width: 250px;  background-color:green;">
-                </div>
+                    </div>
                     <div class="card-title">
                         <b> <strong style="font-family: 'Times New Roman', serif; font-size: 8px;">REPUBLIQUE DU NIGER</strong> </b> 
                         <br>
                         <i><strong style="font-family: 'Times New Roman', serif; font-size: 8px;">Fraternité-Travail-Progès</strong></i>
                     </div>
                     <h6 class="card-title">
-                        <b><strong style="font-family: Arial black; color: black;">Ministère de l'Intérieur, de la Sécurité <br> Publique et  l'Administration du <br> Territoire</strong></b> 
+                        <b><strong style="font-family: Arial black; color: black;">Ministère de l'Intérieur, de la Sécurité <br> Publique et  l'Administration du <br> Térritoire</strong></b> 
                     </h6>
                     <h6 class="card-title">
                         <b><strong>DIRECTION GENERALE <br> DE LA POLICE NATIONALE</strong></b> 
@@ -219,12 +222,13 @@
                         @endif
                     </div>
                 </section>
+                
             </td>
-            <td class="card-cell" >
-                <section class="badge-card panche-droite">   
+            <td class="card-cell "  style="margin-top: 100px;">
+                <section class="badge-card panche-droite" >    
                     <div class="card-title">
                         <section class="card-mat">  
-                            <h6 class="card-title">
+                            <h6 class="card-title" style="font-family: 'Times New Roman', Times, serif;font-size:10px;">
                             Matricule <strong style="color:red" > {{$row->matricule}}</strong>
                             </h6>               
                         </section>
@@ -237,22 +241,24 @@
                         <p class="detail-line"><strong style="font-family: 'Times New Roman', Times, serif;font-size:10px;">Né(e) le :</strong><b style="font-family: 'Times New Roman', Times, serif;font-size:9px;"> {{ $row->date_naiss }}</b></p>
                         <p class="detail-line"><strong style="font-family: 'Times New Roman', Times, serif;font-size:10px;">A :</strong> <b>{{ $row->lieu_naiss  }} </b></p>
                         <p class="detail-line"><strong style="font-family: 'Times New Roman', Times, serif;font-size:10px;">GROUPE SANGUIN :</strong> <b style="font-family: 'Times New Roman', Times, serif;font-size:9px;"> {{ $row->groupe_sanguin }}</b></p>
-                        <p class="detail-line"><strong style="font-family: 'Times New Roman', Times, serif;font-size:10px;">VALABLE DU :</strong> <b style="font-family: 'Times New Roman', Times, serif;font-size:9px;"> 20/12/2025</b></p>
-                        <p class="detail-line"><strong style="font-family: 'Times New Roman', Times, serif;font-size:10px;">AU :</strong> <b style="font-family: 'Times New Roman', Times, serif;font-size:9px;"> 19/06/2027</b></p>
+                        <p class="detail-line"><strong style="font-family: 'Times New Roman', Times, serif;font-size:10px;">VALABLE DU :</strong> <b style="font-family: 'Times New Roman', Times, serif;font-size:9px;"> {{\Carbon\Carbon::parse($annee->date_debut)->format('d/m/Y')}}</b></p>
+                        <p class="detail-line"><strong style="font-family: 'Times New Roman', Times, serif;font-size:10px;">AU :</strong> <b style="font-family: 'Times New Roman', Times, serif;font-size:9px;"> {{\Carbon\Carbon::parse($annee->date_fin)->format('d/m/Y')}}</b></p>
                         <div style=" text-align: center; margin-top:-100%">
                             <img src="armoirie.jpeg" width="90"; height="90";  class="background" style=" text-align: center;"> 
                             <h4> Fait à Niamey le {{$date}} </h4> 
                             <b >
                                 Signature et Cachet
-                            </b><br>
+                            </b>
                             <img width="200"  src="signatures/{{$signature->libelle}}" alt=""/>
                         </div>
                     </div>
                 </section>
+                
             </td>
         </tr>
         
     @endforeach
 </table>
+
 </body>
 </html>

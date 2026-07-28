@@ -22,6 +22,7 @@ import SelectField from '../js/components/Form/SelectField'
 import AppTable from '../js/components/AppTable'
 import BtnAction from '../js/components/BtnAction'
 import CustomDataTable from '../js/components/CustomDataTable'
+import dataTable from '../js/components/dataTable'
 import QueryB from '../js/components/QueryB'
 import QueryBuilder from '../js/components/QueryBuilder'
 import NavigationBtn from '../js/components/NavigationBtn'
@@ -140,6 +141,7 @@ Vue.component('SelectField', SelectField)
 Vue.component('AppTable', AppTable)
 Vue.component('BtnAction', BtnAction)
 Vue.component('CustomDataTable', CustomDataTable)
+Vue.component('dataTable', dataTable)
 Vue.component('CustomTable', CustomTable)
 Vue.component('NavigationBtn', NavigationBtn)
 Vue.component('Toolbar', Toolbar)

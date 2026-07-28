@@ -16,10 +16,13 @@ class CreateVisiteursTable extends Migration
         Schema::create('visiteurs', function (Blueprint $table) {
             $table->id();
             $table->string("nom")->nullable();
+            $table->string("num_carte")->nullable();
             $table->string("mat_vehicule")->nullable();
             $table->string("prenom")->nullable();
             $table->string("email")->nullable();
+            $table->boolean('statut')->nullable();
             $table->string("sexe")->nullable();
+            $table->date('date')->nullable();
             $table->integer("tel")->nullable();
             $table->date("date_naiss")->nullable();
             $table->string("heure_arrive")->nullable();
