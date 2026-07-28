@@ -51,7 +51,7 @@
                 </v-card>
             </v-dialog>
         </div>
-        <AppFooter />
+        <!-- <AppFooter /> -->
     </v-main>
 </v-app>
 </template>
