@@ -49,7 +49,7 @@
                 </v-btn>
             </v-col>
         </v-row>
-        <Resultat v-if="resultat != null"  :resultat="resultat" :headers="headers"></Resultat>
+        <Resultat v-if="resultat != null" :resultat="resultat" :date="form.date_interval" :headers="headers"></Resultat>
     </v-card-text>
 </v-card>
 </template>
@@ -102,6 +102,10 @@ export default {
             {
                 text: 'Prénom',
                 value: 'prenom'
+            },
+            {
+                text: 'Date de la visite',
+                value: 'date'
             },
             {
                 text: 'Date de naissance',

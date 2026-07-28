@@ -88,6 +88,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('/rapport', RapportController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::get('/rapport/query', [RapportController::class, 'Query'])->name('rapport.query');
+    Route::get('/rapport/export', [RapportController::class, 'ExportExcel'])->name('rapport.export');
     Route::get('/rapport/pdf', [RapportController::class, 'GeneratePDF'])->name('rapport.pdf');
 });
 

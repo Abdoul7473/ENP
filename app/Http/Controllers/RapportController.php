@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\RapportExport;
 use App\Models\Absent;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -13,6 +14,7 @@ use App\Models\Rapport;
 use App\Models\Situation;
 use App\Models\Visiteur;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RapportController extends Controller
 {
@@ -20,7 +22,7 @@ class RapportController extends Controller
     {
         $annee = Annee::where('statut', 1)->first();
         $officiers = Encadreur::where('is_commandant', 1)->get();
-        $rapports = Rapport::with('encadreur','situations.compagnie',)->when($request->sort_by, function ($query, $value) {
+        $rapports = Rapport::with('encadreur', 'situations.compagnie',)->when($request->sort_by, function ($query, $value) {
             $query->orderBy($value, request('order_by', 'asc'));
         })->paginate($request->page_size ?? 10);
         return Inertia::render('Rapport/index', [
@@ -39,22 +41,23 @@ class RapportController extends Controller
             $situation->rapport_id = $rapport->id;
             $situation->statut = 1;
             $situation->update();
-         }
+        }
         return redirect()->route('rapport.index')->with('success', 'Rapport généré');
     }
-    public function GeneratePDF(Request $request){
-        $rapport = Rapport::with('situations.compagnie','encadreur.grade')->find($request->id);
-        $situations = Situation::where('rapport_id',$request->id)->with('absents','malades','permissionnaires')->get();
-        $malades = Malade::with('situation.compagnie')->whereHas('situation',function ($query) use ($request){
-            $query->where('rapport_id',$request->id);
+    public function GeneratePDF(Request $request)
+    {
+        $rapport = Rapport::with('situations.compagnie', 'encadreur.grade')->find($request->id);
+        $situations = Situation::where('rapport_id', $request->id)->with('absents', 'malades', 'permissionnaires')->get();
+        $malades = Malade::with('situation.compagnie')->whereHas('situation', function ($query) use ($request) {
+            $query->where('rapport_id', $request->id);
         })->get();
-        $absents = Absent::with('situation.compagnie')->whereHas('situation',function ($query) use ($request){
-            $query->where('rapport_id',$request->id);
+        $absents = Absent::with('situation.compagnie')->whereHas('situation', function ($query) use ($request) {
+            $query->where('rapport_id', $request->id);
         })->get();
-        $permissionnaires = Permissionnaire::with('situation.compagnie')->whereHas('situation',function ($query) use ($request){
-            $query->where('rapport_id',$request->id);
+        $permissionnaires = Permissionnaire::with('situation.compagnie')->whereHas('situation', function ($query) use ($request) {
+            $query->where('rapport_id', $request->id);
         })->get();
-        
+
         $data = [
             'rapport' => $rapport,
             'total_effectif' => $rapport->situations->sum('compagnie.effectif'),
@@ -71,9 +74,22 @@ class RapportController extends Controller
         $pdf = Pdf::loadView('rapport', $data);
         return $pdf->stream();
     }
-    public function Query(Request $request){
+    public function Query(Request $request)
+    {
         $visiteurs = Visiteur::all();
-        $results = $visiteurs->whereBetween('date',[$request['data']['date_interval'][0],$request['data']['date_interval'][1]]);
+        $results = $visiteurs->whereBetween('date', [$request['data']['date_interval'][0], $request['data']['date_interval'][1]]);
         return $results;
+    }
+    public function ExportExcel(Request $request)
+    {
+        if ($request->tab == 1) {
+            return Excel::download(new RapportExport(json_decode($request->resultat)), "Visiteurs.xlsx");
+        } else {
+            $pdf = Pdf::loadView('/rapport/visiteur', [
+                'datas' => json_decode($request->resultat),
+                'type' => 2
+            ]);
+            return $pdf->stream();
+        }
     }
 }
