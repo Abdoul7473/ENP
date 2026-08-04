@@ -12,7 +12,7 @@
         </v-tab>
         <v-tab href="#tab-2">
             Rếquettes
-            <v-icon>mdi-account-group</v-icon>
+            <v-icon>mdi-database-outline</v-icon>
         </v-tab>
     </v-tabs>
 

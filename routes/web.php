@@ -65,6 +65,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/annee/store', [CompagnieContoller::class, 'store_annee'])->name('annee.store');
     Route::post('/annee/cloture', [CompagnieContoller::class, 'cloture_annee'])->name('annee.cloture');
 
+    Route::get('/entite/index', [CompagnieContoller::class, 'entite_index'])->name('entite.index');
+    Route::post('/entite/store', [CompagnieContoller::class, 'entite_store'])->name('entite.store');
+
     Route::get('/encadreur/index', [CompagnieContoller::class, 'encadreur_index'])->name('encadreur.index');
     Route::get('/encadreur/create', [CompagnieContoller::class, 'encadreur_create'])->name('encadreur.create');
     Route::post('/encadreur/store', [CompagnieContoller::class, 'encadreur_store'])->name('encadreur.store');

@@ -57,23 +57,8 @@ class HandleInertiaRequests extends Middleware
                 ? auth()->user()->getAllPermissions()->pluck('name')
                 : null,
                 // dd(auth()->user()->getAllPermissions()->pluck('name')),
-            'user'=> fn () => $request->user() ? User::where('id',$request->user()->id)->with('postulant')->get()[0] : null,
-            'terms' => fn () => TermsDocument::all()->keyBy('type')->map(function ($doc) {
-                return [
-                    'url' => '/documents/terms/' . $doc->filename,
-                    'name' => $doc->original_name,
-                    'mime' => $doc->mime_type,
-                ];
-            }),
+            'user'=> fn () => $request->user() ? User::where('id',$request->user()->id)->get()[0] : null,
             'csrf_token' => csrf_token(),
-            'en_attentes' => fn () => Demande::where('statut_id',1)->count(),
-            'verifiees' => fn () => Demande::where('statut_id',2)->count(),
-            'approuvees' => fn () => Demande::where('statut_id',3)->count(),
-            'autorisees' => fn () => Demande::where('statut_id',4)->count(),
-            'rejetees' => fn () => Demande::where('statut_id',5)->count(),
-            'renvoyees' => fn () => Demande::where('statut_id',6)->count(),
-            'annulees' => fn () => Demande::where('statut_id',7)->count(),
-            'revisees' => fn () => Demande::where('statut_id',8)->count(),
             'recaptcha_site_key' => env('RECAPTCHA_SITE_KEY'),
             'annee_encours' => Annee::where('id',1)->first(),
           

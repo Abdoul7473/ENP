@@ -48,6 +48,7 @@
             page-break-inside: avoid;
             border-radius: 5mm;
             background: while;
+            border: 2px solid #e93b0b;
         }
          .carde {
             position: absolute;
@@ -98,7 +99,7 @@
         }
 
         .photo-column { left: 3mm; width: 25mm; }
-        .details-column { left: 8mm; width: 40mm; }
+        .details-column { left: 2mm; width: 40mm; }
 
         .profile-img {
             width: 21.5mm;
@@ -138,9 +139,9 @@
         .background {
             top: 100;
             left: 0;
-            width: 100%;
+            width: 120%;
             height: auto;
-            opacity: 0.2; /* Opacité de l'arrière-plan */
+            opacity: 0.4; /* Opacité de l'arrière-plan */
             z-index: 0; /* Assurez-vous que l'arrière-plan est derrière le contenu */
             background-position: center;
             background-size: 500px;
@@ -243,7 +244,7 @@
                         <p class="detail-line"><strong style="font-family: 'Times New Roman', Times, serif;font-size:10px;">GROUPE SANGUIN :</strong> <b style="font-family: 'Times New Roman', Times, serif;font-size:9px;"> {{ $row->groupe_sanguin }}</b></p>
                         <p class="detail-line"><strong style="font-family: 'Times New Roman', Times, serif;font-size:10px;">VALABLE DU :</strong> <b style="font-family: 'Times New Roman', Times, serif;font-size:9px;"> {{\Carbon\Carbon::parse($annee->date_debut)->format('d/m/Y')}}</b></p>
                         <p class="detail-line"><strong style="font-family: 'Times New Roman', Times, serif;font-size:10px;">AU :</strong> <b style="font-family: 'Times New Roman', Times, serif;font-size:9px;"> {{\Carbon\Carbon::parse($annee->date_fin)->format('d/m/Y')}}</b></p>
-                        <div style=" text-align: center; margin-top:-100%">
+                        <div style=" text-align: center; margin-top:-100%;margin-left: 30px;" >
                             <img src="armoirie.jpeg" width="90"; height="90";  class="background" style=" text-align: center;"> 
                             <h4> Fait à Niamey le {{$date}} </h4> 
                             <b >

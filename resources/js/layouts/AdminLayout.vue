@@ -1,6 +1,6 @@
 <template>
 <v-app style="background-color: #f5f5f5">
-    <v-navigation-drawer v-model="drawer" app  color="primary">
+    <v-navigation-drawer v-model="drawer" app color="primary">
         <v-sheet color="secondary" class="pa-4 rounded-tr-xl text-center">
             <v-progress-circular model-value="80" color="primary" :size="100" :width="2" class="">
                 <v-avatar size="85">
@@ -14,9 +14,9 @@
         <v-divider></v-divider>
 
         <v-list nav class="mb-4">
-            <v-list-item-group >
-                <v-list-item v-for="(item, i) in Single_items" :key="i" v-if="!item.permission || hasPermission(item.permission)" :disabled="!item.disabled" @click="goToPage(item.to)">
-                    <v-list-item-action>
+            <v-list-item-group>
+                <v-list-item v-for="(item, i) in Single_items" :key="i" :disabled="!item.disabled" @click="goToPage(item.to)" v-if="!item.permission || hasPermission(item.permission)">
+                    <v-list-item-action :v-permission:any="item.permission">
                         <v-icon color="white">{{ item.icon }}</v-icon>
                         <!-- {{ item.disabled }} -->
                     </v-list-item-action>
@@ -73,62 +73,68 @@ export default {
             key: 0,
             isLoading: false,
             miniVariant: false,
-            Single_items:  
-            [
-                {
+            Single_items: [{
                     icon: "mdi-apps",
                     title: "Accueil",
                     to: "home",
-                    disabled : true
+                    disabled: true,
                 },
                 {
                     icon: "mdi-account",
                     title: "Utilisateurs",
                     to: "user.index",
-                    disabled : true
+                    disabled: true
                 },
                 {
-                    icon: "mdi-database-outline",
+                    icon: "mdi-lock-open-variant",
                     title: "Rôles et permissions",
                     to: "roles.index",
-                    disabled : true
+                    disabled: true
                 },
                 {
                     icon: "mdi-calendar",
                     title: "Année Académique",
                     to: "annee.index",
-                    disabled : true
+                    disabled: true
                 },
                 {
                     icon: "mdi-cash-register",
                     title: "Cartes",
                     to: "carte.index",
-                    disabled :  this.$page.props.annee_encours ? true : false
+                    disabled: this.$page.props.annee_encours ? true : false
                 },
-                
+
                 {
-                    icon: "mdi-account",
+                    icon: "mdi-account-group",
                     title: "Visiteurs",
                     to: "visiteurs.index",
-                    disabled :  this.$page.props.annee_encours ? true : false
+                    disabled: this.$page.props.annee_encours ? true : false
                 },
                 {
                     icon: "mdi-account",
                     title: "Compagnies",
                     to: "compagnie.index",
-                    disabled :  this.$page.props.annee_encours ? true : false
+                    disabled: this.$page.props.annee_encours ? true : false,
+                    permission: 'compagnie.read'
+                },
+                {
+                    icon: "mdi-account",
+                    title: "Entités",
+                    to: "entite.index",
+                    disabled: this.$page.props.annee_encours ? true : false,
+                },
+                {
+                    icon: "mdi-account-group",
+                    title: "Personnels",
+                    to: "encadreur.index",
+                    disabled: this.$page.props.annee_encours ? true : false,
+                    permission: 'encadreur.read'
                 },
                 {
                     icon: "mdi-database-outline",
                     title: "Rapport",
                     to: "rapport.index",
-                    disabled :  this.$page.props.annee_encours ? true : false
-                },
-                {
-                    icon: "mdi-account",
-                    title: "Encadreurs",
-                    to: "encadreur.index",
-                    disabled :  this.$page.props.annee_encours ? true : false
+                    disabled: this.$page.props.annee_encours ? true : false
                 },
                 {
                     icon: "mdi-database-outline",
@@ -136,7 +142,7 @@ export default {
                     to: "query.create"
                 },
             ],
-            
+
             miniVariant: false,
         };
     },
@@ -154,7 +160,7 @@ export default {
     mounted() {
         this.$gates.getRoles();
         this.$gates.getPermissions();
-        
+
     },
     computed: {
         appName() {

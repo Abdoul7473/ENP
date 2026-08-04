@@ -367,3 +367,20 @@ if (!function_exists('asLetters')) {
         }
       }
 }
+function NbrPersonnelParGrade(){
+    $label = [];
+    $data = [];
+    $nbr_personnel_par_grade = DB::select("
+        SELECT count(e.id) nbr_personnel,g.libelle libelle FROM encadreurs e,grades g
+          where g.id = e.grade_id GROUP BY g.id
+    ");
+    foreach ($nbr_personnel_par_grade as $item) {
+        $label[] = $item->libelle;
+        $data[] = $item->nbr_personnel;
+    }
+     $datas = [
+        'label' => $label,
+        'data' => $data,
+    ];
+    return $datas;
+}

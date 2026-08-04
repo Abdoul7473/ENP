@@ -25,9 +25,6 @@ class CreateUsersTable extends Migration
             $table->foreignIdFor(\App\Models\TypeUser::class)->nullable()
                 ->index()
                 ->references('id')->on('type_users');
-            $table->foreignIdFor(\App\Models\Postulant::class)->nullable()
-                ->index()
-                ->references('id')->on('postulants');
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

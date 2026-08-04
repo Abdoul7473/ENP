@@ -62,57 +62,7 @@ class CreateCompagniesTable extends Migration
                 ->references('id')->on('compagnies');
             $table->timestamps();
         });
-        Schema::create('grades', function (Blueprint $table) {
-            $table->id();
-            $table->string('libelle')->nullable();
-            $table->timestamps();
-        });
-        Schema::create('encadreurs', function (Blueprint $table) {
-            $table->id();
-            $table->string('matricule')->nullable();
-            $table->string('nom')->nullable();
-            $table->string('prenom')->nullable();
-            $table->string("email")->nullable();
-            $table->string("sexe")->nullable();
-            $table->integer("tel")->nullable();
-            $table->string('date_naiss')->nullable();
-            $table->string('lieu_naiss')->nullable();
-            $table->boolean('is_commandant')->nullable();
-            $table->string('groupe_sanguin')->nullable();
-            $table->foreignIdFor(\App\Models\Grade::class)->nullable()
-                ->index()
-                ->references('id')->on('grades');
-            $table->timestamps();
-        });
-        Schema::create('affectations', function (Blueprint $table) {
-            $table->id();
-            $table->date('date')->nullable();
-            $table->boolean('statut')->nullable();
-            $table->foreignIdFor(\App\Models\Encadreur::class)->nullable()
-                ->index()
-                ->references('id')->on('encadreurs');
-            $table->foreignIdFor(\App\Models\Compagnie::class)->nullable()
-                ->index()
-                ->references('id')->on('compagnies');
-            $table->timestamps();
-        });
-
-        Schema::create('mois', function (Blueprint $table) {
-            $table->id();
-            $table->integer('indice')->nullable();
-            $table->string('libelle')->nullable();
-            $table->timestamps();
-        });
-        Schema::create('encadreur_mois', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(\App\Models\Encadreur::class)->nullable()
-                ->index()
-                ->references('id')->on('encadreurs');
-            $table->foreignIdFor(\App\Models\Mois::class)->nullable()
-                ->index()
-                ->references('id')->on('mois');
-            $table->timestamps();
-        });
+        
     }
 
     /**

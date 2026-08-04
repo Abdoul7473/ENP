@@ -26,6 +26,7 @@ class PermissionSeeder extends Seeder
         'visiteur' => 'un visiteur',
         'situation' => 'une situation',
         'élève' => 'un élève',
+        'entité' => 'une entité'
     ];
 
     public function run()

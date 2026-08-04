@@ -11,7 +11,7 @@
         <div class="text-center">
             <v-btn v-if="!alert" color="info" @click="alert = true">
                 <v-icon color="info darken-2">
-                    mdi mdi-information-outline
+                    mdi-information-outline
                 </v-icon> Info
             </v-btn>
         </div>
@@ -37,14 +37,14 @@
             <v-col cols="10" class="p-0">
                 <v-btn color="primary" :disabled="!form.requestSelected" @click="submit">
                     <v-icon color="primary darken-2">
-                        mdi mdi-eye
+                        mdi-eye
                     </v-icon> Voir le résultat
                 </v-btn>
             </v-col>
             <v-col cols="2" class="d-flex justify-end">
                 <v-btn color="primary" @click="reset">
                     <v-icon color="primary darken-2">
-                        mdi mdi-restore
+                        mdi-restore
                     </v-icon> Réinitialiser
                 </v-btn>
             </v-col>

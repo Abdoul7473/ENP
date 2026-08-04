@@ -22,6 +22,21 @@ class CreateRapportsTable extends Migration
                 ->references('id')->on('encadreurs');
             $table->timestamps();
         });
+        Schema::create('lots', function (Blueprint $table) {
+            $table->id();
+            $table->date('date')->nullable();
+            $table->integer('nombre')->nullable();
+            $table->timestamps();
+        });
+        Schema::create('numeros', function (Blueprint $table) {
+            $table->id();
+            $table->integer('numero')->nullable();
+            $table->boolean('statut')->nullable();
+            $table->foreignIdFor(\App\Models\Lot::class)->nullable()
+                ->index()
+                ->references('id')->on('lots');
+            $table->timestamps();
+        });
     }
 
     /**

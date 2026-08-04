@@ -5,12 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class NumAuto extends Model
+class Entite extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'num',
-        'auto',
-        'annee'
+        'id',
+        'libelle',
+        'entite_id'
     ];
+    public function entite() {
+        return $this->belongsTo(Entite::class);
+    }
 }

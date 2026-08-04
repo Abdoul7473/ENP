@@ -8,6 +8,9 @@ use App\Models\Grade;
 use App\Models\Corp;
 use App\Models\Affectation;
 use App\Models\Annee;
+use App\Models\Entite;
+use App\Models\Profil;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -43,20 +46,28 @@ class CompagnieContoller extends Controller
     }
     public function encadreur_index(Request $request)
     {
-        $encadreurs = Encadreur::with('grade', 'affectations.compagnie')->when($request->sort_by, function ($query, $value) {
+        $personnels = Encadreur::where('type',1)->with('grade', 'affectations.compagnie','entite','profil')->when($request->sort_by, function ($query, $value) {
+            $query->orderBy($value, request('order_by', 'asc'));
+        })->paginate($request->page_size ?? 10);
+        $encadreurs = Encadreur::where('type',2)->with('grade', 'affectations.compagnie','entite','profil')->when($request->sort_by, function ($query, $value) {
             $query->orderBy($value, request('order_by', 'asc'));
         })->paginate($request->page_size ?? 10);
         return Inertia::render('Encadreurs/index', [
-            'encadreurs' => $encadreurs
+            'encadreurs' => $encadreurs,
+            'personnels' => $personnels
         ]);
     }
     public function encadreur_create(Request $request)
     {
         $grades = Grade::all();
         $compagnies = Compagnie::all();
+        $entites = Entite::all();
+        $profils = Profil::all();
         return Inertia::render('Encadreurs/creation', [
             'grades' => $grades,
-            'compagnies' => $compagnies
+            'compagnies' => $compagnies,
+            'profils' => $profils,
+            'entites' => $entites
         ]);
     }
 
@@ -64,6 +75,14 @@ class CompagnieContoller extends Controller
     {
         $gmtDate = Carbon::now('GMT');
         $date = $gmtDate->format('Y-m-d');
+        // $request->file('document')->move('documents/decisions/', $request->file('document')->getClientOriginalName());
+        // $document = $request->file('document')->getClientOriginalName();
+        $decision = $request->decision;
+        $nomfichierDecision = $decision->getClientOriginalName();
+        $decision->move( 'documents/decisions/', $nomfichierDecision );
+        $document = $request->document;
+        $nomfichierDocument = $document->getClientOriginalName();
+        $document->move( 'documents/documents/', $nomfichierDocument );
         $encadreur = Encadreur::create([
             'nom' => $request->nom,
             'prenom' => $request->prenom,
@@ -76,6 +95,14 @@ class CompagnieContoller extends Controller
             'lieu_naiss' => $request->lieu_naiss,
             'grade_id' => $request->grade,
             'groupe_sanguin' => $request->groupe_sanguin,
+            'type' => $request->type,
+            'statut' => $request->statut,
+            'entite_id' => $request->entite_id,
+            'profil_id' => $request->profil_id,
+            'decision' => $nomfichierDecision,
+            'document' => $nomfichierDocument,
+            'num_decision' => $request->num_decision,
+            'date_affectation' => $request->date_affectation
         ]);
         $affectation = Affectation::create([
             'date' => $date,
@@ -107,7 +134,8 @@ class CompagnieContoller extends Controller
         ]);
         return redirect()->route('annee.index')->with('success', 'Année créée avec succès');
     }
-   public function cloture_annee(Request $request){
+    public function cloture_annee(Request $request)
+    {
         $annee = Annee::find($request->id);
         $annee->statut = $request->type == 1 ? 1 : 2;
         $annee->update();
@@ -116,5 +144,16 @@ class CompagnieContoller extends Controller
             'text' => 'Année clôturée avec succès!',
         ]);
     }
-    
+    public function entite_index(Request $request){
+        return Inertia::render('Entite/index',[
+            'entites' => Entite::with('entite')->get(),
+        ]);
+    }
+    public function entite_store(Request $request){
+        $entite = Entite::create([
+            'libelle' => $request->libelle,
+            'entite_id' => $request->entite_id
+        ]);
+        return redirect()->route('entite.index')->with('success', 'Entite créée avec succès');
+    }
 }
