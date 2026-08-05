@@ -4,8 +4,11 @@
 
     </Toolbar>
     <v-row>
-      <v-col >
+      <v-col cols="6">
         <Bar1  :items="nbr_personne_grade" />
+      </v-col>
+      <v-col cols="6">
+        <Bar2  :items="nbr_eleve_corp" />
       </v-col>
     </v-row>
 
@@ -17,9 +20,10 @@ import AdminLayout from "../layouts/AdminLayout.vue"
 import Agenda from '../components/Agenda.vue'
 import Chart from 'chart.js/auto'
 import Bar1 from "../components/Chart/bar1.vue";
+import Bar2 from "../components/Chart/bar2.vue";
 export default {
-  components: { AdminLayout, Agenda,Bar1,  },
-  props: ["items", "nbr_personne_grade"],
+  components: { AdminLayout, Agenda,Bar1,Bar2  },
+  props: ["items", "nbr_personne_grade","nbr_eleve_corp"],
   data() {
     return {
       e1: 1,

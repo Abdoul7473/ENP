@@ -384,3 +384,21 @@ function NbrPersonnelParGrade(){
     ];
     return $datas;
 }
+
+function NbrEleveParCorp(){
+    $label = [];
+    $data = [];
+    $nbr_eleve_par_corp = DB::select("
+        SELECT count(e.id) nbr_eleve,c.nom nom, co.passant FROM eleves e,corps c,compagnies co
+          where co.id = e.compagnie_id and c.id = co.corp_id GROUP BY c.id
+    ");
+    foreach ($nbr_eleve_par_corp as $item) {
+        $label[] = $item->nom;
+        $data[] = $item->nbr_eleve;
+    }
+     $datas = [
+        'label' => $label,
+        'data' => $data,
+    ];
+    return $datas;
+}

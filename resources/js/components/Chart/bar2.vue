@@ -66,7 +66,7 @@ export default {
             chartData: {
                 labels: this.items.label,
                 datasets: [{
-                    label: "Nombre de personnel",
+                    label: "Nombre d'éleve par corps",
                     backgroundColor: [
                         'rgba(255, 99, 132, 1)',
                         'rgba(255, 159, 64, 1)',
