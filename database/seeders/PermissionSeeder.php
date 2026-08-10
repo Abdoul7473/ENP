@@ -19,20 +19,26 @@ class PermissionSeeder extends Seeder
      */
 
     public $models = [
-        'encadreur' => 'un encadreur',
+        'personnel' => 'un personnel',
         'role' => 'un rôle',
         'user' => 'un utilisateur',
         'compagnie' => 'une compagnie',
         'visiteur' => 'un visiteur',
         'situation' => 'une situation',
         'élève' => 'un élève',
-        'entité' => 'une entité'
+        'entité' => 'une entité',
+        'rapport' => 'un rapport',
+        'annee' => 'une année'
+
     ];
 
     public function run()
     {
         Permission::create(['name' => 'manage_system', 'description' => 'Paramètrer système']);
-        Permission::create(['name' => 'signature', 'description' => 'Signature des cartes']);
+        Permission::create(['name' => 'signature', 'description' => 'Peut clôturer une année']);
+        Permission::create(['name' => 'annee.active', 'description' => 'Peut activer une année']);
+        Permission::create(['name' => 'annee.cloture', 'description' => 'Peut signer les cartes']);
+        Permission::create(['name' => 'generate.rapport', 'description' => 'Peut générer un rapport']);
         Permission::create(['name' => 'generate_card', 'description' => 'Génrer carte']);
         foreach ($this->models as $k => $v) {
             Permission::create(['name' => $k . '.create', 'description' => 'Ajouter ' . $v]);

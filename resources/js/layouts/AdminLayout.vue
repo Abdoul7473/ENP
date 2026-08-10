@@ -95,7 +95,8 @@ export default {
                     icon: "mdi-calendar",
                     title: "Année Académique",
                     to: "annee.index",
-                    disabled: true
+                    disabled: true,
+                    permission : ''
                 },
                 {
                     icon: "mdi-cash-register",
@@ -128,18 +129,14 @@ export default {
                     title: "Personnels",
                     to: "encadreur.index",
                     disabled: this.$page.props.annee_encours ? true : false,
-                    permission: 'encadreur.read'
+                    permission: 'personnel.read'
                 },
                 {
                     icon: "mdi-database-outline",
                     title: "Rapport",
                     to: "rapport.index",
-                    disabled: this.$page.props.annee_encours ? true : false
-                },
-                {
-                    icon: "mdi-database-outline",
-                    title: "Requête",
-                    to: "query.create"
+                    disabled: this.$page.props.annee_encours ? true : false,
+                    permission : 'rapport.read'
                 },
             ],
 

@@ -20,5 +20,7 @@ class DatabaseSeeder extends Seeder
         // Employee::factory(100)->create();
         $this->call(GradeSeeder::class);
         $this->call(EntitesTableSeeder::class);
+        $this->call(AnneesTableSeeder::class);
+        $this->call(CompagniesTableSeeder::class);
     }
 }

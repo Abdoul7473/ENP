@@ -5,7 +5,7 @@
     </Toolbar>
     <CustomDataTable :headers="headers" :items="annees">
         <template v-slot:addBtn>
-            <v-btn @click="creer()" small color="primary">
+            <v-btn @click="creer()" small color="primary" v-permission:any="'annee.create'">
                 <v-icon left>mdi-plus-circle</v-icon> Ajouter
             </v-btn>
         </template>
@@ -33,8 +33,8 @@
             </div>
         </template>
         <template v-slot:item.action="{item}">
-            <BtnAction icon display-icon="mdi-toggle-switch-off" title="Activer" @click="ActiverOrCloturer(item,1)" v-if="item.statut == 0" color="green" small />
-            <BtnAction icon display-icon="mdi-toggle-switch" title="Clôturer" @click="ActiverOrCloturer(item,2)" v-if="item.statut == 1" color="red" small />
+            <BtnAction icon display-icon="mdi-toggle-switch-off" title="Activer" @click="ActiverOrCloturer(item,1)" v-if="item.statut == 0" color="green" small v-permission="'annee.cloture'" />
+            <BtnAction icon display-icon="mdi-toggle-switch" title="Clôturer" @click="ActiverOrCloturer(item,2)" v-if="item.statut == 1" color="red" small v-permission="'annee.active'"/>
         </template>
     </CustomDataTable>
     <v-dialog v-model="dialog" max-width="600px" scrollable>

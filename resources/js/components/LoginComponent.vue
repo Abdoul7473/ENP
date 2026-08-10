@@ -3,7 +3,7 @@
     <v-row class="fill-height" transition="slide-x-transition">
         <v-col cols="6" md="6" style="background-color: white;">
             <v-card-text class="mt-14">
-                <h4 class="text-center">PROTEGER ET SERVIR</h4>
+                <h4 class="text-center">S'INSTRUIRE POUR MIEUX SERVIR</h4>
                 <!-- <h6 class="text-center  grey--text ">Connectez-vous à votre compte pour pouvoir continuer à créer <br>et à modifier vos flux d'intégration</h6> -->
                 <v-row align="center" justify="center">
                     <v-col cols="12" sm="8">

@@ -19,9 +19,12 @@ class HomeController extends Controller {
     public function index() {
         $nbr_personne_grade = NbrPersonnelParGrade();
         $nbr_eleve_corp = NbrEleveParCorp();
+        $nbr_visiteur_mois = NbrVisiteurMois();
+        // dd($nbr_visiteur_mois);
         return Inertia::render( 'home', [
             'nbr_personne_grade' => $nbr_personne_grade,
-            'nbr_eleve_corp' => $nbr_eleve_corp
+            'nbr_eleve_corp' => $nbr_eleve_corp,
+            'nbr_visiteur_mois' => $nbr_visiteur_mois
         ] );
     }
 

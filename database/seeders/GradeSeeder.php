@@ -230,11 +230,11 @@ class GradeSeeder extends Seeder
             ),
             4 =>
             array(
-                'libelle' => 'Chef service informatique',
+                'libelle' => 'CHEF DEPARTEMENT DE FORMATION',
             ),
             5 =>
             array(
-                'libelle' => 'Chef département formation',
+                'libelle' => 'CHEF SERVICE INFORMATIQUE',
             )
         ));
     }

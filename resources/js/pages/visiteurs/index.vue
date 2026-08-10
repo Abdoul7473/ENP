@@ -106,7 +106,7 @@ export default {
                     value: 'localite'
                 },
                 {
-                    text: 'Heure d\'arriivé',
+                    text: 'Heure d\'arrivée',
                     value: 'heure_arrive'
                 },
                 {

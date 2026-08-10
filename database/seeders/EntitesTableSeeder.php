@@ -24,7 +24,7 @@ class EntitesTableSeeder extends Seeder
                 'created_at' => '2026-08-03 13:22:16',
                 'entite_id' => NULL,
                 'id' => 1,
-                'libelle' => 'Sécretatiat',
+                'libelle' => 'SECRETARIAT',
                 'updated_at' => '2026-08-03 13:22:16',
             ),
             1 => 

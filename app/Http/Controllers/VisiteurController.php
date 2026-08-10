@@ -46,8 +46,9 @@ class VisiteurController extends Controller
         $visiteur = Visiteur::find($request->id);
         $visiteur->statut = 1;
         $gmtheure = Carbon::now( 'GMT' );
-        $heure = $gmtheure->format( 'H:i' );
-        $visiteur->heure_depart = $heure;
+        $heure = $gmtheure->format( 'H' ) + 1;
+        $minute = $gmtheure->format( 'i' );
+        $visiteur->heure_depart = $heure . ":" . $minute;
         
         $visiteur->update();
         return redirect()->route('visiteurs.index')->with('success', 'le depart de visiteur a été notifié avec succès');

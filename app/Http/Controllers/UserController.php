@@ -30,42 +30,11 @@ class UserController extends Controller
         // dd($request->user());
         $data_user = User::when($request->sort_by, function ($query, $value) {
             $query->orderBy($value, request('order_by', 'asc'));
-        })->where('postulant_id', '=', null)
-            ->when(!isset($request->sort_by), function ($query) {
-                $query->latest();
-            })
-            ->when($request->search, function ($query, $value) {
-                $query->where('name', 'LIKE', '%' . $value . '%');
-            })->with("type_user")
+        })->with("type_user")
             ->paginate($request->page_size ?? 10);
-        $data_postulant = User::when($request->sort_by, function ($query, $value) {
-            $query->orderBy($value, request('order_by', 'asc'));
-        })->where('postulant_id', '<>', null)
-            ->when(!isset($request->sort_by), function ($query) {
-                $query->latest();
-            })
-            ->when($request->search, function ($query, $value) {
-                $query->where('name', 'LIKE', '%' . $value . '%');
-            })->with("postulant")
-            ->paginate($request->page_size ?? 10);
-        $demandes = Demande::when($request->sort_by, function ($query, $value) {
-            $query->orderBy($value, request('order_by', 'asc'));
-            })->when($request->search, function ($query, $value) {
-            $query->where(function ($inner) use ($value) {
-                $inner->where('id', 'LIKE', '%' . $value . '%')
-                    ->orWhereHas('user', function ($q) use ($value) {
-                        $q->where('email', 'LIKE', '%' . $value . '%');
-                    })
-                    ->orWhereHas('user.postulant', function ($q) use ($value) {
-                        $q->where('nom_raison_sociale', 'LIKE', '%' . $value . '%');
-                    });
-            });
-            })->with("routes","user.postulant","statut","user_autoriser","user_appro","user_verif","aeronefs","type_demande")
-            ->paginate($request->page_size ?? 10);
+        
         return Inertia::render("user/index", [
             "users" => $data_user,
-            "user_postulant" => $data_postulant,
-            "demandes"=>$demandes,
         ]);
     }
     public function store(Request $request)
