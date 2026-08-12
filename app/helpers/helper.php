@@ -3,6 +3,7 @@
 use App\Models\Frai;
 use App\Models\TypeAutorisation;
 use App\Models\AeroportConfig;
+use App\Models\Mois;
 use App\Models\NumAutorisation;
 use App\Models\Route;
 use Carbon\Carbon;
@@ -417,6 +418,12 @@ function NbrEleveParCorp()
 }
 function NbrVisiteurMois()
 {
+  $mois = Mois::all();
+  foreach ($mois as $key => $moi) {
+    
+    return ;
+    // 97 20 40 20
+  }
   $nbr_visiteur_mois = DB::table('visiteurs')
     ->select(
       DB::raw('YEAR(date) as annee'),
@@ -429,5 +436,15 @@ function NbrVisiteurMois()
     ->orderBy('annee')
     ->orderBy('mois_numero')
     ->get();
-  return $nbr_visiteur_mois;
+  $label = [];
+  $data = [];
+  foreach ($nbr_visiteur_mois as $item) {
+    $label[] = $item->mois;
+    $data[] = $item->nombre_visiteurs;
+  }
+  $datas = [
+    'label' => $label,
+    'data' => $data,
+  ];
+  return $datas;
 }

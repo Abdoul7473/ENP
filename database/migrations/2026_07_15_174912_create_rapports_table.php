@@ -30,7 +30,7 @@ class CreateRapportsTable extends Migration
         });
         Schema::create('numeros', function (Blueprint $table) {
             $table->id();
-            $table->integer('numero')->nullable();
+            $table->string('numero')->nullable();
             $table->boolean('statut')->nullable();
             $table->foreignIdFor(\App\Models\Lot::class)->nullable()
                 ->index()
