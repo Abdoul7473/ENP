@@ -1,7 +1,7 @@
 <template>
 <div style="margin-left: 1%; margin-right: 1%; ">
 
-    <v-data-table :headers="headers" :items="resultat" item-key="name" :search="search" dense class="my-3 pt-3" style="border: 1px solid rgb(245, 134, 52)" :loading="load">
+    <v-data-table :headers="headers" :items="resultat" item-key="name" :search="search" dense class="my-3 pt-3" style="border: 1px solid green">
         <template v-slot:top>
             <v-row>
 
@@ -27,6 +27,12 @@
                         </v-btn>
                     </form>
                 </v-col>
+                <v-col cols="3">
+
+                </v-col>
+                <v-col class="pt-5" cols="4">
+                    <v-text-field v-model="search" prepend-inner-icon="mdi-search-web" single-line outlined dense clearable label="Réchercher" placeholder="Récherecher" class="mx-3"></v-text-field>
+                </v-col>
             </v-row>
         </template>
 
@@ -46,6 +52,7 @@ export default {
         },
         date: {},
         headers: {},
+        search: ""
     },
     data: () => ({}),
     mounted() {
@@ -55,9 +62,9 @@ export default {
     created() {
         this.headers.forEach((item, i, items) => {
             if (i === 0) {
-                item.class = 'primary white--text rounded-l-xl'
+                item.class = 'primary white--text '
             } else if (i === items.length - 1) {
-                item.class = 'primary white--text rounded-r-xl'
+                item.class = 'primary white--text '
             } else {
                 item.class = 'primary white--text'
             }

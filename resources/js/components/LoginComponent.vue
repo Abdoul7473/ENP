@@ -8,8 +8,8 @@
                 <v-row align="center" justify="center">
                     <v-col cols="12" sm="8">
                         <v-form @submit.prevent="login">
-                            <TextField v-model="form.email" prepend-inner-icon="mdi-email" label="E-mail / Email" type="email" required :error-messages="form.errors.email" />
-                            <TextField v-model="form.password" prepend-inner-icon="mdi-lock" label="Mot de passe / Password" required color="primary" :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'" :type="showPassword ? 'text' : 'password'" :error-messages="form.errors.password" @click:append="showPassword = !showPassword" />
+                            <TextField v-model="form.email" prepend-inner-icon="mdi-email" label="E-mail " type="email" required :error-messages="form.errors.email" />
+                            <TextField v-model="form.password" prepend-inner-icon="mdi-lock" label="Mot de passe " required color="primary" :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'" :type="showPassword ? 'text' : 'password'" :error-messages="form.errors.password" @click:append="showPassword = !showPassword" />
                             <div class="d-flex justify-center">
                                 <div class="g-recaptcha" :data-sitekey="siteKey"></div>
                             </div>

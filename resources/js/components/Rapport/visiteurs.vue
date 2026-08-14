@@ -49,7 +49,7 @@
                 </v-btn>
             </v-col>
         </v-row>
-        <Resultat v-if="resultat != null" :resultat="resultat" :date="form.date_interval" :headers="headers"></Resultat>
+        <Resultat v-if="resultat != null" :search="search" :resultat="resultat" :date="form.date_interval" :headers="headers"></Resultat>
     </v-card-text>
 </v-card>
 </template>
@@ -63,6 +63,7 @@ export default {
         alert: false,
         resultat: null,
         modal1: false,
+        search : '',
         form: {
             date: null,
             requestSelected: null,

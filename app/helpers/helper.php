@@ -418,12 +418,12 @@ function NbrEleveParCorp()
 }
 function NbrVisiteurMois()
 {
-  $mois = Mois::all();
-  foreach ($mois as $key => $moi) {
+  // $mois = Mois::all();
+  // foreach ($mois as $key => $moi) {
     
-    return ;
-    // 97 20 40 20
-  }
+  //   return ;
+  //   // 97 20 40 20
+  // }
   $nbr_visiteur_mois = DB::table('visiteurs')
     ->select(
       DB::raw('YEAR(date) as annee'),
@@ -438,6 +438,7 @@ function NbrVisiteurMois()
     ->get();
   $label = [];
   $data = [];
+  // dd($nbr_visiteur_mois);
   foreach ($nbr_visiteur_mois as $item) {
     $label[] = $item->mois;
     $data[] = $item->nombre_visiteurs;

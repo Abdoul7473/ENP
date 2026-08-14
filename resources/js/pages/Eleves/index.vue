@@ -5,9 +5,6 @@
     </Toolbar>
     <CustomDataTable :headers="headers" :items="eleves">
         <template v-slot:addBtn>
-            <v-btn @click="generate()" small color="primary">
-                <v-icon left>mdi-plus-circle</v-icon> Ajouter
-            </v-btn>&nbsp;
             <v-btn @click="Import()" class="ma-2" outlined type="button" small color="primary">
                 <v-icon left>mdi-xlx</v-icon> Importer par excel
             </v-btn>
@@ -22,6 +19,9 @@
                     <v-icon left>mdi-download</v-icon> éditer les cartes
                 </v-btn>
             </form>
+            <v-btn class="ma-2" outlined type="button" small color="primary" @click="InputPhoto()" download>
+                téléverser les photos
+            </v-btn>
 
         </template>
         <template v-slot:item.action="{ item }">
@@ -42,6 +42,22 @@
                     Fermer
                 </v-btn>
                 <v-btn color="primary" @click="submit()">Enregistrer</v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
+     <v-dialog v-model="dialogFiles" max-width="600px" persistent>
+        <v-toolbar dense dark color="primary" class="text-h6"> Importation les photos</v-toolbar>
+        <v-card>
+            <v-card-text>
+                <br>
+                <v-file-input clearable v-model="form.photos" multiple label="Charger les photos" variant="solo-inverted"></v-file-input>
+            </v-card-text>
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn style="color: white;" color="red" @click="close()">
+                    Fermer
+                </v-btn>
+                <v-btn color="primary" @click="Enregistrer()">Enregistrer</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -88,7 +104,7 @@
                             </v-row>
                             <v-row>
                                 <v-col cols="4">
-                                    <v-progress-circular model-value="100" color="primary" :size="100" :width="2" class="" >
+                                    <v-progress-circular model-value="100" color="primary" :size="100" :width="2" class="">
                                         <v-avatar size="150">
                                             <v-img :src="'/eleves/' + items?.photo" alt="John"></v-img>
                                         </v-avatar>
@@ -119,6 +135,7 @@ export default {
     data() {
         return {
             items: [],
+            dialogFiles : false,
             dialogDetail: false,
             csrf: null,
             dialog: false,
@@ -154,7 +171,7 @@ export default {
                     text: 'Nom',
                     value: 'nom'
                 },
-                
+
                 {
                     text: 'Date de Naissance',
                     value: 'date_naiss'
@@ -174,7 +191,8 @@ export default {
             ],
             form: this.$inertia.form({
                 fichier: null,
-                compagnie_id: this.id
+                compagnie_id: this.id,
+                photos : []
             })
         }
 
@@ -183,6 +201,24 @@ export default {
         this.csrf = this.$page.props.csrf_token
     },
     methods: {
+        InputPhoto(){
+            this.dialogFiles = true
+        },
+        Enregistrer(){
+            this.form.compagnie_id = this.id
+            this.form.post(route("eleve.input_file"), {
+                forceFormData: true,
+                onSuccess: () => {
+                    if (this.$page.props.flash.success) {
+                        this.$alert.success(this.$page.props.flash.success)
+                    }
+                    if (this.$page.props.flash.error) {
+                        this.$toast.error(this.$page.props.flash.error)
+                    }
+                },
+                onError: this.$alert.messages
+            })            
+        },
         close() {
             this.dialog = false
             this.dialogDetail = false

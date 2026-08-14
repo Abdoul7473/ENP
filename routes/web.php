@@ -76,6 +76,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/eleve/edit/{id}', [EleveController::class, 'edit'])->name('eleve.edit');
     Route::post('/eleve/import', [EleveController::class, 'import'])->name('eleve.import');
     Route::post('/eleve/update', [EleveController::class, 'update'])->name('eleve.update');
+    Route::post('/eleve/inputFile', [EleveController::class, 'inputFile'])->name('eleve.input_file');
     
     Route::get('/situation/create/{id}', [SituationController::class, 'create'])->name('situation.create');
     Route::get('/situation/index/{id}', [SituationController::class, 'index'])->name('situation.index');

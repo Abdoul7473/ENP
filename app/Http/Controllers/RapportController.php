@@ -76,8 +76,7 @@ class RapportController extends Controller
     }
     public function Query(Request $request)
     {
-        $visiteurs = Visiteur::all();
-        $results = $visiteurs->whereBetween('date', [$request['data']['date_interval'][0], $request['data']['date_interval'][1]]);
+        $results = Visiteur::whereBetween('date', [$request['data']['date_interval'][0], $request['data']['date_interval'][1]])->get();
         return $results;
     }
     public function ExportExcel(Request $request)

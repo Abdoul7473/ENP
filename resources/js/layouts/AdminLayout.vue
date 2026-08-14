@@ -96,7 +96,13 @@ export default {
                     title: "Année Académique",
                     to: "annee.index",
                     disabled: true,
-                    permission : ''
+                    permission: ''
+                },
+                {
+                    icon: "mdi-account",
+                    title: "Entités",
+                    to: "entite.index",
+                    disabled: this.$page.props.annee_encours ? true : false,
                 },
                 {
                     icon: "mdi-cash-register",
@@ -119,12 +125,6 @@ export default {
                     permission: 'compagnie.read'
                 },
                 {
-                    icon: "mdi-account",
-                    title: "Entités",
-                    to: "entite.index",
-                    disabled: this.$page.props.annee_encours ? true : false,
-                },
-                {
                     icon: "mdi-account-group",
                     title: "Personnels",
                     to: "encadreur.index",
@@ -136,7 +136,7 @@ export default {
                     title: "Rapport",
                     to: "rapport.index",
                     disabled: this.$page.props.annee_encours ? true : false,
-                    permission : 'rapport.read'
+                    permission: 'rapport.read'
                 },
             ],
 

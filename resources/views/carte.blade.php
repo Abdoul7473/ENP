@@ -48,7 +48,6 @@
             page-break-inside: avoid;
             border-radius: 5mm;
             background: while;
-            border: 2px solid #e93b0b;
         }
          .carde {
             position: absolute;
