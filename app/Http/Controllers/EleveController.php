@@ -46,8 +46,8 @@ class EleveController extends Controller
             '',
             $image
         );
-        $nom = str_replace(' ', '+', $request->matricule . $request->nom . $request->prenom);
-        $image = str_replace(' ', '+', $image);
+        $nom = str_replace(' ', '', $request->matricule . $request->nom . $request->prenom);
+        $image = str_replace(' ', '', $image);
 
         $nom_fichier = $nom . '.' . $extension;
 
@@ -69,15 +69,21 @@ class EleveController extends Controller
     }
     public function inputFile(Request $request)
     {
-        foreach ($request->photos as $key => $photo) {
-            $eleve = Eleve::where('compagnie_id',$request->compagnie_id)->orderBy('id','asc')->where('id',$key+1)->get()[0];
-            $nomfichier = str_replace(' ', '', $eleve->matricule . $eleve->nom . $eleve->prenom);
-            $eleve->photo = $nomfichier;
-            $eleve->update();
-            $photo->move( 'eleves/', $nomfichier );
-            return redirect()->back()->with('success', 'photos importées avec success!');
+        $eleves = Eleve::where('compagnie_id', $request->compagnie_id)->orderBy('id', 'asc')->get();
+        // dd();
+        $cpp = 0;
+        foreach ($request->photos as $key => $value) {
+            $cpp++;
         }
-        
-        
+        foreach ($eleves as $key => $eleve) {
+            if ($cpp > $key) {
+                $photo = $request->photos[$key];
+                $nomfichier = str_replace(' ', '', $eleve->matricule  . $eleve->prenom . $eleve->nom);
+                $eleve->photo = $nomfichier;
+                $eleve->update();
+                $photo->move( 'eleves/', $nomfichier );
+            }
+        }
+        return redirect()->back()->with('success', 'photos importées avec success!');
     }
 }

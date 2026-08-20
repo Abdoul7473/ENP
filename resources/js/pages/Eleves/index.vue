@@ -1,8 +1,11 @@
 <template>
 <admin-layout>
     <Toolbar Title="Elèves" :breadcrumbs="breadcrumbs">
-
+        <v-progress-linear v-model="knowledge" height="25">
+            <strong>{{ Math.ceil(knowledge) }}%</strong>
+        </v-progress-linear>
     </Toolbar>
+    
     <CustomDataTable :headers="headers" :items="eleves">
         <template v-slot:addBtn>
             <v-btn @click="Import()" class="ma-2" outlined type="button" small color="primary">
@@ -19,14 +22,15 @@
                     <v-icon left>mdi-download</v-icon> éditer les cartes
                 </v-btn>
             </form>
-            <v-btn class="ma-2" outlined type="button" small color="primary" @click="InputPhoto()" download>
+            <!-- <v-btn class="ma-2" outlined type="button" small color="primary" @click="InputPhoto()" download>
                 téléverser les photos
-            </v-btn>
+            </v-btn> -->
 
         </template>
         <template v-slot:item.action="{ item }">
             <BtnAction icon display-icon="mdi-pencil" title="Les élèves" @click="Edit(item)" color="green" small />
             <BtnAction icon display-icon="mdi-eye" title="Détail de l'encadreur" @click="detail(item)" color="primary" small />
+            <BtnAction icon display-icon="mdi-list" title="Autres actions" @click="detail(item)" color="primary" small />
         </template>
     </CustomDataTable>
     <v-dialog v-model="dialog" max-width="600px" persistent>
@@ -45,7 +49,7 @@
             </v-card-actions>
         </v-card>
     </v-dialog>
-     <v-dialog v-model="dialogFiles" max-width="600px" persistent>
+    <v-dialog v-model="dialogFiles" max-width="600px" persistent>
         <v-toolbar dense dark color="primary" class="text-h6"> Importation les photos</v-toolbar>
         <v-card>
             <v-card-text>
@@ -135,7 +139,7 @@ export default {
     data() {
         return {
             items: [],
-            dialogFiles : false,
+            dialogFiles: false,
             dialogDetail: false,
             csrf: null,
             dialog: false,
@@ -145,6 +149,7 @@ export default {
             dialogExecel: false,
             e1: 1,
             steps: 2,
+            knowledge: 50,
             breadcrumbs: [{
                     text: "App",
                     disabled: false,
@@ -192,7 +197,7 @@ export default {
             form: this.$inertia.form({
                 fichier: null,
                 compagnie_id: this.id,
-                photos : []
+                photos: []
             })
         }
 
@@ -201,10 +206,10 @@ export default {
         this.csrf = this.$page.props.csrf_token
     },
     methods: {
-        InputPhoto(){
+        InputPhoto() {
             this.dialogFiles = true
         },
-        Enregistrer(){
+        Enregistrer() {
             this.form.compagnie_id = this.id
             this.form.post(route("eleve.input_file"), {
                 forceFormData: true,
@@ -217,7 +222,7 @@ export default {
                     }
                 },
                 onError: this.$alert.messages
-            })            
+            })
         },
         close() {
             this.dialog = false

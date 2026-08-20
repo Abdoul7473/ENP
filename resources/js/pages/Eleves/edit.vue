@@ -137,10 +137,6 @@ export default {
             ]
         }
     },
-    mounted(){
-        // console.log(this.photo);
-        
-    },
     methods: {
         submit() {
             this.$alert.confirm('Etes-vous sûr ?', "De vouloir modifier cet élève?", () => {

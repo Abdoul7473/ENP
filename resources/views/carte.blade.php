@@ -218,7 +218,7 @@
                     </section>
                     <div style=" text-align: center; margin-left: 40%; margin-top:70px">
                         @if($row->photo)
-                            <img width="110"  src="eleves/{{$row->photo}}" alt=""/>
+                            <img width="120"  src="eleves/{{$row->photo}}" alt=""/>
                         @endif
                     </div>
                 </section>
