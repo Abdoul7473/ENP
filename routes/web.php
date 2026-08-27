@@ -18,6 +18,7 @@ use App\Http\Controllers\HomeConcontentTypetroller;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RapportController;
 
 /*
@@ -94,6 +95,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/rapport/query', [RapportController::class, 'Query'])->name('rapport.query');
     Route::get('/rapport/export', [RapportController::class, 'ExportExcel'])->name('rapport.export');
     Route::get('/rapport/pdf', [RapportController::class, 'GeneratePDF'])->name('rapport.pdf');
+
+    Route::get('/permissionaire/index', [PermissionController::class, 'index'])->name('permissionnaire.index');
+    Route::post('/permissionaire/store', [PermissionController::class, 'store'])->name('permissionnaire.store');
+    Route::get('/permissionaire/pdf/{id}', [PermissionController::class, 'PermissionPdf'])->name('permissionnaire.pdf');
+
 });
 
 

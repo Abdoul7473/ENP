@@ -28,7 +28,8 @@ class PermissionSeeder extends Seeder
         'élève' => 'un élève',
         'entité' => 'une entité',
         'rapport' => 'un rapport',
-        'annee' => 'une année'
+        'annee' => 'une année',
+        'permissionnaire' => 'un permissionnaire'
 
     ];
 

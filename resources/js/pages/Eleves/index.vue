@@ -5,7 +5,7 @@
             <strong>{{ Math.ceil(knowledge) }}%</strong>
         </v-progress-linear>
     </Toolbar>
-    
+
     <CustomDataTable :headers="headers" :items="eleves">
         <template v-slot:addBtn>
             <v-btn @click="Import()" class="ma-2" outlined type="button" small color="primary">
@@ -30,7 +30,7 @@
         <template v-slot:item.action="{ item }">
             <BtnAction icon display-icon="mdi-pencil" title="Les élèves" @click="Edit(item)" color="green" small />
             <BtnAction icon display-icon="mdi-eye" title="Détail de l'encadreur" @click="detail(item)" color="primary" small />
-            <BtnAction icon display-icon="mdi-list" title="Autres actions" @click="detail(item)" color="primary" small />
+            <BtnAction icon display-icon="mdi-call-split" title="Autres actions" @click="OthersActions(item)" color="blue" small />
         </template>
     </CustomDataTable>
     <v-dialog v-model="dialog" max-width="600px" persistent>
@@ -49,6 +49,64 @@
             </v-card-actions>
         </v-card>
     </v-dialog>
+    <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="200" offset-x>
+        <template v-slot:activator="{ on, attrs }">
+            <v-btn color="indigo" dark v-bind="attrs" v-on="on">
+                Menu as Popover
+            </v-btn>
+        </template>
+
+        <v-card>
+            <v-list>
+                <v-list-item>
+                    <v-list-item-avatar>
+                        <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
+                    </v-list-item-avatar>
+
+                    <v-list-item-content>
+                        <v-list-item-title>John Leider</v-list-item-title>
+                        <v-list-item-subtitle>Founder of Vuetify</v-list-item-subtitle>
+                    </v-list-item-content>
+
+                    <v-list-item-action>
+                        <v-btn :class="fav ? 'red--text' : ''" icon @click="fav = !fav">
+                            <v-icon>mdi-heart</v-icon>
+                        </v-btn>
+                    </v-list-item-action>
+                </v-list-item>
+            </v-list>
+
+            <v-divider></v-divider>
+
+            <v-list>
+                <v-list-item>
+                    <v-list-item-action>
+                        <v-switch v-model="message" color="purple"></v-switch>
+                    </v-list-item-action>
+                    <v-list-item-title>Enable messages</v-list-item-title>
+                </v-list-item>
+
+                <v-list-item>
+                    <v-list-item-action>
+                        <v-switch v-model="hints" color="purple"></v-switch>
+                    </v-list-item-action>
+                    <v-list-item-title>Enable hints</v-list-item-title>
+                </v-list-item>
+            </v-list>
+
+            <v-card-actions>
+                <v-spacer></v-spacer>
+
+                <v-btn text @click="menu = false">
+                    Cancel
+                </v-btn>
+                <v-btn color="primary" text @click="menu = false">
+                    Save
+                </v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-menu>
+
     <v-dialog v-model="dialogFiles" max-width="600px" persistent>
         <v-toolbar dense dark color="primary" class="text-h6"> Importation les photos</v-toolbar>
         <v-card>
@@ -147,9 +205,14 @@ export default {
             dialogDetail: false,
             selection: 1,
             dialogExecel: false,
+            dialogOtherActions: false,
             e1: 1,
             steps: 2,
             knowledge: 50,
+            fav: true,
+            menu: false,
+            message: false,
+            hints: true,
             breadcrumbs: [{
                     text: "App",
                     disabled: false,
@@ -261,7 +324,9 @@ export default {
             this.dialogDetail = true
             this.items = item
         },
-
+        OthersActions(item) {
+            this.dialogOtherActions = true
+        }
     }
 }
 </script>

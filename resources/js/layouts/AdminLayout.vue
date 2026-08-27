@@ -132,6 +132,13 @@ export default {
                     permission: 'personnel.read'
                 },
                 {
+                    icon: "mdi-account-group",
+                    title: "Permissionnaires",
+                    to: "permissionnaire.index",
+                    disabled: this.$page.props.annee_encours ? true : false,
+                    permission: 'permissionnaire.read'
+                },
+                {
                     icon: "mdi-database-outline",
                     title: "Rapport",
                     to: "rapport.index",
