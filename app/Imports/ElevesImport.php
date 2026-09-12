@@ -23,7 +23,7 @@ class ElevesImport implements ToModel, WithValidation, WithHeadingRow
    
     public function model(array $row)
     {
-        // dd($this->tableau);
+        // dd($row);
         $annee = Annee::where('statut',1)->first();
         $eleve =  Eleve::create([
             'nom' => $row['nom'],

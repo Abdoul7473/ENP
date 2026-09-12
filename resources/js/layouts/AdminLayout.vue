@@ -1,6 +1,6 @@
 <template>
-<v-app style="background-color: #f5f5f5">
-    <v-navigation-drawer v-model="drawer" app color="primary">
+<v-app style="background-color: #f5f5f5 ;">
+    <v-navigation-drawer v-model="drawer" fixed app color="primary">
         <v-sheet color="secondary" class="pa-4 rounded-tr-xl text-center">
             <v-progress-circular model-value="80" color="primary" :size="100" :width="2" class="">
                 <v-avatar size="85">
@@ -25,6 +25,24 @@
                     </v-list-item-content>
                 </v-list-item>
             </v-list-item-group>
+            <v-list-group no-action>
+                <template v-slot:activator>
+                    <v-list-item-action style="color: white;">
+                        <v-icon>mdi-cog-outline</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content style="color: white;">
+                        <v-list-item-title>
+                            Formations
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </template>
+                <v-list-item v-for="(item, i) in formations" :key="i" @click="goToPage(item.to)" v-permission:any="item.permission">
+                    <v-list-item-action style="color: white;">
+                        <v-icon style="color: white;">{{ item.icon }}</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-title v-text="item.title" style="color: white;"></v-list-item-title>
+                </v-list-item>
+            </v-list-group>
             <v-list-item @click="logout">
                 <v-list-item-action>
                     <v-icon color="white">mdi-exit-to-app</v-icon>
@@ -148,6 +166,19 @@ export default {
             ],
 
             miniVariant: false,
+            formations: [{
+                    icon: "mdi-apps",
+                    title: "Matières",
+                    to: "matiere.index",
+                    disabled: false,
+                },
+                {
+                    icon: "mdi-account",
+                    title: "Corps",
+                    to: "corp.index",
+                    disabled: false
+                },
+            ]
         };
     },
     created() {

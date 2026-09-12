@@ -1,9 +1,7 @@
 <template>
 <admin-layout>
     <Toolbar Title="Elèves" :breadcrumbs="breadcrumbs">
-        <v-progress-linear v-model="knowledge" height="25">
-            <strong>{{ Math.ceil(knowledge) }}%</strong>
-        </v-progress-linear>
+
     </Toolbar>
 
     <CustomDataTable :headers="headers" :items="eleves">
@@ -49,63 +47,6 @@
             </v-card-actions>
         </v-card>
     </v-dialog>
-    <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="200" offset-x>
-        <template v-slot:activator="{ on, attrs }">
-            <v-btn color="indigo" dark v-bind="attrs" v-on="on">
-                Menu as Popover
-            </v-btn>
-        </template>
-
-        <v-card>
-            <v-list>
-                <v-list-item>
-                    <v-list-item-avatar>
-                        <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
-                    </v-list-item-avatar>
-
-                    <v-list-item-content>
-                        <v-list-item-title>John Leider</v-list-item-title>
-                        <v-list-item-subtitle>Founder of Vuetify</v-list-item-subtitle>
-                    </v-list-item-content>
-
-                    <v-list-item-action>
-                        <v-btn :class="fav ? 'red--text' : ''" icon @click="fav = !fav">
-                            <v-icon>mdi-heart</v-icon>
-                        </v-btn>
-                    </v-list-item-action>
-                </v-list-item>
-            </v-list>
-
-            <v-divider></v-divider>
-
-            <v-list>
-                <v-list-item>
-                    <v-list-item-action>
-                        <v-switch v-model="message" color="purple"></v-switch>
-                    </v-list-item-action>
-                    <v-list-item-title>Enable messages</v-list-item-title>
-                </v-list-item>
-
-                <v-list-item>
-                    <v-list-item-action>
-                        <v-switch v-model="hints" color="purple"></v-switch>
-                    </v-list-item-action>
-                    <v-list-item-title>Enable hints</v-list-item-title>
-                </v-list-item>
-            </v-list>
-
-            <v-card-actions>
-                <v-spacer></v-spacer>
-
-                <v-btn text @click="menu = false">
-                    Cancel
-                </v-btn>
-                <v-btn color="primary" text @click="menu = false">
-                    Save
-                </v-btn>
-            </v-card-actions>
-        </v-card>
-    </v-menu>
 
     <v-dialog v-model="dialogFiles" max-width="600px" persistent>
         <v-toolbar dense dark color="primary" class="text-h6"> Importation les photos</v-toolbar>
@@ -184,6 +125,43 @@
             </v-card-actions>
         </v-card>
     </v-dialog>
+    <v-dialog v-model="dialogOtherActions" max-width="800" persistent>
+        <v-card>
+            <v-toolbar dense dark color="primary" class="text-h6"> Autres Actions</v-toolbar>
+            <v-card-text>
+                <br>
+                <div class="invitation-container">
+                    <v-container fluid>
+                        <v-row>
+                            <v-col cols="12" sm="4" md="4">
+                                <v-switch v-model="other_actions.deceder" label="Déceder" color="red" hide-details></v-switch>
+                                <v-switch v-model="other_actions.inapter" label="Inapte" color="red darken-3" hide-details></v-switch>
+                            </v-col>
+                            <v-col cols="12" sm="4" md="4">
+                                <v-switch v-model="other_actions.demissionner" label="Démissioner" color="indigo" hide-details></v-switch>
+                                <v-switch v-model="other_actions.suspendre" label="Suspendre" color="indigo darken-3" hide-details></v-switch>
+                            </v-col>
+                            <v-col cols="12" sm="4" md="4">
+                                <v-switch v-model="other_actions.evader" label="Evader" color="primary" hide-details></v-switch>
+                                <v-switch v-model="other_actions.revoquer" label="Révoquer" color="orange darken-3" hide-details></v-switch>
+                            </v-col>
+                        </v-row>
+
+                        <v-row class="mt-12">
+                            <v-col cols="12" sm="4" md="4">
+
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </div>
+            </v-card-text>
+            <v-card-actions>
+                <v-spacer />
+                <v-btn @click="close()" color="red">Annuler</v-btn>
+                <v-btn @click="Persister()" color="primary">Enregistrer</v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
 </admin-layout>
 </template>
 
@@ -197,6 +175,7 @@ export default {
     data() {
         return {
             items: [],
+            ex11: null,
             dialogFiles: false,
             dialogDetail: false,
             csrf: null,
@@ -261,6 +240,15 @@ export default {
                 fichier: null,
                 compagnie_id: this.id,
                 photos: []
+            }),
+            other_actions: this.$inertia.form({
+                eleve_id: null,
+                deceder: false,
+                evader: false,
+                revoquer: false,
+                demissionner: false,
+                suspendre: false,
+                inapter: false
             })
         }
 
@@ -287,9 +275,29 @@ export default {
                 onError: this.$alert.messages
             })
         },
+        Persister() {
+            this.$alert.confirm('Etes-vous sûr ?', "De vouloir apporter ces modification?", () => {
+
+                this.other_actions.post(route("eleve.updateStatus"), {
+                    onSuccess: () => {
+                        if (this.$page.props.flash.success) {
+                            this.$alert.success(this.$page.props.flash.success)
+                        }
+                        if (this.$page.props.flash.error) {
+                            this.$toast.error(this.$page.props.flash.error)
+                        }
+                        this.close()
+
+                    },
+                    onError: this.$alert.messages
+
+                })
+            })
+        },
         close() {
             this.dialog = false
             this.dialogDetail = false
+            this.dialogOtherActions = false
             this.form.reset()
         },
         reserve() {
@@ -326,6 +334,13 @@ export default {
         },
         OthersActions(item) {
             this.dialogOtherActions = true
+            this.other_actions.eleve_id = item.id
+            this.other_actions.deceder = item.deces
+            this.other_actions.inapter = item.inapte
+            this.other_actions.suspendre = item.suspendu
+            this.other_actions.demissionner = item.demission
+            this.other_actions.evader = item.evade
+            this.other_actions.revoquer = item.revoque
         }
     }
 }

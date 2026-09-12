@@ -14,19 +14,22 @@
                     </v-btn>
                 </v-col>
                 <v-col class="pt-8" cols="4">
-                    <v-text-field v-model="search" prepend-inner-icon="mdi-search-web" single-line outlined dense clearable label="Récherecher" placeholder="Réchercher" class="mx-3"></v-text-field>
+                    <v-text-field v-model="search" prepend-inner-icon="mdi-search-web" single-line outlined dense clearable label="Réchercher" placeholder="Réchercher" class="mx-3"></v-text-field>
                 </v-col>
             </v-row>
         </template>
         <template v-slot:item.loading="{ item }">
         </template>
         <template v-slot:item.action="{ item }">
-             <a :href="route('permissionnaire.pdf', { id: item.id})" target="__blank" title="Imprimer la demande">
+            <a :href="route('permissionnaire.pdf', { id: item.id})" target="__blank" title="Imprimer la demande">
                 <v-icon size="small" class="me-2" icon="mdi-printer" color="info" small>mdi-printer</v-icon>
             </a>
         </template>
-         <template v-slot:item.datedebut="{ item }">
+        <template v-slot:item.datedebut="{ item }">
             {{ formatDate(item.date_debut) }}
+        </template>
+        <template v-slot:item.datefin="{ item }">
+            {{ formatDate(item.date_fin) }}
         </template>
         <template v-slot:item.perm="{ item }">
             {{ item.eleve.matricule }} {{ item.eleve.nom }} {{ item.eleve.prenom }}
@@ -141,21 +144,17 @@ export default {
                     value: 'nombre_jour'
                 },
                 {
-                    text: 'Heure d\'arrivée',
+                    text: 'Heure de retour',
                     value: 'heure_arrive'
                 },
                 {
                     text: 'Lieu',
                     value: 'lieu'
                 },
-                
+
                 {
                     text: 'Motif',
                     value: 'motif'
-                },
-                 {
-                    text: 'Progression',
-                    value: 'loading'
                 },
                 {
                     text: 'Actions ',
@@ -189,12 +188,13 @@ export default {
                         if (this.$page.props.flash.error) {
                             this.$toast.error(this.$page.props.flash.error)
                         }
+                        this.close()
+
                     },
                     onError: this.$alert.messages
-                   
+
                 })
             })
-             this.close()
         },
         create() {
             this.dialog = true
@@ -218,9 +218,9 @@ export default {
 
             return `${day}/${month}/${year}`;
         },
-        progression(item){
+        progression(item) {
             console.log(item);
-            
+
         }
     },
     created() {

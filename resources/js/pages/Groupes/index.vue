@@ -1,9 +1,9 @@
 <template>
 <admin-layout>
-    <Toolbar Title="Entités" :breadcrumbs="breadcrumbs">
+    <Toolbar :Title="'Groupes des élèves ' + corp.nom" :breadcrumbs="breadcrumbs">
 
     </Toolbar>
-    <v-data-table :headers="headers" :items="entites" item-key="name" :search="search" dense class="my-3 pt-3" style="border: 1px solid rgb(245, 134, 52)">
+    <v-data-table :headers="headers" :items="groupes" item-key="name" :search="search" dense class="my-3 pt-3" style="border: 1px solid rgb(245, 134, 52)">
         <template v-slot:top>
             <v-row>
 
@@ -17,34 +17,40 @@
                 </v-col>
             </v-row>
         </template>
-
+        <template v-slot:item.action="{ item }">
+            <!-- <BtnAction icon display-icon="mdi-account-group" title="Groupes" @click="VueGroupe(item)" color="primary" small /> -->
+        </template>
     </v-data-table>
-    <v-dialog v-model="dialog" max-width="600px" scrollable>
+    <v-dialog v-model="dialog" max-width="900px" scrollable>
         <v-card>
-            <v-toolbar dense dark color="primary" class="text-h6">Nouvelle Entité</v-toolbar>
+            <v-toolbar dense dark color="primary" class="text-h6">Nouveau groupe</v-toolbar>
             <div>
                 <v-card-text class="pt-4">
                     <v-row>
-                        <v-col md="12">
+                        <v-col cols="12">
                             <TextField label="Libelle" rules="required" name="Libelle" v-model="form.libelle" required outlined dense color="secondary" autocomplete="false"></TextField>
                         </v-col>
-                        <v-col md="12">
-                            <selectField label="Tutelle"  v-model="form.entite_id" outlined name="Tutelle" color="secondary" :items="entites" item-text="libelle" item-value="id" autocomplete="false" chips></selectField>
+                        <v-col cols="12">
+                            <TextField label="Effectif théorique" type="number" rules="required" name="Effectif théorique" v-model="form.effectif" required outlined dense color="secondary" autocomplete="false"></TextField>
+                        </v-col>
+                        <v-col cols="12">
+                            <selectField label="Elèves" v-model="form.eleves" multiple outlined name="Elèves" color="secondary" :items="eleves" :item-text="item => `${item.matricule} ${item.nom} ${item.prenom}`" item-value="id" autocomplete="false" chips></selectField>
                         </v-col>
                     </v-row>
                 </v-card-text>
+                <v-card-actions class="mt-2">
+                    <v-spacer></v-spacer>
+                    <v-btn dark small type="button" color="error" @click="close()">
+                        <v-icon left>mdi-cancel</v-icon> Annuler
+                    </v-btn>
+                    <v-btn dark small color="green" @click="submit()">
+                        <v-icon left>mdi-check-circle</v-icon> Enregistrer
+                    </v-btn>
+                </v-card-actions>
             </div>
-            <v-card-actions class="mt-2">
-                <v-spacer></v-spacer>
-                <v-btn dark small type="button" color="error" @click="close()">
-                    <v-icon left>mdi-cancel</v-icon> Annuler
-                </v-btn>
-                <v-btn dark small color="green" @click="submit()">
-                    <v-icon left>mdi-check-circle</v-icon> Enregistrer
-                </v-btn>
-            </v-card-actions>
         </v-card>
     </v-dialog>
+
 </admin-layout>
 </template>
 
@@ -54,7 +60,7 @@ export default {
     components: {
         AdminLayout
     },
-    props: ["entites"],
+    props: ["groupes", "eleves","corp","id"],
     data() {
         return {
             dialog: false,
@@ -76,10 +82,8 @@ export default {
                     value: 'libelle'
                 },
                 {
-                    text: 'Tutelle',
-                    align: 'start',
-                    sortable: false,
-                    value: 'entite.libelle',
+                    text: 'Effectif ',
+                    value: 'effectif'
                 },
                 {
                     text: 'Actions ',
@@ -87,36 +91,24 @@ export default {
                 },
             ],
             form: this.$inertia.form({
-                id: null,
+                corp_id : this.id,
                 libelle: null,
-                entite_id: null
-            })
+                effectif: 0,
+                eleves: []
+            }),
         }
 
     },
-    mounted() {
-        // console.log(this.qr);
-
-    },
     methods: {
-        close() {
-            this.dialog = false
-            this.dialogDetail = false
-            this.dialogSignature = false
-            this.form.reset()
-        },
-        reserve() {
-            this.loading = true
-
-            setTimeout(() => (this.loading = false), 2000)
-        },
         creer() {
             this.dialog = true
         },
+        VueGroupe(item) {
+            this.$inertia.get(route('groupe.index', item.id))
+        },
         submit() {
-            this.$alert.confirm('Etes-vous sûr ?', "De vouloir enrgistrer cette entité?", () => {
-
-                this.form.post(route("entite.store"), {
+            this.$alert.confirm('Etes-vous sûr ?', "Vous allez enregistrer ce groupe", () => {
+                this.form.post(route("groupe.store"), {
                     onSuccess: () => {
                         if (this.$page.props.flash.success) {
                             this.$alert.success(this.$page.props.flash.success)
@@ -125,46 +117,17 @@ export default {
                             this.$toast.error(this.$page.props.flash.error)
                         }
                         this.close()
-                        this.form.reset();
+
                     },
                     onError: this.$alert.messages
 
-                });
+                })
             })
         },
-        ActiverOrCloturer(item, type) {
-            this.form.id = item.id
-            this.form.type = type
-            console.log(type);
+        close(){
+            this.dialog = false
+        }
 
-            const message = type == 2 ? "De vouloir clôturer cette année?" : "De vouloir activer cette année?"
-            this.$alert.confirm('Etes-vous sûr ?', message, () => {
-
-                this.form.post(route("annee.cloture"), {
-                    onSuccess: () => {
-                        if (this.$page.props.flash.success) {
-                            this.$alert.success(this.$page.props.flash.success)
-                        }
-                        if (this.$page.props.flash.error) {
-                            this.$toast.error(this.$page.props.flash.error)
-                        }
-                        this.close()
-                        this.form.reset();
-                    },
-                    onError: this.$alert.messages
-
-                });
-            })
-        },
-        formatTime(dateString) {
-            const date = new Date(dateString);
-            let options = {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-            };
-            return date.toLocaleDateString('fr-FR', options);
-        },
     },
     created() {
         this.headers.forEach((item, i, items) => {

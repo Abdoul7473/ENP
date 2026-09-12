@@ -19,7 +19,14 @@ class Eleve extends Model
         'date_naiss',
         'lieu_naiss',
         'groupe_sanguin',
-        'compagnie_id'
+        'compagnie_id',
+        'deces',
+        'inapte',
+        'demission',
+        'suspendu',
+        'revoque',
+        'evade',
+        'groupe_id'
     ];
      public function compagnie() {
         return $this->belongsTo(Compagnie::class);

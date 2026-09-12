@@ -18,6 +18,7 @@ use App\Http\Controllers\HomeConcontentTypetroller;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RapportController;
 
@@ -78,6 +79,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/eleve/import', [EleveController::class, 'import'])->name('eleve.import');
     Route::post('/eleve/update', [EleveController::class, 'update'])->name('eleve.update');
     Route::post('/eleve/inputFile', [EleveController::class, 'inputFile'])->name('eleve.input_file');
+    Route::post('/eleve/updateStatus', [EleveController::class, 'updateStatus'])->name('eleve.updateStatus');
     
     Route::get('/situation/create/{id}', [SituationController::class, 'create'])->name('situation.create');
     Route::get('/situation/index/{id}', [SituationController::class, 'index'])->name('situation.index');
@@ -99,6 +101,21 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/permissionaire/index', [PermissionController::class, 'index'])->name('permissionnaire.index');
     Route::post('/permissionaire/store', [PermissionController::class, 'store'])->name('permissionnaire.store');
     Route::get('/permissionaire/pdf/{id}', [PermissionController::class, 'PermissionPdf'])->name('permissionnaire.pdf');
+
+    Route::get('/matiere/index', [ModuleController::class, 'index'])->name('matiere.index');
+    Route::post('/matiere/store', [ModuleController::class, 'store'])->name('matiere.store');
+
+    Route::get('/corp/index', [ModuleController::class, 'corp_index'])->name('corp.index');
+
+    Route::get('/groupe/index/{id}', [ModuleController::class, 'groupe_index'])->name('groupe.index');
+    Route::post('/groupe/store', [ModuleController::class, 'groupe_store'])->name('groupe.store');
+
+    Route::get('/module/index/{id}', [ModuleController::class, 'module_index'])->name('module.index');
+    Route::post('/module/store', [ModuleController::class, 'module_store'])->name('module.store');
+
+    Route::get('/enseingnant.index', [ModuleController::class, 'ensengnant_index'])->name('ensengnant.index');
+    // Route::post('/module/store', [ModuleController::class, 'module_store'])->name('module.store');
+
 
 });
 

@@ -50,7 +50,7 @@ class PermissionController extends Controller
     public function PermissionPdf($id){
         $gmtDate = Carbon::now( 'GMT' );
         $date = $gmtDate->format( 'd/m/Y' );
-        $perm = Perm::where('id',$id)->with('eleve')->get()[0];
+        $perm = Perm::where('id',$id)->with('eleve.compagnie.corp')->get()[0];
         $data = [
             'permission' => $perm,
             'date' => $date

@@ -86,4 +86,16 @@ class EleveController extends Controller
         }
         return redirect()->back()->with('success', 'photos importées avec success!');
     }
+    public function updateStatus(Request $request){
+        // dd($request);
+        $eleve = Eleve::where('id',$request->eleve_id)->first();
+        $eleve->demission = $request->demissionner;
+        $eleve->deces = $request->deceder;
+        $eleve->evade = $request->evader;
+        $eleve->revoque = $request->revoquer;
+        $eleve->inapte = $request->inapter;
+        $eleve->suspendu = $request->suspendre;
+        $eleve->update();
+        return redirect()->back()->with('success', 'Modification apportée avec success!');
+    }
 }

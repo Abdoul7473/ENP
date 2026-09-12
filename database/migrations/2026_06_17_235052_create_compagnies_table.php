@@ -43,6 +43,15 @@ class CreateCompagniesTable extends Migration
                 ->references('id')->on('annees');
             $table->timestamps();
         });
+        Schema::create('groupes', function (Blueprint $table) {
+            $table->id();
+            $table->string('libelle')->nullable();
+            $table->foreignIdFor(\App\Models\Corp::class)->nullable()
+                ->index()
+                ->references('id')->on('corps');
+            $table->integer('effectif')->nullable();
+            $table->timestamps();
+        });
 
         Schema::create('eleves', function (Blueprint $table) {
             $table->id();
@@ -54,12 +63,21 @@ class CreateCompagniesTable extends Migration
             $table->string("email")->nullable();
             $table->string("sexe")->nullable();
             $table->integer("tel")->nullable();
+            $table->boolean("deces")->default(0)->nullable();
+            $table->boolean("inapte")->default(0)->nullable();
+            $table->boolean("demission")->default(0)->nullable();
+            $table->boolean("suspendu")->default(0)->nullable();
+            $table->boolean("revoque")->default(0)->nullable();
+            $table->boolean("evade")->default(0)->nullable();   
             $table->string('lieu_naiss')->nullable();
             $table->string('groupe_sanguin')->nullable();
             $table->string('photo')->nullable();
             $table->foreignIdFor(\App\Models\Compagnie::class)->nullable()
                 ->index()
                 ->references('id')->on('compagnies');
+            $table->foreignIdFor(\App\Models\Groupe::class)->nullable()
+                ->index()
+                ->references('id')->on('groupes');
             $table->timestamps();
         });
         

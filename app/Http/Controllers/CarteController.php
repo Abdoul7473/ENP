@@ -86,7 +86,7 @@ class CarteController extends Controller
     }
     public function scanner(Request $request)
 {
-    $qr_code = $request->qr_code;
+    $qr_code = $request->id;
 
     $verif = Numero::where('numero', $qr_code)->first();
 
@@ -114,7 +114,7 @@ class CarteController extends Controller
     public function detail(Request $request,$id){
         $t = Numero::where('lot_id',$id)->get();
         $cartes = $t->map(function($item){ 
-            return [ 
+            return [    
                 'qr' => (string) \SimpleSoftwareIO\QrCode\Facades\QrCode::size(20)->generate($item->numero) ]; 
                 });
         return Inertia::render('cartes/detail', [
