@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Corp;
 use App\Models\Eleve;
+use App\Models\Enseignant;
 use App\Models\Groupe;
 use App\Models\Matiere;
 use App\Models\Modulo;
@@ -80,7 +81,21 @@ class ModuleController extends Controller
         ]);
         return redirect()->back()->with('success','Affectation éffectué');
     }
-    public function enseignant(Request $request){
-        return Inertia::render('Enseignant/index',[])
+    public function enseignant_index(Request $request){
+        $ensengnant = Enseignant::all();
+        return Inertia::render('Enseignant/index',[
+            'enseignants' => $ensengnant
+        ]);
+    }
+    public function enseignant_store(Request $request){
+         Enseignant::create([
+            'nom' => $request->nom,
+            'prenom' => $request->prenom,
+            'date_naiss' => $request->date_naiss,
+            'lieu_naiss' => $request->lieu_naiss,
+            'sexe' => $request->sexe,
+            'telephone' => $request->telephone
+        ]);
+        return redirect()->back()->with('success','Enseignant enregistré ');
     }
 }

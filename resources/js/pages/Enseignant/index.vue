@@ -1,12 +1,11 @@
 <template>
 <admin-layout>
-    <Toolbar :Title="'Groupes des élèves ' + corp.nom" :breadcrumbs="breadcrumbs">
+    <Toolbar Title="Enseignants" :breadcrumbs="breadcrumbs">
 
     </Toolbar>
-    <v-data-table :headers="headers" :items="groupes" item-key="name" :search="search" dense class="my-3 pt-3" style="border: 1px solid rgb(245, 134, 52)">
+    <v-data-table :headers="headers" :items="enseignants" item-key="name" :search="search" dense class="my-3 pt-3" style="border: 1px solid rgb(245, 134, 52)">
         <template v-slot:top>
             <v-row>
-
                 <v-col cols="8" class="pt-8">
                     <v-btn @click="creer()" small color="primary">
                         <v-icon left>mdi-plus-circle</v-icon> Ajouter
@@ -17,24 +16,34 @@
                 </v-col>
             </v-row>
         </template>
-        <template v-slot:item.action="{ item }">
-            <BtnAction icon display-icon="mdi-domain" title="Modules enseignés" @click="VueModule(item)" color="primary" small />
-        </template>
+        <!-- <template v-slot:item.action="{ item }">
+            <BtnAction icon display-icon="mdi-account-group" title="Groupes"  @click="VueGroupe(item)" color="primary" small />
+            <BtnAction icon display-icon="mdi-antenna" title="Matières"  @click="VueModule(item)" color="blue" small />
+        </template> -->
     </v-data-table>
     <v-dialog v-model="dialog" max-width="900px" scrollable>
         <v-card>
-            <v-toolbar dense dark color="primary" class="text-h6">Nouveau groupe</v-toolbar>
+            <v-toolbar dense dark color="primary" class="text-h6">Nouveau enseignant</v-toolbar>
             <div>
                 <v-card-text class="pt-4">
                     <v-row>
-                        <v-col cols="12">
-                            <TextField label="Libelle" rules="required" name="Libelle" v-model="form.libelle" required outlined dense color="secondary" autocomplete="false"></TextField>
+                        <v-col cols="12" sm="6">
+                            <TextField label="Nom" rules="required" name="Nom" v-model="form.nom" required outlined dense color="secondary" autocomplete="false"></TextField>
                         </v-col>
-                        <v-col cols="12">
-                            <TextField label="Effectif théorique" type="number" rules="required" name="Effectif théorique" v-model="form.effectif" required outlined dense color="secondary" autocomplete="false"></TextField>
+                        <v-col cols="12" sm="6">
+                            <TextField label="Prénom" rules="required" name="Prénom" v-model="form.prenom" required outlined dense color="secondary" autocomplete="false"></TextField>
                         </v-col>
-                        <v-col cols="12">
-                            <selectField label="Elèves" v-model="form.eleves" multiple outlined name="Elèves" color="secondary" :items="eleves" :item-text="item => `${item.matricule} ${item.nom} ${item.prenom}`" item-value="id" autocomplete="false" chips></selectField>
+                        <v-col cols="12" sm="6">
+                            <selectField label="Sexes" required v-model="form.sexe" outlined name="Sexe" color="secondary" :items="sexes" item-text="name" item-value="id" autocomplete="false" chips></selectField>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                            <TextField label="Téléphone" type="number" name="Téléphone" v-model="form.telephone" outlined dense color="secondary" autocomplete="false"></TextField>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                            <TextField label="Date de naissance" type="date" name="Date de naissance" v-model="form.date_naiss" outlined dense color="secondary" autocomplete="false"></TextField>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                            <TextField label="Lieu de naissance" name="Lieu de naissance" v-model="form.lieu_naiss" outlined dense color="secondary" autocomplete="false"></TextField>
                         </v-col>
                     </v-row>
                 </v-card-text>
@@ -50,7 +59,6 @@
             </div>
         </v-card>
     </v-dialog>
-
 </admin-layout>
 </template>
 
@@ -60,7 +68,7 @@ export default {
     components: {
         AdminLayout
     },
-    props: ["groupes", "eleves","corp","id"],
+    props: ["enseignants"],
     data() {
         return {
             dialog: false,
@@ -76,14 +84,38 @@ export default {
                     href: "/home",
                 },
             ],
-            selectedMonth: null,
-            headers: [{
-                    text: 'Libelle',
-                    value: 'libelle'
+            sexes: [{
+                    'id': 'Masculin',
+                    'name': 'Masculin'
                 },
                 {
-                    text: 'Effectif ',
-                    value: 'effectif'
+                    'id': 'Féminin',
+                    'name': 'Féminin'
+                }
+            ],
+            headers: [{
+                    text: 'Nom',
+                    value: 'nom'
+                },
+                {
+                    text: 'Prénom',
+                    value: 'prenom'
+                },
+                {
+                    text: 'Sexe',
+                    value: 'sexe'
+                },
+                {
+                    text: 'Téléphone',
+                    value: 'telephone'
+                },
+                {
+                    text: 'Date de naissance',
+                    value: 'date_naiss'
+                },
+                {
+                    text: 'Lieu de naissance',
+                    value: 'lieu_naiss'
                 },
                 {
                     text: 'Actions ',
@@ -91,10 +123,12 @@ export default {
                 },
             ],
             form: this.$inertia.form({
-                corp_id : this.id,
-                libelle: null,
-                effectif: 0,
-                eleves: []
+                nom: null,
+                prenom: null,
+                date_naiss: null,
+                lieu_naiss: null,
+                telephone: null,
+                sexe: null
             }),
         }
 
@@ -103,12 +137,9 @@ export default {
         creer() {
             this.dialog = true
         },
-        VueModule(item) {
-            this.$inertia.get(route('enseignement.index', item.id))
-        },
         submit() {
-            this.$alert.confirm('Etes-vous sûr ?', "Vous allez enregistrer ce groupe", () => {
-                this.form.post(route("groupe.store"), {
+            this.$alert.confirm('Etes-vous sûr ?', "Vous allez enregistrer cet enseignant", () => {
+                this.form.post(route("enseignant.store"), {
                     onSuccess: () => {
                         if (this.$page.props.flash.success) {
                             this.$alert.success(this.$page.props.flash.success)
@@ -116,18 +147,16 @@ export default {
                         if (this.$page.props.flash.error) {
                             this.$toast.error(this.$page.props.flash.error)
                         }
-                        this.close()
-
                     },
                     onError: this.$alert.messages
-
                 })
+                this.close()
             })
         },
-        close(){
+        close() {
             this.dialog = false
+            this.form.reset()
         }
-
     },
     created() {
         this.headers.forEach((item, i, items) => {

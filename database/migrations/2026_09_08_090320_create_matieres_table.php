@@ -34,12 +34,13 @@ class CreateMatieresTable extends Migration
 
         Schema::create('avancements', function (Blueprint $table) {
             $table->id();
+            $table->date('date')->nullable();
             $table->string('nombre_heure')->nullable();
             $table->string('objectif_general')->nullable();
             $table->string('objectif_specific')->nullable();
             $table->string('heure_arrive')->nullable();
             $table->string('heure_depart')->nullable();
-            $table->string('coefficient')->nullable();
+            $table->string('progression')->nullable();
             $table->foreignIdFor(\App\Models\Modulo::class)->nullable()
                 ->index()
                 ->references('id')->on('modulos');
@@ -53,6 +54,7 @@ class CreateMatieresTable extends Migration
             $table->date('date_naiss')->nullable();
             $table->string('lieu_naiss')->nullable();
             $table->string('telephone')->nullable();
+            $table->string('sexe')->nullable();
             $table->timestamps();
         });
 

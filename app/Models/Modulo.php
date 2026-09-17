@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Modulo extends Model
 {
@@ -17,5 +18,9 @@ class Modulo extends Model
     ];
     public function matiere() {
         return $this->belongsTo(Matiere::class);
+    }
+     public function avancements(): HasMany
+    {
+        return $this->hasMany(Avancement::class);
     }
 }

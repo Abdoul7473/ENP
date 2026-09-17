@@ -14,4 +14,7 @@ class Groupe extends Model
         'effectif',
         'corp_id'
     ];
+    public function corp() {
+        return $this->belongsTo(Corp::class);
+    }
 }

@@ -46,7 +46,7 @@
                     </v-row>
                 </v-card-text>
             </div>
-            <v-card-actions class="mt-2">
+            <v-card-actions >
                 <v-spacer></v-spacer>
                 <v-btn dark small type="button" color="error" @click="close">
                     <v-icon left>mdi-cancel</v-icon>

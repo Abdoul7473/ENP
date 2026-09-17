@@ -18,6 +18,7 @@ use App\Http\Controllers\HomeConcontentTypetroller;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\EnseignementController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RapportController;
@@ -113,8 +114,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/module/index/{id}', [ModuleController::class, 'module_index'])->name('module.index');
     Route::post('/module/store', [ModuleController::class, 'module_store'])->name('module.store');
 
-    Route::get('/enseingnant.index', [ModuleController::class, 'ensengnant_index'])->name('ensengnant.index');
-    // Route::post('/module/store', [ModuleController::class, 'module_store'])->name('module.store');
+    Route::get('/enseignant/index', [ModuleController::class, 'enseignant_index'])->name('enseignant.index');
+    Route::post('/enseignant/store', [ModuleController::class, 'enseignant_store'])->name('enseignant.store');
+
+    Route::get('/enseignement/index/@à&é_è_{id}_é_é&à@', [EnseignementController::class, 'enseignement_index'])->name('enseignement.index');
+    Route::post('/enseignement/store', [EnseignementController::class, 'enseignement_store'])->name('enseignement.store');
 
 
 });

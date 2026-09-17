@@ -178,6 +178,12 @@ export default {
                     to: "corp.index",
                     disabled: false
                 },
+                {
+                    icon: "mdi-account-group",
+                    title: "Enseignants",
+                    to: "enseignant.index",
+                    disabled: false
+                },
             ]
         };
     },

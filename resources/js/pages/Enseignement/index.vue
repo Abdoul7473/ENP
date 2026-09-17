@@ -1,12 +1,11 @@
 <template>
 <admin-layout>
-    <Toolbar :Title="'Groupes des élèves ' + corp.nom" :breadcrumbs="breadcrumbs">
+    <Toolbar :Title="'Modules enseignés dans le ' + groupe.libelle + ' des éléves ' + groupe.corp?.nom" :breadcrumbs="breadcrumbs">
 
     </Toolbar>
-    <v-data-table :headers="headers" :items="groupes" item-key="name" :search="search" dense class="my-3 pt-3" style="border: 1px solid rgb(245, 134, 52)">
+    <v-data-table :headers="headers" :items="enseignements" item-key="name" :search="search" dense class="my-3 pt-3" style="border: 1px solid rgb(245, 134, 52)">
         <template v-slot:top>
             <v-row>
-
                 <v-col cols="8" class="pt-8">
                     <v-btn @click="creer()" small color="primary">
                         <v-icon left>mdi-plus-circle</v-icon> Ajouter
@@ -18,23 +17,29 @@
             </v-row>
         </template>
         <template v-slot:item.action="{ item }">
-            <BtnAction icon display-icon="mdi-domain" title="Modules enseignés" @click="VueModule(item)" color="primary" small />
+            <!-- <BtnAction icon display-icon="mdi-account-group" title="Groupes" @click="VueGroupe(item)" color="primary" small />
+            <BtnAction icon display-icon="mdi-antenna" title="Matières" @click="VueModule(item)" color="blue" small /> -->
+        </template>
+        <template v-slot:item.enseignant="{ item }">
+            <v-chip label>{{ item.enseignant.nom }} {{ item.enseignant.prenom }}</v-chip>
+        </template>
+        <template v-slot:item.avancement="{ item }">
+            <v-progress-linear :value="Avancement(item)" :color="GetColor(Avancement(item))" height="20" striped>
+                <strong>{{ Math.ceil(Avancement(item)) }}%</strong>
+            </v-progress-linear>
         </template>
     </v-data-table>
-    <v-dialog v-model="dialog" max-width="900px" scrollable>
+    <v-dialog v-model="dialog" max-width="600px" scrollable>
         <v-card>
-            <v-toolbar dense dark color="primary" class="text-h6">Nouveau groupe</v-toolbar>
+            <v-toolbar dense dark color="primary" class="text-h6">Nouveau enseignement</v-toolbar>
             <div>
                 <v-card-text class="pt-4">
                     <v-row>
                         <v-col cols="12">
-                            <TextField label="Libelle" rules="required" name="Libelle" v-model="form.libelle" required outlined dense color="secondary" autocomplete="false"></TextField>
+                            <selectField label="Matières" v-model="form.module_id" outlined name="Matières" color="secondary" :items="modules" :item-text="item => `${item.matiere.libelle}`" item-value="id" autocomplete="false" chips></selectField>
                         </v-col>
                         <v-col cols="12">
-                            <TextField label="Effectif théorique" type="number" rules="required" name="Effectif théorique" v-model="form.effectif" required outlined dense color="secondary" autocomplete="false"></TextField>
-                        </v-col>
-                        <v-col cols="12">
-                            <selectField label="Elèves" v-model="form.eleves" multiple outlined name="Elèves" color="secondary" :items="eleves" :item-text="item => `${item.matricule} ${item.nom} ${item.prenom}`" item-value="id" autocomplete="false" chips></selectField>
+                            <selectField label="Enseignants" v-model="form.enseignant_id" outlined name="Enseignants" color="secondary" :items="enseignants" :item-text="item => `${item.nom} ${item.prenom}`" item-value="id" autocomplete="false" chips></selectField>
                         </v-col>
                     </v-row>
                 </v-card-text>
@@ -50,7 +55,6 @@
             </div>
         </v-card>
     </v-dialog>
-
 </admin-layout>
 </template>
 
@@ -60,7 +64,7 @@ export default {
     components: {
         AdminLayout
     },
-    props: ["groupes", "eleves","corp","id"],
+    props: ["enseignements", "groupe", "id", "modules", "enseignants"],
     data() {
         return {
             dialog: false,
@@ -76,14 +80,17 @@ export default {
                     href: "/home",
                 },
             ],
-            selectedMonth: null,
             headers: [{
-                    text: 'Libelle',
-                    value: 'libelle'
+                    text: 'Matière',
+                    value: 'modulo.matiere.libelle'
                 },
                 {
-                    text: 'Effectif ',
-                    value: 'effectif'
+                    text: 'Enseignant',
+                    value: 'enseignant'
+                },
+                {
+                    text: 'Avancement (%)',
+                    value: 'avancement'
                 },
                 {
                     text: 'Actions ',
@@ -91,10 +98,9 @@ export default {
                 },
             ],
             form: this.$inertia.form({
-                corp_id : this.id,
-                libelle: null,
-                effectif: 0,
-                eleves: []
+                module_id: null,
+                enseignant_id: null,
+                groupe_id: this.id
             }),
         }
 
@@ -103,12 +109,9 @@ export default {
         creer() {
             this.dialog = true
         },
-        VueModule(item) {
-            this.$inertia.get(route('enseignement.index', item.id))
-        },
         submit() {
-            this.$alert.confirm('Etes-vous sûr ?', "Vous allez enregistrer ce groupe", () => {
-                this.form.post(route("groupe.store"), {
+            this.$alert.confirm('Etes-vous sûr ?', "De vouloir faire cet enregistrement", () => {
+                this.form.post(route("enseignement.store"), {
                     onSuccess: () => {
                         if (this.$page.props.flash.success) {
                             this.$alert.success(this.$page.props.flash.success)
@@ -124,12 +127,29 @@ export default {
                 })
             })
         },
-        close(){
-            this.dialog = false
+        Avancement(item) {
+            let horaire_total = parseInt(item.modulo.horaire)
+            let somme_horaire = item.modulo?.avancements?.reduce((acc, item) => acc + parseInt(item.nombre_heure), 0)
+            let pourcentage = (somme_horaire * 100) / horaire_total
+            return pourcentage
+        },
+        GetColor(item){
+            if (item <=25){
+                return 'red'
+            }
+            if (item >25 && item<=50){
+                return 'orange'
+            }
+            if (item>50 && item <=75){
+                return 'green'
+            }
+            if(item <= 100){
+                return 'blue'
+            }
         }
-
     },
     created() {
+
         this.headers.forEach((item, i, items) => {
             if (i === 0) {
                 item.class = 'primary white--text rounded-l-xl'
