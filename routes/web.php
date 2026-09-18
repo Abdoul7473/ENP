@@ -120,6 +120,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/enseignement/index/@à&é_è_{id}_é_é&à@', [EnseignementController::class, 'enseignement_index'])->name('enseignement.index');
     Route::post('/enseignement/store', [EnseignementController::class, 'enseignement_store'])->name('enseignement.store');
 
+    Route::get('/avancement/index/@à&é_è_{id}_é_é&à@', [EnseignementController::class, 'avancement_index'])->name('avancement.index');
+    Route::get('/avancement/create/@à&é_è_{id}_é_é&à@', [EnseignementController::class, 'avancement_create'])->name('avancement.create');
+    Route::post('/avancement/store', [EnseignementController::class, 'avancement_store'])->name('avancement.store');
+
+    Route::get('/evaluations/index/@à&é_è_{id}_é_é&à@', [EnseignementController::class, 'evaluation_index'])->name('evaluation.index');
+    Route::get('/note/index/@à&é_è_{id}_é_é&à@', [EnseignementController::class, 'note_index'])->name('note.index');
 
 });
 

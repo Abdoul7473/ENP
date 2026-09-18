@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Avancement;
 use App\Models\Enseignant;
 use App\Models\EnseignantGroupeModulo;
+use App\Models\Evaluation;
 use App\Models\Groupe;
 use App\Models\Modulo;
 use Illuminate\Http\Request;
@@ -15,7 +17,7 @@ class EnseignementController extends Controller
         $enseignants = Enseignant::all();
         $groupe = Groupe::where('id',$id)->with('corp')->get()[0];
         $modules = Modulo::with('matiere')->where('corp_id',$groupe->corp_id)->get();
-        $enseignements = EnseignantGroupeModulo::with('enseignant','modulo.matiere','modulo.avancements')->where('groupe_id',$id)->get();
+        $enseignements = EnseignantGroupeModulo::with('enseignant','modulo.matiere','avancements')->where('groupe_id',$id)->get();
         return Inertia::render('Enseignement/index',[
             'enseignements' => $enseignements,
             'groupe' => $groupe,
@@ -31,5 +33,46 @@ class EnseignementController extends Controller
             'enseignant_id' => $request->enseignant_id
         ]);
         return redirect()->route('enseignement.index',$request->groupe_id)->with('success','Enregistrement effectué');
+    }
+    public function avancement_index(Request $request,$id){
+        $avancements = Avancement::where('enseignant_groupe_modulo_id',$id)->get();
+        $enseignement = EnseignantGroupeModulo::with('modulo.matiere')->where('id',$id)->get()[0];
+        return Inertia::render('Avancement/index',[
+            'avancements' => $avancements,
+            'enseignement' => $enseignement,
+            'id' => $id
+        ]);
+    }
+    public function avancement_create(Request $request,$id){
+        return Inertia::render('Avancement/create',[
+                'id' => $id
+        ]);
+    }
+    public function avancement_store(Request $request){
+        Avancement::create([
+             'date' => $request->date,
+            'heure_depart' => $request->heure_depart,
+            'heure_arrive' => $request->heure_arrive,
+            'objectif_general' => $request->objectif_general,
+            'objectif_specific' => $request->objectif_specific,
+            'enseignant_groupe_modulo_id' => $request->id,
+            'progression'=> $request->progression,
+            'nombre_heure' => $request->nombre_heure
+        ]);
+        return redirect()->route('avancement.index',$request->id)->with('success','Avancement crée');
+    }
+    public function evaluation_index(Request $request,$id){
+        $evaluations = Evaluation::with('enseignant_groupe_modulo.modulo.matiere')->whereHas('enseignant_groupe_modulo',function ($query) use($id){
+            $query->where('groupe_id',$id);
+        })->get();
+        return Inertia::render('Evaluation/index',[
+            'evaluations' => $evaluations
+        ]);
+    }
+    public function note_index(Request $request,$id){
+        $notes = [];
+        return Inertia::render('Note/index',[
+            'notes' => $notes
+        ]);
     }
 }

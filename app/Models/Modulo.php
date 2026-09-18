@@ -19,8 +19,5 @@ class Modulo extends Model
     public function matiere() {
         return $this->belongsTo(Matiere::class);
     }
-     public function avancements(): HasMany
-    {
-        return $this->hasMany(Avancement::class);
-    }
+     
 }

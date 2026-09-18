@@ -16,8 +16,8 @@
             </v-row>
         </template>
         <template v-slot:item.action="{ item }">
-            <BtnAction icon display-icon="mdi-account-group" title="Groupes"  @click="VueGroupe(item)" color="primary" small />
             <BtnAction icon display-icon="mdi-antenna" title="Matières"  @click="VueModule(item)" color="blue" small />
+            <BtnAction icon display-icon="mdi-account-group" title="Groupes"  @click="VueGroupe(item)" color="primary" small />
         </template>
     </v-data-table>
 </admin-layout>

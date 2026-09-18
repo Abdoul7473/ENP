@@ -19,6 +19,7 @@
         </template>
         <template v-slot:item.action="{ item }">
             <BtnAction icon display-icon="mdi-domain" title="Modules enseignés" @click="VueModule(item)" color="primary" small />
+            <BtnAction icon display-icon="mdi-access-point" title="Evaluations" @click="VueEvaluation(item)" color="blue" small />
         </template>
     </v-data-table>
     <v-dialog v-model="dialog" max-width="900px" scrollable>
@@ -105,6 +106,9 @@ export default {
         },
         VueModule(item) {
             this.$inertia.get(route('enseignement.index', item.id))
+        },
+        VueEvaluation(item) {
+            this.$inertia.get(route('evaluation.index', item.id))
         },
         submit() {
             this.$alert.confirm('Etes-vous sûr ?', "Vous allez enregistrer ce groupe", () => {

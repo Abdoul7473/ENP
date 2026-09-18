@@ -32,21 +32,6 @@ class CreateMatieresTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('avancements', function (Blueprint $table) {
-            $table->id();
-            $table->date('date')->nullable();
-            $table->string('nombre_heure')->nullable();
-            $table->string('objectif_general')->nullable();
-            $table->string('objectif_specific')->nullable();
-            $table->string('heure_arrive')->nullable();
-            $table->string('heure_depart')->nullable();
-            $table->string('progression')->nullable();
-            $table->foreignIdFor(\App\Models\Modulo::class)->nullable()
-                ->index()
-                ->references('id')->on('modulos');
-            $table->timestamps();
-        });
-
         Schema::create('enseignants', function (Blueprint $table) {
             $table->id();
             $table->string('nom')->nullable();
@@ -71,19 +56,40 @@ class CreateMatieresTable extends Migration
                 ->references('id')->on('modulos');
             $table->timestamps();
         });
+        Schema::create('avancements', function (Blueprint $table) {
+            $table->id();
+            $table->date('date')->nullable();
+            $table->string('nombre_heure')->nullable();
+            $table->string('objectif_general')->nullable();
+            $table->string('objectif_specific')->nullable();
+            $table->string('heure_arrive')->nullable();
+            $table->string('heure_depart')->nullable();
+            $table->string('progression')->nullable();
+            $table->foreignIdFor(\App\Models\EnseignantGroupeModulo::class)->nullable()
+                ->index()
+                ->references('id')->on('enseignant_groupe_modulos');
+            $table->timestamps();
+        });
 
-        // Schema::create('evaluations', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->date('date_evaluation')->nullable();
-        //     $table->foreignIdFor(\App\Models\Modulo::class)->nullable()
-        //         ->index()
-        //         ->references('id')->on('modulos');
-        //     $table->json('assistants')->nullable();
-        //     $table->foreignIdFor(\App\Models\Modulo::class)->nullable()
-        //         ->index()
-        //         ->references('id')->on('modulos');
-        //     $table->timestamps();
-        // });
+        Schema::create('evaluations', function (Blueprint $table) {
+            $table->id();
+            $table->date('date_evaluation')->nullable();
+            $table->json('assistants')->nullable();
+            $table->foreignIdFor(\App\Models\EnseignantGroupeModulo::class)->nullable()
+                ->index()
+                ->references('id')->on('enseignant_groupe_modulos');
+            $table->timestamps();
+        });
+        Schema::create('notes', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(\App\Models\Evaluation::class)->nullable()
+                ->index()
+                ->references('id')->on('evaluations');
+            $table->foreignIdFor(\App\Models\Eleve::class)->nullable()
+                ->index()
+                ->references('id')->on('eleves');
+            $table->timestamps();
+        });
     }
 
     /**
