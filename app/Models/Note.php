@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Note extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'id',
+        'note',
+        'eleve_id',
+        'evaluation_id',
+    ];
+    public function eleve() {
+        return $this->belongsTo(Eleve::class);
+    }
 }

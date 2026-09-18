@@ -34,12 +34,13 @@ class ModuleController extends Controller
         ]);
     }
     public function groupe_index(Request $request, $id){
-        $groupes = Groupe::all();
+        $groupes = Groupe::with('eleves')->where('corp_id',$id)->get();
         $corp = Corp::find($id);
         $eleves = Eleve::whereHas('compagnie',function($query) use ($id){
             $query->where('corp_id',$id);
         })->get();
         // dd($eleves);
+        
         return Inertia::render('Groupes/index',[
             'corp' => $corp,
             'groupes' => $groupes,

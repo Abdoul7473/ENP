@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Avancement;
+use App\Models\Eleve;
 use App\Models\Enseignant;
 use App\Models\EnseignantGroupeModulo;
 use App\Models\Evaluation;
 use App\Models\Groupe;
 use App\Models\Modulo;
+use App\Models\Note;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -65,14 +67,36 @@ class EnseignementController extends Controller
         $evaluations = Evaluation::with('enseignant_groupe_modulo.modulo.matiere')->whereHas('enseignant_groupe_modulo',function ($query) use($id){
             $query->where('groupe_id',$id);
         })->get();
+        $groupe = Groupe::find($id);
         return Inertia::render('Evaluation/index',[
-            'evaluations' => $evaluations
+            'evaluations' => $evaluations,
+            'groupe' => $groupe
         ]);
     }
     public function note_index(Request $request,$id){
-        $notes = [];
+        $notes = Note::with('eleve')->where('evaluation_id',$id)->get();
+        $evaluation = Evaluation::find($id);
+        $enseignement =  EnseignantGroupeModulo::with('modulo.matiere','groupe')->find($evaluation->enseignant_groupe_modulo_id);
+        // $groupe = Groupe::where('')
+        $eleves = Eleve::where('groupe_id',$enseignement->groupe_id)->get();
         return Inertia::render('Note/index',[
-            'notes' => $notes
+            'notes' => $notes,
+            'eleves' => $eleves,
+            'enseignement' => $enseignement,
+            'id' => $id
         ]);
+    }
+    public function note_store(Request $request){
+        // dd($request);
+        foreach ($request->notes as $key => $note) {
+            if ($note !== null){
+                Note::create([
+                    'evaluation_id' => $request->id,
+                    'note' => $note,
+                    'eleve_id' => $key
+                ]);
+            }
+        }
+        return redirect()->route('note.index',$request->id)->with('success','Avancement crée');
     }
 }

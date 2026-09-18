@@ -74,6 +74,7 @@ class CreateMatieresTable extends Migration
         Schema::create('evaluations', function (Blueprint $table) {
             $table->id();
             $table->date('date_evaluation')->nullable();
+            $table->string('type')->nullable();
             $table->json('assistants')->nullable();
             $table->foreignIdFor(\App\Models\EnseignantGroupeModulo::class)->nullable()
                 ->index()
@@ -82,6 +83,7 @@ class CreateMatieresTable extends Migration
         });
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
+            $table->string('note')->nullable();
             $table->foreignIdFor(\App\Models\Evaluation::class)->nullable()
                 ->index()
                 ->references('id')->on('evaluations');

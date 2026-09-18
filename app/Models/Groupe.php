@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Groupe extends Model
 {
@@ -16,5 +17,9 @@ class Groupe extends Model
     ];
     public function corp() {
         return $this->belongsTo(Corp::class);
+    }
+    public function eleves(): HasMany
+    {
+        return $this->hasMany(Eleve::class);
     }
 }

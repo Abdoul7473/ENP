@@ -22,11 +22,14 @@ class DatabaseSeeder extends Seeder
         $this->call(EntitesTableSeeder::class);
         $this->call(AnneesTableSeeder::class);
         $this->call(CompagniesTableSeeder::class);
+        // $this->call(GroupesTableSeeder::class);
         $this->call(VisiteursTableSeeder::class);
-        $this->call(ElevesTableSeeder::class);
+        // $this->call(ElevesTableSeeder::class);
         $this->call(MatieresTableSeeder::class);
         $this->call(EnseignantsTableSeeder::class);
-        $this->call(EnseignantGroupeModulosTableSeeder::class);
-        $this->call(AvancementsTableSeeder::class);
+        // $this->call(EnseignantGroupeModulosTableSeeder::class);
+        // $this->call(AvancementsTableSeeder::class);
+        // $this->call(EvaluationsTableSeeder::class);
+        
     }
 }

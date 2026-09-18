@@ -1,15 +1,15 @@
 <template>
 <v-app style="background-color: #f5f5f5 ;">
-    <v-navigation-drawer v-model="drawer" fixed app color="primary">
-        <v-sheet color="secondary" class="pa-4 rounded-tr-xl text-center">
+    <v-navigation-drawer  v-model="drawer" fixed app >
+        <v-sheet style="background-color:  rgb(22, 101, 4);" class="pa-4 rounded-tr-xl text-center">
             <v-progress-circular model-value="80" color="primary" :size="100" :width="2" class="">
                 <v-avatar size="85">
                     <v-img src="../../male.png" alt="John"></v-img>
                 </v-avatar>
             </v-progress-circular>
-            <div class="mt-4" v-if="$page.props.auth.user.type_user_id == null">{{ user.name }}</div>
-            <div class="mt-4" v-else>{{ user.name }}</div>
-            <span class="mb-6 text-caption">{{ user.email }}</span>
+            <div style="color: #f5f5f5;" class="mt-4" v-if="$page.props.auth.user.type_user_id == null">{{ user.name }}</div>
+            <div style="color: #f5f5f5;" class="mt-4" v-else>{{ user.name }}</div>
+            <span style="color: #f5f5f5;" class="mb-6 text-caption">{{ user.email }}</span>
         </v-sheet>
         <v-divider></v-divider>
 
@@ -17,37 +17,37 @@
             <v-list-item-group>
                 <v-list-item v-for="(item, i) in Single_items" :key="i" :disabled="!item.disabled" @click="goToPage(item.to)" v-if="!item.permission || hasPermission(item.permission)">
                     <v-list-item-action :v-permission:any="item.permission">
-                        <v-icon color="white">{{ item.icon }}</v-icon>
+                        <v-icon color="black">{{ item.icon }}</v-icon>
                         <!-- {{ item.disabled }} -->
                     </v-list-item-action>
-                    <v-list-item-content style="color: white;">
+                    <v-list-item-content >
                         <v-list-item-title v-text="item.title" />
                     </v-list-item-content>
                 </v-list-item>
             </v-list-item-group>
             <v-list-group no-action>
                 <template v-slot:activator>
-                    <v-list-item-action style="color: white;">
+                    <v-list-item-action >
                         <v-icon>mdi-cog-outline</v-icon>
                     </v-list-item-action>
-                    <v-list-item-content style="color: white;">
+                    <v-list-item-content >
                         <v-list-item-title>
                             Formations
                         </v-list-item-title>
                     </v-list-item-content>
                 </template>
                 <v-list-item v-for="(item, i) in formations" :key="i" @click="goToPage(item.to)" v-permission:any="item.permission">
-                    <v-list-item-action style="color: white;">
-                        <v-icon style="color: white;">{{ item.icon }}</v-icon>
+                    <v-list-item-action >
+                        <v-icon >{{ item.icon }}</v-icon>
                     </v-list-item-action>
-                    <v-list-item-title v-text="item.title" style="color: white;"></v-list-item-title>
+                    <v-list-item-title v-text="item.title" ></v-list-item-title>
                 </v-list-item>
             </v-list-group>
             <v-list-item @click="logout">
                 <v-list-item-action>
-                    <v-icon color="white">mdi-exit-to-app</v-icon>
+                    <v-icon color="black">mdi-exit-to-app</v-icon>
                 </v-list-item-action>
-                <v-list-item-content style="color: white;">
+                <v-list-item-content >
                     <v-list-item-title>Déconnecter</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>

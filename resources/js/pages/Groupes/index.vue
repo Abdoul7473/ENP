@@ -21,6 +21,12 @@
             <BtnAction icon display-icon="mdi-domain" title="Modules enseignés" @click="VueModule(item)" color="primary" small />
             <BtnAction icon display-icon="mdi-access-point" title="Evaluations" @click="VueEvaluation(item)" color="blue" small />
         </template>
+        <template v-slot:item.eleves="{ item }">
+            <v-chip-group column selected-class="text-purple" >
+                <v-chip outlined color="primary" :key="i" v-for="(p, i) in item.eleves" label> {{ p.prenom }} {{ p.nom }} 
+                </v-chip>
+            </v-chip-group>
+        </template>
     </v-data-table>
     <v-dialog v-model="dialog" max-width="900px" scrollable>
         <v-card>
@@ -35,7 +41,7 @@
                             <TextField label="Effectif théorique" type="number" rules="required" name="Effectif théorique" v-model="form.effectif" required outlined dense color="secondary" autocomplete="false"></TextField>
                         </v-col>
                         <v-col cols="12">
-                            <selectField label="Elèves" v-model="form.eleves" multiple outlined name="Elèves" color="secondary" :items="eleves" :item-text="item => `${item.matricule} ${item.nom} ${item.prenom}`" item-value="id" autocomplete="false" chips></selectField>
+                            <selectField label="Elèves" v-model="form.eleves" multiple outlined name="Elèves" color="secondary" :items="eleves" :item-text="item => `${item.matricule} ${item.prenom} ${item.nom} `" item-value="id" autocomplete="false" chips></selectField>
                         </v-col>
                     </v-row>
                 </v-card-text>
@@ -61,7 +67,7 @@ export default {
     components: {
         AdminLayout
     },
-    props: ["groupes", "eleves","corp","id"],
+    props: ["groupes", "eleves", "corp", "id"],
     data() {
         return {
             dialog: false,
@@ -87,12 +93,16 @@ export default {
                     value: 'effectif'
                 },
                 {
+                    text: 'Elèves ',
+                    value: 'eleves'
+                },
+                {
                     text: 'Actions ',
                     value: 'action'
                 },
             ],
             form: this.$inertia.form({
-                corp_id : this.id,
+                corp_id: this.id,
                 libelle: null,
                 effectif: 0,
                 eleves: []
@@ -128,7 +138,7 @@ export default {
                 })
             })
         },
-        close(){
+        close() {
             this.dialog = false
         }
 

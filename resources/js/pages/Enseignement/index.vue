@@ -127,6 +127,10 @@ export default {
                 })
             })
         },
+         close() {
+            this.dialog = false
+            this.form.reset()
+        },
         Avancement(item) {
             let horaire_total = parseInt(item.modulo.horaire)
             let somme_horaire = item?.avancements?.reduce((acc, item) => acc + parseInt(item.nombre_heure), 0)

@@ -1,6 +1,6 @@
 <template>
 <admin-layout>
-    <Toolbar :Title="'Groupes des élèves ' " :breadcrumbs="breadcrumbs">
+    <Toolbar :Title="'Liste des évaluations du ' + groupe.libelle " :breadcrumbs="breadcrumbs">
 
     </Toolbar>
     <v-data-table :headers="headers" :items="evaluations" item-key="name" :search="search" dense class="my-3 pt-3" style="border: 1px solid rgb(245, 134, 52)">
@@ -18,17 +18,17 @@
             </v-row>
         </template>
         <template v-slot:item.action="{ item }">
-            <BtnAction icon display-icon="mdi-email" title="Modules enseignés" @click="VueNote(item)" color="primary" small />
+            <BtnAction icon display-icon="mdi-email" title="Notes" @click="VueNote(item)" color="primary" small />
         </template>
     </v-data-table>
-    <!-- <v-dialog v-model="dialog" max-width="900px" scrollable>
+    <v-dialog v-model="dialog" max-width="900px" scrollable>
         <v-card>
-            <v-toolbar dense dark color="primary" class="text-h6">Nouveau groupe</v-toolbar>
+            <v-toolbar dense dark color="primary" class="text-h6">Nouvelle évaluation</v-toolbar>
             <div>
                 <v-card-text class="pt-4">
                     <v-row>
                         <v-col cols="12">
-                            <TextField label="Libelle" rules="required" name="Libelle" v-model="form.libelle" required outlined dense color="secondary" autocomplete="false"></TextField>
+                            <TextField label="Date de l'évaluation" type="date" rules="required" name="Date de l'évaluation" v-model="form.date" required outlined dense color="secondary" autocomplete="false"></TextField>
                         </v-col>
                         <v-col cols="12">
                             <TextField label="Effectif théorique" type="number" rules="required" name="Effectif théorique" v-model="form.effectif" required outlined dense color="secondary" autocomplete="false"></TextField>
@@ -49,7 +49,7 @@
                 </v-card-actions>
             </div>
         </v-card>
-    </v-dialog> -->
+    </v-dialog>
 
 </admin-layout>
 </template>
@@ -60,7 +60,7 @@ export default {
     components: {
         AdminLayout
     },
-    props: ["evaluations", "eleves", "corp", "id"],
+    props: ["evaluations", "groupe", "id"],
     data() {
         return {
             dialog: false,
@@ -95,11 +95,18 @@ export default {
                 },
             ],
             form: this.$inertia.form({
-                corp_id: this.id,
-                libelle: null,
+                date_evaluation: null,
+                type: null,
                 effectif: 0,
                 eleves: []
             }),
+            types: [{
+                    libelle: "Dévoir"
+                },
+                {
+                    libelle: "Examen"
+                }
+            ]
         }
 
     },

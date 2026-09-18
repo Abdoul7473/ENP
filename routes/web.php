@@ -126,6 +126,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/evaluations/index/@à&é_è_{id}_é_é&à@', [EnseignementController::class, 'evaluation_index'])->name('evaluation.index');
     Route::get('/note/index/@à&é_è_{id}_é_é&à@', [EnseignementController::class, 'note_index'])->name('note.index');
+    Route::post('/note/store', [EnseignementController::class, 'note_store'])->name('note.store');
 
 });
 
