@@ -21,7 +21,7 @@
             <!-- <BtnAction icon display-icon="mdi-antenna" title="Matières" @click="VueModule(item)" color="blue" small /> -->
         </template>
         <template v-slot:item.enseignant="{ item }">
-            <v-chip label>{{ item.enseignant.nom }} {{ item.enseignant.prenom }}</v-chip>
+            <v-chip outlined color="primary" label>{{ item.enseignant.nom }} {{ item.enseignant.prenom }}</v-chip>
         </template>
         <template v-slot:item.avancement="{ item }">
             <v-progress-linear :value="Avancement(item)" :color="GetColor(Avancement(item))" height="20" striped>

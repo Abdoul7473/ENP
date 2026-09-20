@@ -67,10 +67,13 @@ class EnseignementController extends Controller
         $evaluations = Evaluation::with('enseignant_groupe_modulo.modulo.matiere')->whereHas('enseignant_groupe_modulo',function ($query) use($id){
             $query->where('groupe_id',$id);
         })->get();
+        $enseignements =  EnseignantGroupeModulo::with('modulo.matiere','groupe')->where('groupe_id',$id)->get();
         $groupe = Groupe::find($id);
         return Inertia::render('Evaluation/index',[
             'evaluations' => $evaluations,
-            'groupe' => $groupe
+            'groupe' => $groupe,
+            'enseignements' => $enseignements,
+            'id' => $id
         ]);
     }
     public function note_index(Request $request,$id){
@@ -98,5 +101,16 @@ class EnseignementController extends Controller
             }
         }
         return redirect()->route('note.index',$request->id)->with('success','Avancement crée');
+    }
+    public function evaluation_store (Request $request){
+        // dd($request);
+        Evaluation::create([
+            'enseignant_groupe_modulo_id' => $request->enseignement_id,
+            'date_evaluation' => $request->date_evaluation,
+            'assistant1' =>$request->assistant1,
+            'assistant2' =>$request->assistant2,
+            'type_evaluation' => $request->type
+        ]);
+        return redirect()->route('evaluation.index',$request->id)->with('success','évaluation créée');
     }
 }

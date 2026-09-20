@@ -20,21 +20,33 @@
         <template v-slot:item.action="{ item }">
             <BtnAction icon display-icon="mdi-email" title="Notes" @click="VueNote(item)" color="primary" small />
         </template>
+        <template v-slot:item.assistants="{ item }">
+            <v-chip outlined color="primary" label> {{ item.assistant1}}
+            </v-chip>
+            <v-chip outlined color="primary" label> {{ item.assistant2}}
+            </v-chip>
+        </template>
     </v-data-table>
-    <v-dialog v-model="dialog" max-width="900px" scrollable>
+    <v-dialog v-model="dialog" max-width="700px" scrollable persistent>
         <v-card>
             <v-toolbar dense dark color="primary" class="text-h6">Nouvelle évaluation</v-toolbar>
             <div>
                 <v-card-text class="pt-4">
                     <v-row>
                         <v-col cols="12">
-                            <TextField label="Date de l'évaluation" type="date" rules="required" name="Date de l'évaluation" v-model="form.date" required outlined dense color="secondary" autocomplete="false"></TextField>
+                            <TextField label="Date de l'évaluation" type="date" rules="required" name="Date de l'évaluation" v-model="form.date_evaluation" required outlined dense color="secondary" autocomplete="false"></TextField>
                         </v-col>
                         <v-col cols="12">
-                            <TextField label="Effectif théorique" type="number" rules="required" name="Effectif théorique" v-model="form.effectif" required outlined dense color="secondary" autocomplete="false"></TextField>
+                            <TextField label="Assistant 1" name="Assistant 1" v-model="form.assistant1" outlined dense color="secondary" autocomplete="false"></TextField>
                         </v-col>
                         <v-col cols="12">
-                            <selectField label="Elèves" v-model="form.eleves" multiple outlined name="Elèves" color="secondary" :items="eleves" :item-text="item => `${item.matricule} ${item.nom} ${item.prenom}`" item-value="id" autocomplete="false" chips></selectField>
+                            <TextField label="Assistant 2" name="Assistant 2" v-model="form.assistant2" outlined dense color="secondary" autocomplete="false"></TextField>
+                        </v-col>
+                        <v-col cols="12">
+                            <selectField label="Type d'évaluation" v-model="form.type" outlined name="Type d'évaluation" color="secondary" :items="types" item-text="libelle" item-value="libelle" autocomplete="false" chips></selectField>
+                        </v-col>
+                        <v-col cols="12">
+                            <selectField label="Matières" v-model="form.enseignement_id" outlined name="Matières" color="secondary" :items="enseignements" :item-text="item => `${item?.modulo?.matiere?.libelle}`" item-value="id" autocomplete="false" chips></selectField>
                         </v-col>
                     </v-row>
                 </v-card-text>
@@ -60,7 +72,7 @@ export default {
     components: {
         AdminLayout
     },
-    props: ["evaluations", "groupe", "id"],
+    props: ["evaluations", "groupe", "id", "enseignements"],
     data() {
         return {
             dialog: false,
@@ -86,6 +98,10 @@ export default {
                     value: 'enseignant_groupe_modulo.modulo.matiere.libelle'
                 },
                 {
+                    text: 'Type d\'évaluation ',
+                    value: 'type_evaluation'
+                },
+                {
                     text: 'Assistants ',
                     value: 'assistants'
                 },
@@ -97,8 +113,10 @@ export default {
             form: this.$inertia.form({
                 date_evaluation: null,
                 type: null,
-                effectif: 0,
-                eleves: []
+                enseignement_id: null,
+                assistant1: null,
+                assistant2: null,
+                id: this.id
             }),
             types: [{
                     libelle: "Dévoir"
@@ -118,8 +136,8 @@ export default {
             this.$inertia.get(route('note.index', item.id))
         },
         submit() {
-            this.$alert.confirm('Etes-vous sûr ?', "Vous allez enregistrer ce groupe", () => {
-                this.form.post(route("groupe.store"), {
+            this.$alert.confirm('Etes-vous sûr ?', "Vous allez enregistrer cette évaluation", () => {
+                this.form.post(route("evaluation.store"), {
                     onSuccess: () => {
                         if (this.$page.props.flash.success) {
                             this.$alert.success(this.$page.props.flash.success)

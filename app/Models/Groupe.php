@@ -22,4 +22,9 @@ class Groupe extends Model
     {
         return $this->hasMany(Eleve::class);
     }
+    public function enseignant_groupe_modulos(): HasMany
+    {
+        return $this->hasMany(EnseignantGroupeModulo::class);
+    }
+    
 }

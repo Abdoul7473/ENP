@@ -22,10 +22,15 @@
             <BtnAction icon display-icon="mdi-access-point" title="Evaluations" @click="VueEvaluation(item)" color="blue" small />
         </template>
         <template v-slot:item.eleves="{ item }">
-            <v-chip-group column selected-class="text-purple" >
-                <v-chip outlined color="primary" :key="i" v-for="(p, i) in item.eleves" label> {{ p.prenom }} {{ p.nom }} 
+            <v-chip-group column selected-class="text-purple">
+                <v-chip outlined color="primary" :key="i" v-for="(p, i) in item.eleves" label> {{ p.prenom }} {{ p.nom }}
                 </v-chip>
             </v-chip-group>
+        </template>
+        <template v-slot:item.avancement="{ item }">
+            <v-progress-linear :value="Avancement(item)" :color="GetColor(Avancement(item))" height="20" striped>
+                <strong>{{ Math.ceil(Avancement(item)) }}%</strong>
+            </v-progress-linear>
         </template>
     </v-data-table>
     <v-dialog v-model="dialog" max-width="900px" scrollable>
@@ -93,6 +98,10 @@ export default {
                     value: 'effectif'
                 },
                 {
+                    text: 'Avancement du cours ',
+                    value: 'avancement'
+                },
+                {
                     text: 'Elèves ',
                     value: 'eleves'
                 },
@@ -140,7 +149,35 @@ export default {
         },
         close() {
             this.dialog = false
-        }
+        },
+        Avancement(item) {
+            // // console.log(item);
+
+            let horaire_total = item.enseignant_groupe_modulos.reduce((acc, i) => acc + parseInt(i.modulo.horaire), 0)
+            console.log(horaire_total);
+
+            let somme_horaire = item ?.enseignant_groupe_modulos ?.reduce((acc, modulo) => {
+                return acc + (modulo.avancements ?.reduce((sum, i) =>
+                    sum + parseInt(i.nombre_heure), 0) || 0);
+            }, 0);
+
+            let pourcentage = (somme_horaire * 100) / horaire_total
+            return pourcentage
+        },
+        GetColor(item) {
+            if (item <= 25) {
+                return 'red'
+            }
+            if (item > 25 && item <= 50) {
+                return 'orange'
+            }
+            if (item > 50 && item <= 75) {
+                return 'green'
+            }
+            if (item <= 100) {
+                return 'blue'
+            }
+        },
 
     },
     created() {

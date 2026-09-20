@@ -18,19 +18,19 @@ class GradeSeeder extends Seeder
         \DB::table('corps')->insert(array(
             0 =>
             array(
-                'nom' => 'Gardien de paix',
+                'nom' => 'GARDIEN DE LA PAIX(GPX)',
             ),
             1 =>
             array(
-                'nom' => 'Inspecteur' ,
+                'nom' => 'INSPECTEUR DE LA POLICE (IP)' ,
             ),
             2 =>
             array(
-                'nom' => 'Officier' ,
+                'nom' => 'OFFICIER DE POLICE (OP)' ,
             ),
             3 =>
             array(
-                'nom' => 'Commissaire' ,
+                'nom' => 'COMMISSAIRE DE POLICE (OP)' ,
             ),
         ));
         \DB::table('grades')->insert(array(

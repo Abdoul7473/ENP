@@ -4,7 +4,7 @@
 
     </Toolbar>
     <div style="">
-        <v-data-table :headers="headers" :items="notes" v-if="notes.length>=1" sort-by="calories" class="elevation-1" :search="search">
+        <v-data-table :headers="headers" :items="notes" v-if="notes.length>=1" dense class="my-3 pt-3" style="border: 1px solid rgb(245, 134, 52)" :search="search">
             <template v-slot:top>
                 <v-row>
                     <v-col cols="8" class="pt-8">
@@ -14,18 +14,24 @@
                     </v-col>
                 </v-row>
             </template>
-            <template v-slot:item.actions="{ item }">
-                <v-icon small class="mr-2" @click="editItem(item)">
+            <template v-slot:item.action="{ item }">
+                <v-icon small class="mr-2" color="orange" @click="editItem(item)">
                     mdi-pencil
                 </v-icon>
-                <v-icon small @click="deleteItem(item)">
+                <v-icon small @click="deleteItem(item)" color="red">
                     mdi-delete
                 </v-icon>
+            </template>
+            <template v-slot:item.noter="{ item }">
+                <div style="text-align: center;">
+                    <v-chip class="ma-1" :color="GetColor(item.note)">{{ item.note }}</v-chip>
+                    
+                </div>
             </template>
         </v-data-table>
     </div>
     <v-card class="mx-auto" max-width="1700" style="border: 2px solid primary;margin: 20px" v-if="eleves.length>=1 && notes.length == 0">
-        <v-card-title style="color: white; background-color: rgb(0, 73, 128)">Saisissez les notes</v-card-title>
+        <v-card-title style="color: white; background-color: rgb(22, 101, 4);">Saisissez les notes</v-card-title>
         <v-virtual-scroll :items="eleves" :item-height="64" height="600">
 
             <template v-slot:default="{ item }">
@@ -65,7 +71,7 @@ export default {
     props: ["notes", "eleves", "corp", "id", "enseignement"],
     data() {
         return {
-            search : null,
+            search: null,
             form: this.$inertia.form({
                 notes: [],
                 id: this.id
@@ -84,7 +90,7 @@ export default {
                 },
                 {
                     text: 'Note ',
-                    value: 'note'
+                    value: 'noter'
                 },
                 {
                     text: 'Actions ',
@@ -114,6 +120,22 @@ export default {
                 })
             })
         },
+        GetColor(item) {
+            let color = ''
+            if (item <= 5) {
+                color = 'red'
+            }
+            if (item > 5 && item <= 10) {
+                color = 'orange'
+            }
+            if (item > 10 && item <= 15) {
+                color = 'green'
+            }
+            if (item > 15 && item <= 20) {
+                color = 'blue'
+            }
+            return  color 
+        }
     },
     created() {
         this.headers.forEach((item, i, items) => {
