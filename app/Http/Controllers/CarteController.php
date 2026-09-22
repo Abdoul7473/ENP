@@ -26,8 +26,8 @@ class CarteController extends Controller
         ->generate('Bonjour Vue');
         $t = Numero::all();
         $total = Numero::count();
-        $scanne = Numero::where('statut',1)->count();
-        $restant = Numero::where('statut',0)->count();
+        $scanne = Numero::where('statut',0)->count();
+        $restant = Numero::where('statut',1)->count();
         $cartes = $t->map(function($item){ 
             return [ 
                 'qr' => (string) \SimpleSoftwareIO\QrCode\Facades\QrCode::size(100)->generate($item->numero) ]; 
@@ -55,7 +55,7 @@ class CarteController extends Controller
         
         for($i = 1; $i <= $request->nombre; $i++) {
             $num = Numero::create([
-                'statut' => false,
+                'statut' => true,
                 'lot_id' => $lot->id
             ]);
             $num->numero = Hash::make('DENP/'.$carbon->format('Y').'/'. $num->id);
@@ -97,18 +97,17 @@ class CarteController extends Controller
         ], 404);
     }
 
-    if ($verif->statut == 0) {
-        $verif->statut = 1;
+    if ($verif->statut == 1) {
+        $verif->statut = 0;
         $verif->save();
 
-        $code = 0; 
+        $code = true; 
     } else {
-        $code = 1; 
+        $code = false; 
     }
 
     return response()->json([
-        'success' => true,
-        'code' => $code
+        'allowed' => $code
     ]);
 }
     public function detail(Request $request,$id){

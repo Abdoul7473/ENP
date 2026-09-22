@@ -64,9 +64,9 @@ class ModuleController extends Controller
     }
     public function module_index(Request $request,$id){
         $corp = Corp::find($id);
-        $matieres = Matiere::all();
-        $modules = Modulo::with('matiere')->where('corp_id',$id)->get();
-        return Inertia::render('Module/index',[
+            $matieres = Matiere::all();
+                $modules = Modulo::with('matiere')->where('corp_id',$id)->get();
+           return Inertia::render('Module/index',[
             'modules' => $modules,
             'corp' => $corp,
             'matieres' => $matieres,

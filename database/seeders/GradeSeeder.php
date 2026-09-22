@@ -18,7 +18,7 @@ class GradeSeeder extends Seeder
         \DB::table('corps')->insert(array(
             0 =>
             array(
-                'nom' => 'GARDIEN DE LA PAIX(GPX)',
+                'nom' => 'GARDIEN DE LA PAIX (GPX)',
             ),
             1 =>
             array(

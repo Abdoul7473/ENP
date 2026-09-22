@@ -37,10 +37,10 @@
                             <TextField label="Date de l'évaluation" type="date" rules="required" name="Date de l'évaluation" v-model="form.date_evaluation" required outlined dense color="secondary" autocomplete="false"></TextField>
                         </v-col>
                         <v-col cols="12">
-                            <TextField label="Assistant 1" name="Assistant 1" v-model="form.assistant1" outlined dense color="secondary" autocomplete="false"></TextField>
+                            <TextField label="Surveillant 1" name="Surveillant 1" v-model="form.assistant1" outlined dense color="secondary" autocomplete="false"></TextField>
                         </v-col>
                         <v-col cols="12">
-                            <TextField label="Assistant 2" name="Assistant 2" v-model="form.assistant2" outlined dense color="secondary" autocomplete="false"></TextField>
+                            <TextField label="Surveillant 2" name="Surveillant 2" v-model="form.assistant2" outlined dense color="secondary" autocomplete="false"></TextField>
                         </v-col>
                         <v-col cols="12">
                             <selectField label="Type d'évaluation" v-model="form.type" outlined name="Type d'évaluation" color="secondary" :items="types" item-text="libelle" item-value="libelle" autocomplete="false" chips></selectField>
@@ -102,7 +102,7 @@ export default {
                     value: 'type_evaluation'
                 },
                 {
-                    text: 'Assistants ',
+                    text: 'Surveillants ',
                     value: 'assistants'
                 },
                 {

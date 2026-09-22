@@ -154,7 +154,6 @@ export default {
             // // console.log(item);
 
             let horaire_total = item.enseignant_groupe_modulos.reduce((acc, i) => acc + parseInt(i.modulo.horaire), 0)
-            console.log(horaire_total);
 
             let somme_horaire = item ?.enseignant_groupe_modulos ?.reduce((acc, modulo) => {
                 return acc + (modulo.avancements ?.reduce((sum, i) =>
@@ -162,7 +161,7 @@ export default {
             }, 0);
 
             let pourcentage = (somme_horaire * 100) / horaire_total
-            return pourcentage
+            return pourcentage??0
         },
         GetColor(item) {
             if (item <= 25) {
