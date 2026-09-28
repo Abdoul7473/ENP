@@ -37,21 +37,49 @@ class MatieresTableSeeder extends Seeder
             array (
                 'created_at' => NULL,
                 'id' => 3,
-                'libelle' => 'SECURITE PUBLIQUE',
+                'libelle' => 'PROCEDURE PENALE',
                 'updated_at' => NULL,
             ),
             3 => 
             array (
                 'created_at' => NULL,
                 'id' => 4,
-                'libelle' => 'DROIT ADMNISTRATIF',
+                'libelle' => 'CRIMINALITE TRANSNATIONNALE ORGANISE',
                 'updated_at' => NULL,
             ),
             4 => 
             array (
                 'created_at' => NULL,
                 'id' => 5,
-                'libelle' => 'TECHENIQUE D\'ENQUETE ET FORMALISME PROCEDURAL',
+                'libelle' => 'TECHNIQUE D\'ENQUETE ET DE FORMALISME PROCEDURALE',
+                'updated_at' => NULL,
+            ),
+            5 => 
+            array (
+                'created_at' => NULL,
+                'id' => 6,
+                'libelle' => 'CRIMINOLOGIE',
+                'updated_at' => NULL,
+            ),
+            6 => 
+            array (
+                'created_at' => NULL,
+                'id' => 7,
+                'libelle' => 'GROGUE',
+                'updated_at' => NULL,
+            ),
+            7 => 
+            array (
+                'created_at' => NULL,
+                'id' => 8,
+                'libelle' => 'POLICE TECHNIQUE ET SCIENTIFIQUE',
+                'updated_at' => NULL,
+            ),
+            8 => 
+            array (
+                'created_at' => NULL,
+                'id' => 9,
+                'libelle' => 'DROIT ADMINISTRATIF',
                 'updated_at' => NULL,
             ),
         ));

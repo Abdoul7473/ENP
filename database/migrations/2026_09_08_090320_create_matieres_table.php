@@ -93,6 +93,36 @@ class CreateMatieresTable extends Migration
                 ->references('id')->on('eleves');
             $table->timestamps();
         });
+        Schema::create('releves', function (Blueprint $table) {
+            $table->id();
+            $table->string('total_coefficient_classe')->nullable();
+            $table->string('total_note_classe')->nullable();
+            $table->string('total_note_coefficiente_classe')->nullable();
+            $table->string('moyenne_classe')->nullable();
+            $table->string('total_coefficient_examen')->nullable();
+            $table->string('total_note_examen')->nullable();
+            $table->string('total_note_coefficiente_examen')->nullable();
+            $table->string('moyenne_examen')->nullable();
+            $table->string('moyenne_generale')->nullable();
+            $table->string('note_memoire')->nullable();
+            $table->string('mention')->nullable();
+            $table->foreignIdFor(\App\Models\Eleve::class)->nullable()
+                ->index()
+                ->references('id')->on('eleves');
+            $table->timestamps();
+        });
+         Schema::create('lignes', function (Blueprint $table) {
+            $table->id();
+            $table->string('matiere')->nullable();
+            $table->string('coefficient')->nullable();
+            $table->string('note')->nullable();
+            $table->string('note_coefficiente')->nullable();
+            $table->string('type')->nullable();
+            $table->foreignIdFor(\App\Models\Releve::class)->nullable()
+                ->index()
+                ->references('id')->on('releves');
+            $table->timestamps();
+        });
     }
 
     /**

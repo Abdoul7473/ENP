@@ -86,9 +86,5 @@ export default {
             }
         }
     },
-    mounted (){
-        console.log(this.items);
-        
-    }
 }
 </script>

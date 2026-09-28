@@ -33,7 +33,7 @@
             </v-progress-linear>
         </template>
     </v-data-table>
-    <v-dialog v-model="dialog" max-width="900px" scrollable>
+    <v-dialog v-model="dialog" max-width="900px" scrollable persistent>
         <v-card>
             <v-toolbar dense dark color="primary" class="text-h6">Nouveau groupe</v-toolbar>
             <div>

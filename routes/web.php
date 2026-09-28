@@ -129,6 +129,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/note/index/@à&é_è_{id}_é_é&à@', [EnseignementController::class, 'note_index'])->name('note.index');
     Route::post('/note/store', [EnseignementController::class, 'note_store'])->name('note.store');
+    Route::get('/releve/index', [EnseignementController::class, 'releve_index'])->name('releve.index');
+    Route::get('/releve/generate', [EnseignementController::class, 'releve_generate'])->name('releve.generate');
+
+    Route::get('/releve/pdf/{id}', [EnseignementController::class, 'ReleveGenerate'])->name('releve.pdf');
+
 
 });
 

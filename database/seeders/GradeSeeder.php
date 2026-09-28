@@ -30,7 +30,7 @@ class GradeSeeder extends Seeder
             ),
             3 =>
             array(
-                'nom' => 'COMMISSAIRE DE POLICE (OP)' ,
+                'nom' => 'COMMISSAIRE DE POLICE (CP)' ,
             ),
         ));
         \DB::table('grades')->insert(array(

@@ -145,7 +145,11 @@ class CarteController extends Controller
         ]; 
     });
         $data = [
-            "cartes" => $cartes
+            "cartes" => $cartes,
+            'qr' => (string) \SimpleSoftwareIO\QrCode\Facades\QrCode::size(100)
+                           ->format('svg')
+                           ->generate($t[0]->numero),
+            'numero' => $t[0]->numero
         ];
         // dd($cartes);
         $pdf = Pdf::loadView('invitation', $data);

@@ -59,6 +59,12 @@ class CreateCompagniesTable extends Migration
             $table->string('ordre')->nullable();
             $table->string('nom')->nullable();
             $table->string('prenom')->nullable();
+            $table->foreignIdFor(\App\Models\Compagnie::class)->nullable()
+                ->index()
+                ->references('id')->on('compagnies');
+            $table->foreignIdFor(\App\Models\Groupe::class)->nullable()
+                ->index()
+                ->references('id')->on('groupes');
             $table->string('date_naiss')->nullable();
             $table->string("email")->nullable();
             $table->string("sexe")->nullable();
@@ -72,12 +78,7 @@ class CreateCompagniesTable extends Migration
             $table->string('lieu_naiss')->nullable();
             $table->string('groupe_sanguin')->nullable();
             $table->string('photo')->nullable();
-            $table->foreignIdFor(\App\Models\Compagnie::class)->nullable()
-                ->index()
-                ->references('id')->on('compagnies');
-            $table->foreignIdFor(\App\Models\Groupe::class)->nullable()
-                ->index()
-                ->references('id')->on('groupes');
+            
             $table->timestamps();
         });
         

@@ -184,6 +184,12 @@ export default {
                     to: "enseignant.index",
                     disabled: false
                 },
+                {
+                    icon: "mdi-account-group",
+                    title: "Rélevés de notes",
+                    to: "releve.index",
+                    disabled: false
+                },
             ]
         };
     },

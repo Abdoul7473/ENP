@@ -28,21 +28,30 @@
             flex-direction: column;
             align-items: center;
             gap: 30px;
-            
         }
 
         .invitation-card {
-            width: 1%;
-            height: 40%;
+            width: 100%;
+            height: 30%;
             background: #ffffff;
             border-radius: 16px;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-             border: 2px solid #e93b0b;
+            page-break-after: always;
             
         }
 
         /* Bordure décorative */
-       
+        .invitation-card::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            pointer-events: none;
+        }
 
         .header {
             display: flex;
@@ -149,7 +158,7 @@
             font-size: 28px;
         }
 
-        /* .qr-wrapper {
+        .qr-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -157,7 +166,7 @@
             background: #fafafa;
             border-radius: 12px;
             border: 2px dashed #e0e0e0;
-        } */
+        }
 
         .qr-wrapper svg {
             width: 100px !important;
@@ -188,7 +197,23 @@
                 margin: 0;
             }
 
-           
+            .invitation-container {
+                gap: 0;
+            }
+
+            .invitation-card {
+                box-shadow: none;
+                border-radius: 0;
+                page-break-after: always;
+                margin: 0;
+                padding: 20px;
+                width: 100%;
+                min-height: 100vh;
+            }
+
+            .invitation-card::before {
+                display: none;
+            }
 
             .qr-wrapper {
                 border: none;
@@ -199,7 +224,7 @@
         /* Responsive */
         @media screen and (max-width: 820px) {
             .invitation-card {
-                width: 95%;
+                width: 100%;
                 padding: 20px;
             }
 
@@ -227,6 +252,8 @@
 </head>
 
 <body>
+    <div >
+        @forelse($cartes as $carte)
             <div class="invitation-card">
                 <div style="display: flex;flex-wrap: wrap; margin: 0 -10px;">
                     <div>
@@ -262,16 +289,17 @@
                         promotion 2025
                     </p>
                     <!-- Date, QR Code, Heure -->
-                   
+                    <div class="info-row">
+                        <div class="info-col">
                             <div class="date-time">
                                 <span class="icon">📅</span>
                                 <span>19/09/2026</span>
                             </div>
-                        
+                        </div>
                         <div class="info-col">
                             <div class="qr-wrapper">
                                
-                            <img  src="data:image/png;base64,{{ DNS2D::getBarcodePNG($numero, 'QRCODE', 6, 6, [0,0,0], [255,255,255]) }}">
+                                {!! $carte['qr'] !!}
                             </div>
                         </div>
                         <div class="info-col">
@@ -280,9 +308,13 @@
                                 <span class="icon">🕐</span>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
             <br>
-        
+        @empty
+            <p>Aucune carte disponible.</p>
+        @endforelse
+    </div>
 </body>
 </html>

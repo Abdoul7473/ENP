@@ -58,7 +58,9 @@
         <template v-slot:item.action="{ item }">
             <BtnAction icon display-icon="mdi-qrcode" title="Détail du lot" @click="Detail(item)" target="__bank" color="green" small />
             <!-- <BtnAction icon display-icon="mdi-delete" title="Supprimer" @click="deleteItem(item)" color="error" small/> -->
-           
+           <a :href="route('invitation.pdf', { id: item.id})" target="__blank" title="Imprimer le rapport">
+                <v-icon size="small" class="me-2" icon="mdi-printer" color="info" small>mdi-printer</v-icon>
+            </a>
         </template>
 
     </CustomDataTable>
