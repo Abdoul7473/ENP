@@ -33,6 +33,12 @@
         <template v-slot:top>
             <v-row>
                 <v-col cols="8" class="pt-8">
+                    <v-btn color="primary" >
+                        <v-icon color="primary darken-2">
+                            mdi-printer
+                        </v-icon> 
+                        Télécharger
+                    </v-btn>
                 </v-col>
                 <v-col class="pt-8" cols="4">
                     <v-text-field v-model="search" prepend-inner-icon="mdi-search-web" single-line outlined dense clearable label="Réchercher" placeholder="Réchercher" class="mx-3"></v-text-field>

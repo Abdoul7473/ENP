@@ -51,7 +51,7 @@
         }
          .carde {
             position: absolute;
-            width: 45mm;
+            width: 50mm;
             height: 15mm;
             overflow: hidden;
             left:4mm;
@@ -214,7 +214,7 @@
                             </strong>
                         @endif
                         </h6>
-                        <strong class="cas" style=" font-family: 'Times New Roman', Times, serif; font-size: 9px; margin-top: 80px;">N°{{$row->ordre}}/{{$libelle}}/DGPN/DENP/FP</strong>
+                        <strong class="cas" style=" font-family: 'Times New Roman', Times, serif; font-size: 10px; margin-top: 80px;">N°{{$row->ordre}}/{{$libelle}}/DGPN/DENP/FP</strong>
                     </section>
                     <div style=" text-align: center; margin-left: 40%; margin-top:70px">
                         @if($row->photo)

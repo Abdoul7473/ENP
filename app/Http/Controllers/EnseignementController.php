@@ -190,14 +190,12 @@ class EnseignementController extends Controller
             $releve->total_coefficient_classe = $total_coefficient_classe;
             $releve->total_note_classe = $total_note_classe;
             $releve->total_note_coefficiente_classe = $total_note_coefficiente_classe;
-            $releve->moyenne_classe = $moyenne_classe;
-            $releve->moyenne_classe = $moyenne_classe;
+            $releve->moyenne_classe = number_format($moyenne_classe,2,',','');
 
             $releve->total_coefficient_examen = $total_coefficient_examen;
             $releve->total_note_examen = $total_note_examen;
             $releve->total_note_coefficiente_examen = $total_note_coefficiente_examen;
-            $releve->moyenne_examen = $moyenne_examen;
-            $releve->moyenne_examen = $moyenne_examen;
+            $releve->moyenne_examen = number_format($moyenne_examen,2,',','');
             $releve->update();
 
         }

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cartes d'invitation</title>
 
-<style>
+    <style>
         @page {
             size: A4 portrait;
             margin: 10mm;
@@ -227,8 +227,8 @@
 </head>
 
 <body>
-    
-        @forelse($cartes as $carte)
+    <div>
+     @forelse($cartes as $carte)
             <div class="invitation-card">
                 <div style="display: flex;flex-wrap: wrap; margin: 0 -10px;">
                     <div>
@@ -264,33 +264,29 @@
                         promotion 2025
                     </p>
                     <!-- Date, QR Code, Heure -->
-                    <div class="info-row">
-                        <div class="info-col">
-                            <div class="date-time">
-                                <span class="icon">📅</span>
+                   
+                            <div  style=" gap: 10px; font-size: 20px; font-weight: bold;color: #1a237e;display: flex;flex-wrap: wrap; margin: 0 -10px;margin-top: 30px;">
+                                <div class="date-time">
                                 <span>19/09/2026</span>
                             </div>
-                        </div>
-                        <div class="info-col">
+                        <div class="info-col" style="display: flex;flex-wrap: wrap; margin: 0 -10px;margin-top: -90px;">
                             <div class="qr-wrapper">
                                
-                                                            <img  src="data:image/png;base64,{{ DNS2D::getBarcodePNG($carte['numero'], 'QRCODE', 6, 6, [0,0,0], [255,255,255]) }}">
-
+                            <img  src="data:image/png;base64,{{ DNS2D::getBarcodePNG($carte['numero'], 'QRCODE', 6, 6, [0,0,0], [255,255,255]) }}">
                             </div>
                         </div>
-                        <div class="info-col">
+                        <div class="info-col" style="width: 100px; height:auto; margin-top: -160px; margin-left: 80%;">
                             <div class="date-time">
                                 <span>08h:00</span>
-                                <span class="icon">🕐</span>
+                               
                             </div>
                         </div>
-                    </div>
                 </div>
-            </div>
-            <br>
-        @empty
+                 @empty
             <p>Aucune carte disponible.</p>
         @endforelse
-    
+            </div>
+            <br>
+        
 </body>
 </html>
